@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { toast } from "@/hooks/use-toast"
+import { useState } from "react"
 
 const FormSchema = z.object({
   title: z.string({required_error:"This field is required"}).min(2, {message: "Title must be at least 2 characters."}),
@@ -41,6 +42,11 @@ const FormSchema = z.object({
                     return parsedValue <300},{message:"run time must be less than 300min"}),})
 
 export default function MovieForm() {
+
+  
+  const [count,setCount] =useState(0)
+
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -53,6 +59,8 @@ export default function MovieForm() {
       runtime : "",
     },
   })
+
+
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     toast({
@@ -73,9 +81,9 @@ export default function MovieForm() {
           name="title"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Title</FormLabel>
+              <FormLabel className="text-lg">Title</FormLabel>
               <FormControl>
-                <Input placeholder="title..." {...field} />
+                <Input className="border border-black mb-6" placeholder="Movie Title..." {...field} />
               </FormControl>
               
               <FormMessage />
@@ -88,13 +96,21 @@ export default function MovieForm() {
           name="descript"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Description</FormLabel>
+              <FormLabel className="text-lg">Description</FormLabel>
               <FormControl>
-                <Input placeholder="description of movie" {...field} />
+                <div>
+                <textarea className="border border-black mb-6 p-2 w-full rounded-md resize-y" 
+                rows={4}
+                placeholder="description of the movie" {...field} 
+                onChange= {(e)=>{
+                  field.onChange(e); 
+                  setCount(e.target.value.length)
+                }}
+                />
+                <p>{count}/500 max characters</p>
+               </div>   
               </FormControl>
-              <FormDescription>
-                max 500 characters.
-              </FormDescription>
+             
               <FormMessage />
             </FormItem>
           )}
@@ -104,9 +120,9 @@ export default function MovieForm() {
           name="imageurl"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Movie Cover photo</FormLabel>
+              <FormLabel className="text-lg">Movie Cover photo</FormLabel>
               <FormControl>
-                <Input placeholder="url of movie cover" {...field} />
+                <Input className="border border-black mb-6" placeholder="URL for Movie Cover..." {...field} />
               </FormControl>
               
               <FormMessage />
@@ -118,9 +134,9 @@ export default function MovieForm() {
           name="price"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Price</FormLabel>
+              <FormLabel className="text-lg">Price</FormLabel>
               <FormControl>
-                <Input placeholder="Price in kr" {...field} />
+                <Input className="border border-black mb-6" placeholder="Price in SEK" {...field} />
               </FormControl>
               <FormDescription>
                 Price must be in kr.
@@ -134,9 +150,9 @@ export default function MovieForm() {
           name="stock"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>No of Copies</FormLabel>
+              <FormLabel className="text-lg">No of Copies</FormLabel>
               <FormControl>
-                <Input placeholder="no of copies..." {...field} />
+                <Input className="border border-black mb-6" placeholder="No of Copies..." {...field} />
               </FormControl>
               
               <FormMessage />
@@ -148,9 +164,9 @@ export default function MovieForm() {
           name="released"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Released Year</FormLabel>
+              <FormLabel className="text-lg">Released Year</FormLabel>
               <FormControl>
-                <Input placeholder="yyyy" {...field} />
+                <Input className="border border-black mb-6" placeholder="Movie Released Year-YYYY" {...field} />
               </FormControl>
 
               <FormMessage />
@@ -162,9 +178,9 @@ export default function MovieForm() {
           name="runtime"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Run time</FormLabel>
+              <FormLabel className="text-lg">Run time</FormLabel>
               <FormControl>
-                <Input placeholder="run time in min" {...field} />
+                <Input className="border border-black mb-6" placeholder="Run time in min" {...field} />
               </FormControl>
 
               <FormMessage />
