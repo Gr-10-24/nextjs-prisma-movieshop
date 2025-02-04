@@ -1,0 +1,169 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id
+  name          String
+  email         String
+  emailVerified Boolean
+  image         String?
+  createdAt     DateTime
+  updatedAt     DateTime
+  sessions      Session[]
+  accounts      Account[]
+  orders Order[]
+
+  role       String?
+  banned     Boolean?
+  banReason  String?
+  banExpires DateTime?
+
+  @@unique([email])
+  @@map("user")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String
+  createdAt DateTime
+  updatedAt DateTime
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  impersonatedBy String?
+
+  @@unique([token])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime
+  updatedAt             DateTime
+
+  @@map("account")
+}
+
+model Verification {
+  id         String    @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime?
+  updatedAt  DateTime?
+
+  @@map("verification")
+}
+
+model Movie {
+  id        String   @id @default(cuid())
+  title     String
+  description String
+  imageUrl String?
+  price     Decimal
+  stock     Int
+  releaseDate DateTime
+  runtime   String
+  genre Genre[]
+  createdAt DateTime @default(now()) @db.Timestamptz(0)
+  updatedAt DateTime @updatedAt @db.Timestamptz(0)
+  starring Starring[]
+  orders OrderItem[]
+
+  @@map("movies")
+}
+
+model Genre {
+  name        String @id @default(cuid())
+  description String
+  createdAt DateTime @default(now()) @db.Timestamptz(0)
+  updatedAt DateTime @updatedAt @db.Timestamptz(0)
+  movies Movie[]
+
+  @@map("genres")
+}
+
+model Person {
+  id     String @id @default(cuid())
+  name   String
+  description String
+  createdAt DateTime @default(now()) @db.Timestamptz(0)
+  updatedAt DateTime @updatedAt @db.Timestamptz(0)
+  movies Starring[]
+
+  @@map("person")
+}
+
+model Starring {
+  id     String @id @default(cuid())
+  personId   String
+  movieId String
+  role Role
+  createdAt DateTime @default(now()) @db.Timestamptz(0)
+  updatedAt DateTime @updatedAt @db.Timestamptz(0)
+  person Person @relation(fields: [personId], references: [id])
+  movie Movie @relation(fields: [movieId], references: [id])
+
+  @@map("starring")
+}
+
+
+model Order {
+  id        String @id @default(cuid())
+  orderDate DateTime
+  items     OrderItem[]
+  userId String
+  user      User @relation(fields: [userId], references: [id])
+  status    ShippedStatus
+
+  @@map("orders")
+}
+
+
+model OrderItem {
+  id    String @id @default(cuid())
+  movieId String
+  movie Movie @relation(fields: [movieId], references: [id])
+  orderId String
+  order Order @relation(fields: [orderId], references: [id])
+  price Decimal
+
+  @@map("orderitems")
+}
+
+
+enum ShippedStatus {
+  SHIPPED
+  // ...
+}
+
+enum Role {
+ACTOR
+DIRECTOR
+}
