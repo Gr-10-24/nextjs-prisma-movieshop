@@ -93,7 +93,7 @@ model Movie {
   imageUrl String?
   price     Decimal
   stock     Int
-  releaseDate DateTime
+  releaseDate Int
   runtime   String
   genre Genre[]
   createdAt DateTime @default(now()) @db.Timestamptz(0)
