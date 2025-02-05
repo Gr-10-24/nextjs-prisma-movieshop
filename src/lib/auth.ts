@@ -12,5 +12,8 @@ export const auth = betterAuth({
     emailAndPassword: {  
         enabled: true
     },
-    plugins: [admin(), nextCookies()],
+    plugins: [admin({
+        defaultRole: "USER",
+        adminRole: "ADMIN",
+    }), nextCookies()],
 });

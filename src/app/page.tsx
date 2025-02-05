@@ -1,3 +1,4 @@
+import SignUpForm from "@/components/signup-form";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 
@@ -13,6 +14,20 @@ export default async function Page() {
           This is shown if you are logged in.
         </div>
       )}
+      {(session?.user.role === "ADMIN") && (
+        <div className="flex justify-end mb-6">
+          This is shown if you are logged in as Admin.
+        </div>
+      )}
+      {(session?.user.role === "USER") && (
+        <div className="flex justify-end mb-6">
+          This is shown if you are logged in as User.
+        </div>
+      )}
+
+      <div>
+        <SignUpForm />
+      </div>
       
     </main>
   );
