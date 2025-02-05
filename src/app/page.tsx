@@ -1,4 +1,4 @@
-import SignUpForm from "@/components/signup-form";
+// import SignUpForm from "@/components/signup-form";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 
@@ -25,9 +25,9 @@ export default async function Page() {
         </div>
       )}
 
-      <div>
+      {/* <div>
         <SignUpForm />
-      </div>
+      </div> */}
       
     </main>
   );
