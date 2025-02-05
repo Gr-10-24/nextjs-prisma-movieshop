@@ -1,56 +1,84 @@
-"use server"
+"use server";
 
 import { PrismaClient } from "@prisma/client";
-import { Decimal } from "@prisma/client/runtime/library";
 import { revalidatePath } from "next/cache";
+import { z } from "zod";
 
 const prisma = new PrismaClient();
 
+// Define Zod schema for validation
+const movieSchema = z.object({
+  title: z.string({required_error:"This field is required"}).min(2, {message: "Title must be at least 2 characters."}),
+  descript: z.string().min(5,{message : "Description Should have atleast 5 characters"})
+            .max(500,{message: "Not Exceed 100 characters"}),
+  imageurl : z.string().url({message:"Please Enter a valid URL"}),
+  price : z.string({required_error:"This field is required"}).regex(/^\d+(\.\d{1,2})?$/,{message: "Price must have up to 2 decimal places"})
+            .min(0 ,{message : "Price must be atleast 0"}).max(500,{message : "Price can't be above 500"}),
+            // .refine((value)=>(/^\d+(\.\d{1,2})?$/).test(value.toString()),{message: "Price must have up to 2 decimal places"}),
+  stock : z.string().refine((value)=>{const parsedVal = parseInt(value,10)
+            return parsedVal >=1},{message : "Stock should be a positive number"}),
+  released : z.string().refine((value)=>{
+           const parsedValue = parseInt(value)
+           return parsedValue < (new Date()).getFullYear()},{message: "Published date should be a past year"}),
+  runtime : z.string().refine((value)=>{
+            const parsedValue = parseInt(value,10)
+            return !isNaN(parsedValue)&&Number.isInteger(parsedValue)},{message:"run time must be a whole number"}).
+            refine((value)=>{
+                const parsedValue = parseInt(value,10)
+                return parsedValue >=1},{message:"Runtime must be least 1min"}).
+                refine((value)=>{
+                    const parsedValue = parseInt(value,10)
+                    return parsedValue <300},{message:"run time must be less than 300min"}),})
 
-export  async function addMovie( formData: FormData) {
-    const title = formData.get("title") as string ;
-    const descript = formData.get("descript") as string;
-    const imageurl = formData.get("imageurl") as string;
-    const prices = formData.get("price") as string;
-    const price = parseFloat(prices);
-    const stock = Number(formData.get("stock") );
-    const released =  Number(formData.get("released"));
-    const runtime = formData.get("price") as string;
-  
-    if (!title || !descript || !imageurl || !price || !stock || !released || !runtime) {
-      return {
-        success: false,
-        message: "All fields are required.",
-      };
-    }
-  
-  
-  
-    try {
-      const movie = await prisma.movie.create({
-        data: {
-          title,
-          description: descript,
-          imageUrl: imageurl,
-          price,
-          stock,
-          releaseDate: released,
-          runtime
-        },
-      });
-      revalidatePath("/");
-      return {
-        id: movie.id,
-        success: true,
-        message: "Movie added successfully!",
-      };
-    } catch (error) {
-      console.error("Error adding book:", error);
-      return {
-        success: false,
-        message: "Failed to add book.",
-      };
-    }
-  
+export async function addMovie(formData: FormData) {
+
+  const inputData = {
+    title: formData.get("title"),
+    descript: formData.get("descript"),
+    imageurl: formData.get("imageurl"),
+    price: formData.get("price"),
+    stock: formData.get("stock"),
+    released: formData.get("released"),
+    runtime: formData.get("runtime"),
+  };
+
+
+  const result = movieSchema.safeParse(inputData);
+  if (!result.success) {
+    return {
+      success: false,
+      message: "Validation failed",
+      errors: result.error.format(),
+    };
   }
+
   
+  const { title, descript, imageurl, price, stock, released, runtime } = result.data;
+  
+  try {
+    const movie = await prisma.movie.create({
+      data: {
+        title,
+        description: descript,
+        imageUrl: imageurl,
+        price: parseFloat(price),
+        stock: Number(stock),
+        releaseDate: Number(released),
+        runtime,
+      },
+    });
+
+    revalidatePath("/");
+    return {
+      id: movie.id,
+      success: true,
+      message: "Movie added successfully!",
+    };
+  } catch (error) {
+    console.error("Error adding movie:", error);
+    return {
+      success: false,
+      message: "Failed to add movie.",
+    };
+  }
+}
