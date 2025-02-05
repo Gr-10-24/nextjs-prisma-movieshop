@@ -17,6 +17,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { toast } from "@/hooks/use-toast"
 import { useState } from "react"
+import { addMovie } from "@/app/actions/addmovie"
 
 const FormSchema = z.object({
   title: z.string({required_error:"This field is required"}).min(2, {message: "Title must be at least 2 characters."}),
@@ -43,9 +44,9 @@ const FormSchema = z.object({
 
 export default function MovieForm() {
 
-  
-  const [count,setCount] =useState(0)
-
+  const [message, setMessage] = useState<string | null>(null);
+  //usestate use
+  const [count,setCount] =useState(0);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -62,15 +63,32 @@ export default function MovieForm() {
 
 
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    })
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
+ 
+    const formData = new FormData();
+    formData.append("title",data.title);
+    formData.append("descript",data.descript);
+    formData.append("imageurl",data.imageurl);
+    formData.append("price", data.price);
+    formData.append("stock",data.stock );
+    formData.append("released",data.released );
+    formData.append("runtime",data.runtime )
+ 
+ 
+    try {
+      const response = await addMovie(formData);
+       if (response.success) {
+       setMessage("Form submitted successfully!");
+       form.reset(); // Reset the form fields
+     } else {
+       setMessage("There was an issue with your submission. Please try again.");
+     }
+   } catch (error) {
+     console.error("Form submission error", error);
+    // toast.error("Failed to submit the form. Please try again.");
+   }
+ 
+ 
   }
 
   return (
@@ -189,6 +207,7 @@ export default function MovieForm() {
         />
 
         <Button type="submit">Submit</Button>
+        {message && <p className="text-black">{message}</p>}
       </form>
     </Form>
   )
