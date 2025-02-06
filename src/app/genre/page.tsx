@@ -15,12 +15,12 @@ export default async function DemoPage() {
 
   return (
     <div className="flex container">
-      <div>
+      <div className="flex container border w-1/4 ">
         <AddGenre/>
       </div>
-    <div className="w-60%">
+    <div className="w-3/4  px-3">
       <div className=" flex container justify-center text-2xl py-5">
-      <h1 >Genre List</h1>
+      <h1 >List of Genres</h1>
       </div>
       <div className="container mx-auto py-10">
         <DataTable columns={columns} data={data} />

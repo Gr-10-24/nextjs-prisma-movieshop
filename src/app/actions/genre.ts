@@ -26,9 +26,8 @@ export default async function Genre(previousState:unknown,formdata:FormData){
     try    {
 
         const existsGenre = await prisma.genre.findFirst({
-            where : {name: result.data.name}
+            where : {name: result.data.name.toLocaleLowerCase()}
         })
-
 
         if (existsGenre) {
             return {
@@ -38,7 +37,7 @@ export default async function Genre(previousState:unknown,formdata:FormData){
         }
             await prisma.genre.create({
                 data : {
-                    name : result.data.name,
+                    name : result.data.name.toLocaleLowerCase(),
                     description : result.data.descript,
                 },
             })            
