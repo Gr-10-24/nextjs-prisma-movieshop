@@ -25,7 +25,7 @@ export default async function Genre(previousState:unknown,formdata:FormData){
     
     try    {
 
-        const existsGenre = await prisma.genre.findUnique({
+        const existsGenre = await prisma.genre.findFirst({
             where : {name: result.data.name}
         })
 
@@ -55,4 +55,6 @@ export default async function Genre(previousState:unknown,formdata:FormData){
 }
             
         
-    
+export async function GetGenre(){
+    await prisma.genre.findMany()
+}    

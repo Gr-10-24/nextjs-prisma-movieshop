@@ -105,7 +105,8 @@ model Movie {
 }
 
 model Genre {
-  name        String @id @default(cuid())
+  id        String @id @default(cuid())
+  name String
   description String
   createdAt DateTime @default(now()) @db.Timestamptz(0)
   updatedAt DateTime @updatedAt @db.Timestamptz(0)
