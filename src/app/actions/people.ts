@@ -51,6 +51,21 @@ export async function CreatePerson(previousState: unknown, formData: FormData) {
     return result.error.flatten();
   }
 
+  const check = await prisma.person.findFirst({
+    where: {
+      name: result.data.name,
+    },
+  });
+  //console.log(check);
+  if (check !== null) {
+    return {
+      fieldErrors: {
+        name: ["Person already exists in DB"],
+        description: [""],
+      },
+    };
+  }
+
   const person = await prisma.person.create({
     data: {
       name: result.data.name,
@@ -70,6 +85,20 @@ export async function addPerson(name: string) {
     return result.error.flatten();
   }
 
+  const check = await prisma.person.findFirst({
+    where: {
+      name: result.data,
+    },
+  });
+  //console.log(check);
+  if (check !== null) {
+    return {
+      fieldErrors: {
+        name: ["Person already exists in DB"],
+      },
+    };
+  }
+
   const person = await prisma.person.create({
     data: {
       name: result.data,
@@ -79,4 +108,35 @@ export async function addPerson(name: string) {
 
   revalidatePath("/");
   console.log(person.name);
+}
+
+export async function UpdatePerson(previousState: unknown, formData: FormData) {
+    const result = formSchema.safeParse(Object.fromEntries(formData));
+    if (!result.success) {
+      console.log(result.error.flatten());
+      return result.error.flatten();
+    }
+
+    const member = await prisma.person.update({
+        where: {
+            id: result.data.id,
+        },
+        data: {
+          name: result.data.name,
+          description: result.data.description,
+        },
+      });
+      revalidatePath("/");
+      console.log(member.name);
+      console.log(result.data);
+}
+
+export async function deletePerson(id: string) {
+    await prisma.person.delete({
+        where: 
+        {
+            id
+        },
+    })
+    revalidatePath("/");
 }
