@@ -77,11 +77,12 @@ export default function PeopleForm({ data }: { data?: Person }) {
               <p>Desc:</p>
             </div>
             <div className="flex min-w-52">
-              <Input
+              <textarea
                 name="description"
-                type="text"
+                id="description"
+                //type="text"
                 defaultValue={data ? data.description : ""}
-                placeholder="email@provider.com"
+                placeholder="Enter a description"
                 className="border-2 border-black rounded-md m-2"
               />
             </div>

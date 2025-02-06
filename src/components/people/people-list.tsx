@@ -10,7 +10,7 @@ export default function PeopleList(data: {
   userRole?: string | null | undefined;
 }) {
   return (
-    <div className="Flex container gap-2 border-black border-2 m-2 p-2">
+    <div className="Flex gap-2 m-2 p-2">
       {data.people.map((person) =>
         data.userRole ? (
           <PersonCard key={person.id} person={person} role={data.userRole} />

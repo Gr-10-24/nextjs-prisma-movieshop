@@ -12,20 +12,36 @@ export default function PersonCard(data: { person: Person; role?: string }) {
   return (
     <div
       key={data.person.id}
-      className="flex container border-2 border-black rounded-md mx-auto m-1 gap-2"
+      className="flex border-2 border-black rounded-md mx-auto p-2 m-1 gap-2 justify-between max-w-[600px]"
     >
+        <div className="flex flex-col px-3">
       <div className="flex flex-col px-3">
         <p>Name: {data.person.name}</p>
-        <p>Desc: {data.person.description.substring(0, 25)}</p>
       </div>
+      <div className="flex flex-col px-3">
+        <p>Desc: </p>
+        <textarea readOnly={true} className="border-black rounded-md" name="desc" id="desc"
+         defaultValue={data.person.description.length > 50
+            ? `${data.person.description.slice(0, 50)}...`
+            : data.person.description}
+        >
+          
+        </textarea>
+      </div>
+
+        </div>
       <div className="flex my-auto">
-        <PeopleDialogD data={data.person} />
-      </div>
-      {(data.role === "ADMIN") ? (
-        <div>
+        <div className="flex my-auto">
+          <PeopleDialogD data={data.person} />
+        </div>
+        {data.role === "ADMIN" ? (
           <div className="flex my-auto">
             <PeopleDialog data={data.person} />
           </div>
+        ) : (
+          <p></p>
+        )}
+        {data.role === "ADMIN" ? (
           <div className="flex my-auto">
             <Button
               variant={"destructive"}
@@ -34,10 +50,10 @@ export default function PersonCard(data: { person: Person; role?: string }) {
               <Trash2 />
             </Button>
           </div>
-        </div>
-      ) : (
-        <p></p>
-      )}
+        ) : (
+          <p></p>
+        )}
+      </div>
     </div>
   );
 }
