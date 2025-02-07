@@ -88,7 +88,6 @@ export async function addPerson(name: string) {
   const check = await prisma.person.findFirst({
     where: {
       name: result.data,
-      description: "",
     },
   });
   //console.log(check);
