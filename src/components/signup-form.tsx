@@ -29,140 +29,122 @@ export default function SignUpForm() {
 
   const router = useRouter();
 
-  //testing
-  //   const {
-  //     register,
-  //     handleSubmit,
-  //     formState: { errors },
-  //     setError,
-  //   } = useForm<FormData>();
-
-  //   const onSubmit = async (data: FormData) => {
-  //     console.log("SUCCESS", data);
-  //   };
-
   return (
     <div>
       <form className="flex flex-col">
-      <h1 className="text-center">Register</h1>
-      <div className="flex container flex-col content-center justify-center mx-auto">
+        <h1 className="text-center">Register</h1>
+        <div className="flex container flex-col content-center justify-center mx-auto">
+          <div className="flex flex-col container p-2">
+            <div className="flex">
+              <div className="flex my-auto container justify-end">
+                <p>Name:</p>
+              </div>
+              <div className="flex min-w-52">
+                <Input
+                  disabled={isLoading}
+                  name="name"
+                  type="text"
+                  placeholder="Enter you name"
+                  value={name}
+                  onChange={(e) => {
+                    setName(e.target.value);
+                  }}
+                  className="border-2 border-black rounded-md m-2"
+                />
+              </div>
 
-        <div className="flex flex-col container p-2">
-          <div className="flex">
-            <div className="flex my-auto container justify-end">
-              <p>Name:</p>
-            </div>
-            <div className="flex min-w-52">
-              <Input
-                disabled={isLoading}
-                type="text"
-                placeholder="Enter you name"
-                value={name}
-                onChange={(e) => {
-                  setName(e.target.value);
-                }}
-                className="border-2 border-black rounded-md m-2"
-              />
-            </div>
-
-            <div className="flex container">
-              <p></p>
+              <div className="flex container">
+                <p></p>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="flex flex-col container p-2">
-          <div className="flex">
-            <div className="flex my-auto container justify-end">
-              <p>Email:</p>
-            </div>
-            <div className="flex min-w-52">
-              <Input
-                disabled={isLoading}
-                type="email"
-                placeholder="example@email.com"
-                value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                }}
-                className="border-2 border-black rounded-md m-2"
-              />
-            </div>
+          <div className="flex flex-col container p-2">
+            <div className="flex">
+              <div className="flex my-auto container justify-end">
+                <p>Email:</p>
+              </div>
+              <div className="flex min-w-52">
+                <Input
+                  disabled={isLoading}
+                  name="email"
+                  type="email"
+                  placeholder="example@email.com"
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+                  className="border-2 border-black rounded-md m-2"
+                />
+              </div>
 
-            <div className="flex container">
-              <p></p>
+              <div className="flex container">
+                <p></p>
+              </div>
             </div>
           </div>
-        </div>
 
-<div className="flex flex-col container p-2">
-          <div className="flex">
-            <div className="flex my-auto container justify-end">
-              <p>Password:</p>
-            </div>
-            <div className="flex min-w-52">
-              <Input
-                disabled={isLoading}
-                type="password"
-                placeholder="Enter a password"
-                value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                }}
-                className="border-2 border-black rounded-md m-2"
-              />
-            </div>
+          <div className="flex flex-col container p-2">
+            <div className="flex">
+              <div className="flex my-auto container justify-end">
+                <p>Password:</p>
+              </div>
+              <div className="flex min-w-52">
+                <Input
+                  disabled={isLoading}
+                  name="password"
+                  type="password"
+                  placeholder="Enter a password"
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
+                  className="border-2 border-black rounded-md m-2"
+                />
+              </div>
 
-            <div className="flex container">
-              <p></p>
+              <div className="flex container">
+                <p></p>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="flex content-center justify-center">
-        <Button
-          disabled={isLoading}
-          onClick={async () => {          
-                // console.log("hello");
-                // const result = stringSchema.safeParse(name);
-                // console.log(result.error?.flatten);
-                // console.log(result.data);
-            const {data, error} = await authClient.signUp.email({
-              name,
-              email,
-              password,
-              fetchOptions: {
-                onRequest: () => {
-                  setIsLoading(true);
-                },
-                onResponse: () => {
-                  setIsLoading(false);
-                },
-                onError: (ctx) => {alert(ctx.error.message);},
-                onSuccess: () => {
-                  router.push("/");
-                }, //router.refresh()?
-              },
-            },
-            // { 
-            //     onRequest: (ctx) => { 
-            //      //show loading
-            //     }, 
-            //     onSuccess: (ctx) => { 
-            //       //redirect to the dashboard
-            //     }, 
-            //     onError: (ctx) => { 
-            //       alert(ctx.error.message); 
-            //     }, }
-        )
-            console.log(data);
-            console.log(error);
-          }}
-        >
-          {isLoading ? "Loading..." : "Sign up"}
-        </Button>
+          <div className="flex content-center justify-center">
+            <Button
+              disabled={isLoading}
+              onClick={async () => {
+                try {
+                    
+                    const {data, error} = await authClient.signUp.email({
+                      name,
+                      email,
+                      password,
+                      fetchOptions: {
+                        onRequest: () => {
+                          setIsLoading(true);
+                        },
+                        onResponse: () => {
+                          setIsLoading(false);
+                        },
+                        onError: (ctx) => {
+                          alert(ctx.error.message);
+                        },
+                        onSuccess: () => {
+                          router.push("/");
+                        },
+                      },
+                    }); 
+                    console.log(data?.user);
+                    console.log(error?.message);
+                } catch (e) {
+                    console.log(e);
+                }
+              }}
+            >
+              {isLoading ? "Loading..." : "Sign up"}
+            </Button>
+          </div>
         </div>
-      </div>
       </form>
     </div>
   );

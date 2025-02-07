@@ -105,7 +105,8 @@ model Movie {
 }
 
 model Genre {
-  name        String @id @default(cuid())
+  id        String @id @default(cuid())
+  name String
   description String
   createdAt DateTime @default(now()) @db.Timestamptz(0)
   updatedAt DateTime @updatedAt @db.Timestamptz(0)
@@ -141,10 +142,11 @@ model Starring {
 
 model Order {
   id        String @id @default(cuid())
-  orderDate DateTime
   items     OrderItem[]
   userId String
   user      User @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now()) @db.Timestamptz(0)
+  updatedAt DateTime @updatedAt @db.Timestamptz(0)
   status    ShippedStatus
 
   @@map("orders")
@@ -158,14 +160,17 @@ model OrderItem {
   orderId String
   order Order @relation(fields: [orderId], references: [id])
   price Decimal
+  createdAt DateTime @default(now()) @db.Timestamptz(0)
+  updatedAt DateTime @updatedAt @db.Timestamptz(0)
 
   @@map("orderitems")
 }
 
 
 enum ShippedStatus {
+  PENDING
   SHIPPED
-  // ...
+  DELIVERED
 }
 
 enum Role {
