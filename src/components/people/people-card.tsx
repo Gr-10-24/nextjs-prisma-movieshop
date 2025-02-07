@@ -20,7 +20,7 @@ export default function PersonCard(data: { person: Person; role?: string }) {
       </div>
       <div className="flex flex-col px-3">
         <p>Desc: </p>
-        <textarea readOnly={true} className="border-black rounded-md" name="desc" id="desc"
+        <textarea readOnly={true} className="border-black rounded-md" name="desc"
          defaultValue={data.person.description.length > 50
             ? `${data.person.description.slice(0, 50)}...`
             : data.person.description}
