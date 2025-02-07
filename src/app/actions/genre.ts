@@ -57,3 +57,26 @@ export default async function Genre(previousState:unknown,formdata:FormData){
 export async function GetGenre(){
     await prisma.genre.findMany()
 }    
+
+export async function DeleteGenre(id:string){
+   try{
+    await prisma.genre.delete({
+        where:{
+            id,
+        }
+    })
+    revalidatePath("/")
+
+}  catch(error) {
+    return error;
+}
+    
+}
+
+// export async function EditGenre(){
+//     await prisma.genre.update({
+//         where:{
+//             id
+//         }
+//     })
+// }
