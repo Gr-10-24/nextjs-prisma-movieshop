@@ -11,7 +11,7 @@ const genreFormSchema = z.object({
             .max(500,{message: "Not Exceed 500 characters"}),
 })
 
-export default async function Genre(previousState:unknown,formdata:FormData){
+export default async function AddGenre(previousState:unknown,formdata:FormData){
 
     const result = genreFormSchema.safeParse(Object.fromEntries(formdata))
 
@@ -73,10 +73,33 @@ export async function DeleteGenre(id:string){
     
 }
 
-// export async function EditGenre(){
-//     await prisma.genre.update({
-//         where:{
-//             id
-//         }
-//     })
-// }
+export async function EditGenre(id:string,name:string,descript:string){
+
+    const rawData = {
+        name ,
+        descript
+    }
+    const result = genreFormSchema.safeParse(rawData)
+
+    if(!result.success){
+        return {
+            success : false,
+            FieldError : result.error.flatten().fieldErrors
+        }
+    }
+    else 
+    try {
+    await prisma.genre.update({
+        where:{
+            id : id
+        },
+        data : {
+            name : result.data.name,
+            description : result.data.descript
+        }
+    })
+    
+    revalidatePath("/")
+    return {success : true}
+} catch {}
+}

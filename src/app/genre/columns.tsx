@@ -7,6 +7,7 @@ import { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
 import Genre, { DeleteGenre } from "../actions/genre"
 import { DeleteDialog } from "@/components/ui/genre/delete-genre"
+import { EditDialog } from "@/components/ui/genre/edit-genre"
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -121,17 +122,17 @@ export const columns: ColumnDef<Genre>[] = [
       )
     },
   },
-  // {
-  //   id: "edit",
+  {
+    id: "edit",
 
-  //   cell: ({ row }) => {
-  //     const genre = row.original
+    cell: ({ row }) => {
+      const genre = row.original
 
-      
-  //   },
-  //   enableSorting: false,
-  //   enableHiding: false,
-  // },
+      return <EditDialog genre={genre} />
+    },
+    enableSorting: false,
+    enableHiding: false,
+  },
   {
     id: "delete",
 
