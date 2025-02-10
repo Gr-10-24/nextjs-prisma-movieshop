@@ -100,7 +100,7 @@ export default function LoginForm() {
                     },
                     onError: () => {},
                     onSuccess: () => {
-                      router.push("/");
+                      router.refresh(); //router.push("/");
                     },
                   },
                 })

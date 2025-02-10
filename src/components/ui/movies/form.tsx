@@ -154,7 +154,7 @@ export default function MovieForm() {
             <FormItem>
               <FormLabel className="text-lg">Price</FormLabel>
               <FormControl>
-                <Input className="border border-black mb-6" placeholder="Price in SEK" {...field} />
+                <Input  className="border border-black mb-6" placeholder="Price in SEK" {...field} />
               </FormControl>
               <FormDescription>
                 Price must be in kr.
