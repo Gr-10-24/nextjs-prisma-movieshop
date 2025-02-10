@@ -114,30 +114,29 @@ export default function SignUpForm() {
               disabled={isLoading}
               onClick={async () => {
                 try {
-                    
-                    const {data, error} = await authClient.signUp.email({
-                      name,
-                      email,
-                      password,
-                      fetchOptions: {
-                        onRequest: () => {
-                          setIsLoading(true);
-                        },
-                        onResponse: () => {
-                          setIsLoading(false);
-                        },
-                        onError: (ctx) => {
-                          alert(ctx.error.message);
-                        },
-                        onSuccess: () => {
-                          router.push("/");
-                        },
+                  const { data, error } = await authClient.signUp.email({
+                    name,
+                    email,
+                    password,
+                    fetchOptions: {
+                      onRequest: () => {
+                        setIsLoading(true);
                       },
-                    }); 
-                    console.log(data?.user);
-                    console.log(error?.message);
+                      onResponse: () => {
+                        setIsLoading(false);
+                      },
+                      onError: (ctx) => {
+                        alert(ctx.error.message);
+                      },
+                      onSuccess: () => {
+                        router.refresh(); //router.push("/");
+                      },
+                    },
+                  });
+                  console.log(data?.user);
+                  console.log(error?.message);
                 } catch (e) {
-                    console.log(e);
+                  console.log(e);
                 }
               }}
             >
