@@ -2,7 +2,23 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-First, run the development server:
+### Setup
+
+You should only need to the following steps once or when relevant
+dependencies change.
+
+1. Copy `env-example.txt` to `.env` and update the DATABASE_URL
+   variable to match your credentials.
+
+2. Install dependencies with `npm install`.
+
+3. Create prisma client: `npx prisma generate`.
+
+4. Create the database: `npx prisma db push`.
+
+Then you should all be set up!
+
+Then, run the development server:
 
 ```bash
 npm run dev
