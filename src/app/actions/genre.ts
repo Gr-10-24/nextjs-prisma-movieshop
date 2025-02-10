@@ -46,8 +46,8 @@ export default async function AddGenre(
 
     revalidatePath("/");
     return { success: true };
-  } catch {
-    return { success: false, message: "an error occurred" };
+  } catch(error) {
+    return { success: false, message: `an error occurred ${error}` };
   }
 }
 
