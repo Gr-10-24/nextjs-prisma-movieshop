@@ -1,4 +1,3 @@
-
 import { DeleteGenre } from "@/app/actions/genre"
 import { Genre } from "@/app/genre/columns"
 import { Button } from "@/components/ui/button"
@@ -11,15 +10,12 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Trash } from "lucide-react"
-
 import { useState } from "react"
 
-export function DeleteDialog({genre}:{genre:Genre}) {
-
+export function DeleteDialog({genre}:{genre: Genre}) {
     const [open,setOpen] = useState(false)
 
-
-  return (
+    return (
     <Dialog open= {open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="destructive" size={"icon"}><Trash/></Button>
@@ -37,14 +33,11 @@ export function DeleteDialog({genre}:{genre:Genre}) {
             onClick={async ()=> {await DeleteGenre(genre.id)
               setOpen(false)
             }}
-            
             >Yes</Button>
             <Button variant= "secondary"  className= "border rounded p-4" onClick={(()=>setOpen(false))}>Cancel</Button>
           </div>
-          
         </div>
-
       </DialogContent>
     </Dialog>
   )
-}
+}        
