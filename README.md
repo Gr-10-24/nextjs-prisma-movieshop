@@ -4,7 +4,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ### Setup
 
-You should only need to the following steps once or when relevant
+You should only need to do the following steps once or when relevant
 dependencies change.
 
 1. Copy `env-example.txt` to `.env` and update the DATABASE_URL
