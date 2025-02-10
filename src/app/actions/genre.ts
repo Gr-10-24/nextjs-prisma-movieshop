@@ -7,7 +7,7 @@ import { z } from "zod";
 const genreFormSchema = z.object({
   name: z
     .string({ required_error: "This field is required" })
-    .min(2, { message: "Name must be at least 2 characters." }),
+    .min(2, { message: "Name must have atleast 2 characters." }),
   descript: z
     .string()
     .min(5, { message: "Description Should have atleast 5 characters" })
