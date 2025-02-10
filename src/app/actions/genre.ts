@@ -75,6 +75,7 @@ export async function DeleteGenre(id:string){
 
 export async function EditGenre(id:string,name:string,descript:string){
 
+    
     const rawData = {
         name ,
         descript

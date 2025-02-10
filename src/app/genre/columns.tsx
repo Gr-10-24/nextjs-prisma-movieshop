@@ -2,12 +2,12 @@
 
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { ColumnDef } from "@tanstack/react-table"
-import { ArrowUpDown, MoreHorizontal } from "lucide-react"
-import Genre, { DeleteGenre } from "../actions/genre"
+import { ArrowUpDown } from "lucide-react"
+import Genre from "../actions/genre"
 import { DeleteDialog } from "@/components/ui/genre/delete-genre"
 import { EditDialog } from "@/components/ui/genre/edit-genre"
+import { useState } from "react"
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -17,6 +17,29 @@ export type Genre = {
   description: string
   createdAt: Date
   updatedAt: Date
+
+}
+
+export default function ExpandableText({text}:{text:string}){
+  const [expanded,setExpanded] = useState(false)
+  const maxLength = 50;
+
+  if(text.length<maxLength){
+    return (
+      <div>{text}</div>
+    )
+  }
+
+  return(
+    <div className="text-start font-medium">
+        {expanded ? text : `${text.slice(0,maxLength)}  `}
+        {text.length>maxLength && 
+          <button onClick={()=>setExpanded(!expanded)}>
+            {expanded ? "Show Less" : "Read More..."}
+          </button>
+        }
+      </div>
+  )
 
 }
 
@@ -69,7 +92,11 @@ export const columns: ColumnDef<Genre>[] = [
     header: () => <div className="text-start">Description</div>,
     cell: ({ row }) => {
       const description:string = row.getValue("description")
-      return <div className="text-start font-medium">{description}</div>
+
+      return (
+      <div className="text-start font-medium">
+        <ExpandableText text = {description}/>
+      </div>)
     },
   },
   {
@@ -91,39 +118,10 @@ export const columns: ColumnDef<Genre>[] = [
     },
   },
 
-  {
-    id: "actions",
-    cell: ({ row }) => {
-      const genre = row.original
-
- 
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(genre.name)}
-            >
-              Copy Genre Name
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Edit</DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={async()=>DeleteGenre(genre.id)}
-            >Delete</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      )
-    },
-  },
+  
   {
     id: "edit",
+    header: () => <div className="text-start">Edit</div>,
 
     cell: ({ row }) => {
       const genre = row.original
@@ -135,6 +133,7 @@ export const columns: ColumnDef<Genre>[] = [
   },
   {
     id: "delete",
+    header: () => <div className="text-start">Delete</div>,
 
     cell: ({ row }) => {
       const genre = row.original

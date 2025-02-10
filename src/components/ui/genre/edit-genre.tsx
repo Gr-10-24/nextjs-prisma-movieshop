@@ -11,7 +11,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 
-import {   useState } from "react"
+import {  useState } from "react"
 import { Input } from "../input"
 
 export function EditDialog({genre}:{genre:Genre}) {
@@ -20,6 +20,7 @@ export function EditDialog({genre}:{genre:Genre}) {
     const [name,setName] = useState(genre.name)
     const [description,setDescription] = useState(genre.description)
     const [loading,setLoading] = useState(false)
+    const [FieldError,setFieldError] = useState<Record<string,string[]>>({})
 
     async function handleUpdate(e:React.FormEvent){
       e.preventDefault();
@@ -28,9 +29,13 @@ export function EditDialog({genre}:{genre:Genre}) {
         const result = await EditGenre(genre.id,name,description)
         setLoading(false)
 
-        if(result?.success) setOpen(false)
-          else console.log("error", result?.FieldError)
-
+        if(result?.success) {
+          setOpen(false); 
+          setFieldError({})
+        }
+          else {
+            setFieldError(result?.FieldError||{})
+          }
     }
 
 
@@ -52,12 +57,12 @@ export function EditDialog({genre}:{genre:Genre}) {
           <div className="grid grid-cols-4 items-center gap-4">
             <label htmlFor="name">Name</label>
             <Input id="name" className= "w-96 border border-black rounded-md" value={name} onChange={(e)=>setName(e.target.value)}></Input>
-            <div>
-              {
-                
-              }
             </div>
-           </div>
+              { FieldError.name &&
+            <div className="text-red-800 flex justify-end">
+                {FieldError.name}
+            </div>
+              }
            <div className="grid grid-cols-4 items-center gap-4">
             <label htmlFor="descript">Description</label>
               <textarea 
@@ -66,9 +71,12 @@ export function EditDialog({genre}:{genre:Genre}) {
               placeholder="description of the genre" 
                id="descript"
                value={description} onChange={(e)=>setDescription(e.target.value)}/>
-
-            {/* <Input id="descript" value={description} onChange={(e)=>setDescription(e.target.value)}></Input> */}
            </div>
+            { FieldError.descript &&
+            <div className="text-red-600 flex justify-end">
+                {FieldError.descript}
+            </div>
+              }
 
            <div className="flex justify-end gap-2 pb-4"> 
             <Button type="submit" disabled={loading} >Save</Button>

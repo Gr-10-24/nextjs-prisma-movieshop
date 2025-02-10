@@ -32,7 +32,7 @@ export function DeleteDialog({genre}:{genre:Genre}) {
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
+          <div className="flex grid-cols-4 items-center justify-end gap-4">
             <Button variant= "destructive"  className= "border rounded p-4" 
             onClick={async ()=> {await DeleteGenre(genre.id)
               setOpen(false)
