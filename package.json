@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "populate-db": "node scripts/populate-db.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

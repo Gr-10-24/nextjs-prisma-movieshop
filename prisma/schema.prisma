@@ -106,11 +106,11 @@ model Movie {
 
 model Genre {
   id        String @id @default(cuid())
-  name String
-  description String
   createdAt DateTime @default(now()) @db.Timestamptz(0)
   updatedAt DateTime @updatedAt @db.Timestamptz(0)
   movies Movie[]
+  name String @unique
+  description String?
 
   @@map("genres")
 }
@@ -118,7 +118,7 @@ model Genre {
 model Person {
   id     String @id @default(cuid())
   name   String
-  description String
+  description String?
   createdAt DateTime @default(now()) @db.Timestamptz(0)
   updatedAt DateTime @updatedAt @db.Timestamptz(0)
   movies Starring[]
