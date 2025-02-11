@@ -21,7 +21,7 @@ export default async function Page() {
       )}
       {session?.user.role === "CUSTOMER" && (
         <div className="flex justify-end mb-6">
-          This is shown if you are logged in as User.
+          This is shown if you are logged in as Customer.
         </div>
       )}
 
