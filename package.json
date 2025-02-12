@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "populate-db": "node scripts/populate-db.js"
+    "populate-db": "node scripts/populate-db.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

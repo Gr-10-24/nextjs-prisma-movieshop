@@ -62,9 +62,9 @@ async function insertMissingGenres(movies) {
 // // Insert Movies
 async function insertMovies(movies) {
   try {
-    const result = movies.map(movie => {
-      prisma.movie.create({
-        data: {
+    const result = prisma.movie.createMany({
+      data: movies.map(movie => {
+        return {
           title: movie.name,
           description: movie.description,
           // imageUrl: imageurl,
@@ -83,7 +83,7 @@ async function insertMovies(movies) {
         },
       })
     })
-    return await Promise.all(result)
+    return await result
   } catch (error) {
     console.error('Error inserting movie:', error)
   }
@@ -102,10 +102,10 @@ async function populateDb() {
 
   console.log("Using resource: ", process.argv[2])
 
-  const genres = await insertMissingGenres(movies)
-  console.log("Upserted %s genres in total", genres.length)
+  // const genres = await insertMissingGenres(movies)
+  // console.log("Upserted %s genres in total", genres.length)
   const movieResult = await insertMovies(movies)
-  console.log("%s Movies inserted", movieResult.length)
+  console.log("%s Movies inserted", movieResult.count)
 
   console.log("All done")
   process.exit(0)
