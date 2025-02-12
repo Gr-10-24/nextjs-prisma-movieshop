@@ -42,7 +42,10 @@ assert(parseRuntime("PT2H4M") === "124")
 // Insert missing genres
 async function insertMissingGenres(movies) {
   const allGenresSet = movies.reduce((genres, movie) => {
-    return genres.add(...movie.genre)
+    // Set.union could be used here, but since I have an older node
+    // version this will have to do.
+    movie.genre.map(genre => genres.add(genre))
+    return genres
   }, new Set())
 
   // Convert set to a array so map becomes available
@@ -62,28 +65,29 @@ async function insertMissingGenres(movies) {
 // // Insert Movies
 async function insertMovies(movies) {
   try {
-    const result = prisma.movie.createMany({
-      data: movies.map(movie => {
-        return {
+    // createMany and connect many cannot be combined, so use create
+    // instead.
+    const result = movies.map(movie =>
+      prisma.movie.create({
+        data: {
           title: movie.name,
           description: movie.description,
-          // imageUrl: imageurl,
+          imageUrl: movie.image,
           price: moviePrice(movie),
           stock: 5,
           releaseDate: dateStringToYear(movie.datePublished),
           runtime: parseRuntime(movie.duration),
-          // TODO
-          // genre: movie.genre.map(genre => {
-          //     prisma.genre.findFirstOrThrow({
-          //         where: { name: genre }
-          //     })
-          // }),
-          // TODO
+          genre: {
+            connect: movie.genre.map(genre => {
+              return { name: genre }
+            })
+          },
+          // TODO: starring
           // starring: movie.director.concat(movie.actor),
-        },
-      })
-    })
-    return await result
+        }
+      }),
+    )
+    return await Promise.all(result)
   } catch (error) {
     console.error('Error inserting movie:', error)
   }
@@ -102,10 +106,11 @@ async function populateDb() {
 
   console.log("Using resource: ", process.argv[2])
 
-  // const genres = await insertMissingGenres(movies)
-  // console.log("Upserted %s genres in total", genres.length)
+  const genres = await insertMissingGenres(movies)
+  console.log("Upserted %s genres in total", genres.length)
+
   const movieResult = await insertMovies(movies)
-  console.log("%s Movies inserted", movieResult.count)
+  console.log("%s Movies inserted", movieResult.length)
 
   console.log("All done")
   process.exit(0)
