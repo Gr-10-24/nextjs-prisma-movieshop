@@ -39,7 +39,6 @@ const updateMovieSchema = z.object({
     .min(1, { message: "Runtime is required and must be a valid duration" }),
 });
 
-const prisma = new PrismaClient();
 export type MovieData = {
     id: string;
     title: string;
