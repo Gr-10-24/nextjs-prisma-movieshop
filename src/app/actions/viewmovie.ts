@@ -1,9 +1,8 @@
 "use server"
 
-import { Prisma, PrismaClient } from "@prisma/client";
-import { Decimal } from "@prisma/client/runtime/library";
+import { prisma } from "@/lib/prisma";
+import { Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
-import { number } from "zod";
 import { z } from "zod";
 
 
