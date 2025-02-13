@@ -1,4 +1,3 @@
-import AddMovie from "@/components/movies/movie-form";
 import ViewMovie from "@/components/movies/viewmovie";
 import { GetMovie } from "../actions/viewmovie";
 import {
@@ -9,6 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import AddMovie from "@/components/movies/movie-form";
 
 export default async function Movies() {
   const getmovie = await GetMovie();

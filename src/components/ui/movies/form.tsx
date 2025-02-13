@@ -205,29 +205,12 @@ export default function MovieForm() {
             <FormItem>
               <FormLabel className="text-lg">Genres</FormLabel>
               <FormControl>
-                <GetGenres field={field}/>
+                <GetGenres field={field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        {/* <FormField
-          control={form.control}
-          name="genres"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-lg">Genres</FormLabel>
-              <FormControl>
-                <Input
-                  className="border border-black mb-6"
-                  placeholder="Type genres' names with seperated by commas..."
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        /> */}
         <FormField
           control={form.control}
           name="directors"
