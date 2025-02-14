@@ -111,6 +111,8 @@ export default function MovieForm() {
     formData.append("descript", data.descript);
     formData.append("imageurl", data.imageurl);
     formData.append("genres", data.genres);
+    formData.append("directors", data.directors);
+    formData.append("actors", data.actors);
     formData.append("price", data.price);
     formData.append("stock", data.stock);
     formData.append("released", data.released);
@@ -128,7 +130,11 @@ export default function MovieForm() {
       }
     } catch (error) {
       console.error("Form submission error", error);
-      // toast.error("Failed to submit the form. Please try again.");
+      return {
+        success: false,
+        message: error instanceof Error ? error.message : "Failed to add movie",
+        error: error instanceof Error ? error.stack : undefined
+      };
     }
   }
 
@@ -228,6 +234,8 @@ export default function MovieForm() {
             </FormItem>
           )}
         /> */}
+        
+       
         <FormField
           control={form.control}
           name="directors"
@@ -245,6 +253,7 @@ export default function MovieForm() {
             </FormItem>
           )}
         />
+         
         <FormField
           control={form.control}
           name="actors"
@@ -261,7 +270,7 @@ export default function MovieForm() {
               <FormMessage />
             </FormItem>
           )}
-        />
+        /> 
         <FormField
           control={form.control}
           name="price"
