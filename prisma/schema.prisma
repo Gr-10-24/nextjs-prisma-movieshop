@@ -95,6 +95,7 @@ model Movie {
   updatedAt DateTime @updatedAt @db.Timestamptz(0)
   starring Starring[]
   orders OrderItem[]
+  Cartitems Cartitems[]
 
   @@map("movies")
 }
@@ -112,7 +113,7 @@ model Genre {
 
 model Person {
   id     String @id @default(cuid())
-  name   String
+  name   String @unique
   description String?
   createdAt DateTime @default(now()) @db.Timestamptz(0)
   updatedAt DateTime @updatedAt @db.Timestamptz(0)
@@ -177,4 +178,22 @@ enum Role {
 enum Roles {
   ADMIN
   CUSTOMER
+}
+
+model Cart {
+  id String @id @default(cuid())
+  total Decimal
+  CartItems Cartitems[]
+}
+
+model Cartitems {
+  id       String @id @default(cuid())
+  quantity Int
+  price Decimal
+
+  movieId String
+  movie   Movie  @relation(fields: [movieId], references: [id], onDelete: Cascade)
+
+  cartId String
+  cart   Cart   @relation(fields: [cartId], references: [id], onDelete: Cascade)
 }
