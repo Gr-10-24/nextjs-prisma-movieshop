@@ -251,7 +251,7 @@ export default function MovieForm() {
             </FormItem>
           )}
         />
-        <FormField
+        {/* <FormField
           control={form.control}
           name="genres"
           render={({ field }) => (
@@ -263,7 +263,7 @@ export default function MovieForm() {
               <FormMessage />
             </FormItem>
           )}
-        />
+        /> */}
         {/* <FormField
           control={form.control}
           name="genres"
@@ -283,7 +283,7 @@ export default function MovieForm() {
         /> */}
         
        
-        <FormField
+        {/* <FormField
           control={form.control}
           name="directors"
           render={({ field }) => (
@@ -317,7 +317,7 @@ export default function MovieForm() {
               <FormMessage />
             </FormItem>
           )}
-        /> 
+        />  */}
         <FormField
           control={form.control}
           name="price"
