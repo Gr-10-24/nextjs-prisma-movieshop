@@ -1,6 +1,6 @@
 "use server"
 
-import { Prisma, PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient,Role } from "@prisma/client";
 import { Decimal } from "@prisma/client/runtime/library";
 import { revalidatePath } from "next/cache";
 import { number } from "zod";
@@ -45,24 +45,61 @@ export type MovieData = {
     id: string;
     title: string;
     description: string;
+    genres:  { id: string; name: string }[];
     imageUrl?: string | null;
     price: number; // Converted from Decimal to number
     stock: number;
     releaseDate: number;
     runtime: string;
+    starring: Array<{
+      role: Role;
+      person: {
+          id: string;
+          name: string;
+      };
+  }>;
 };
 
 export async function GetMovie(): Promise<MovieData[]> {
     const movies = await prisma.movie.findMany({
+      select: {
+        id: true,
+        title: true,
+        description:true,
+        imageUrl:true,
+        price:true,
+        stock: true,
+        releaseDate: true,
+        runtime:true,
+        genre: {
+          select: {
+            id: true,
+            name: true
+          }
+        },
+        starring: {
+          select: {
+            role: true,
+            person: {
+              select: {
+                id: true,
+                name: true
+              }
+            }
+          }
+        }
+      },
       orderBy:{
         createdAt: "asc",
       }
     });
-
+/* */
     return movies.map(movie => ({
         id: movie.id,
         title: movie.title,
         description: movie.description,
+        genres:movie.genre,
+        starring: movie.starring,
         imageUrl: movie.imageUrl,
         price: movie.price.toNumber(), // Convert price to number
         stock: movie.stock,
@@ -72,13 +109,21 @@ export async function GetMovie(): Promise<MovieData[]> {
 }
 
 export async function DeleteTodo(id: string) {
+
+   await prisma.starring.deleteMany({
+    where:{
+      movieId:id,
+    },
+   });
     await prisma.movie.delete({
       where: {
         id,
       },
     });
     revalidatePath("/");
-  }
+
+}
+  
   export async function UpdateTodo(
     id: string,
     updatedData: {
