@@ -22,8 +22,6 @@ export type Genre = {
 export default function ExpandableText({ text }: { text: string }) {
   const [expanded, setExpanded] = useState(false);
   const maxLength = 50;
-  if (!text)
-    return <div></div>
 
   if (text.length < maxLength) {
     return <div>{text}</div>;

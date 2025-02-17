@@ -11,23 +11,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { toast } from "@/hooks/use-toast";
-import { Movie, Role } from "@prisma/client";
+import { Movie } from "@prisma/client";
 import { useEffect, useState } from "react";
 import { EditDialog } from "./movieEdit";
-import { Actor } from "next/font/google";
 
 export default function ViewMovie({ data }: { data: MovieData }) {
-
-  const directors = data.starring
-    ?.filter(star => star.role === Role.DIRECTOR)
-    .map(star => star.person.name)
-    .join(', ') || 'No Directors';
-
-  const actors = data.starring
-    ?.filter(star => star.role === Role.ACTOR)
-    .map(star => star.person.name)
-    .join(', ') || 'No Actors';
-
   return (
     <TableRow>
       <TableCell className="font-medium">{data.title}</TableCell>
@@ -39,9 +27,6 @@ export default function ViewMovie({ data }: { data: MovieData }) {
       <TableCell title={data.imageUrl ?? "No Image"}>
         {data.imageUrl ? `${data.imageUrl.slice(0, 30)}...` : "No Image"}
       </TableCell>
-      <TableCell>{data.genres.map(genre => genre.name).join(', ')}</TableCell>
-      <TableCell>{actors}</TableCell>
-      <TableCell>{directors}</TableCell>
       <TableCell>{data.price}</TableCell>
       <TableCell>{data.stock}</TableCell>
       <TableCell>{data.releaseDate}</TableCell>
@@ -66,6 +51,5 @@ export default function ViewMovie({ data }: { data: MovieData }) {
         </button>
       </TableCell>
     </TableRow>
-  )
-  };
-
+  );
+}

@@ -1,6 +1,6 @@
 "use server";
 
-import { PrismaClient, Role } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
@@ -61,22 +61,17 @@ const movieSchema = z.object({
       },
       { message: "run time must be less than 300min" }
     ),
-  genres:z.array(z.string()).min(1, { message: "At least one genre is required" }),
-  directors:z.array(z.string()).min(1, { message: "At least one director is required" }),
-  actors:z.array(z.string()).min(1, { message: "At least one director is required" }),
+  genres: z.string({
+    required_error: "This field must contain atleast one data",
+  }),
 });
 
 export async function addMovie(formData: FormData) {
-  const genreValues = formData.getAll("genres");
-  const directorvalues = formData.getAll("directors");
-  const actorsvalues = formData.getAll("actors");
   const inputData = {
     title: formData.get("title"),
     descript: formData.get("descript"),
     imageurl: formData.get("imageurl"),
-    genres : genreValues,
-    directors: directorvalues,
-    actors: actorsvalues,
+    genres : formData.get("genres"),
     price: formData.get("price"),
     stock: formData.get("stock"),
     released: formData.get("released"),
@@ -92,110 +87,15 @@ export async function addMovie(formData: FormData) {
     };
   }
 
-  const { title, descript, imageurl, price, stock, released, runtime, genres,directors,actors } =
+  const { title, descript, imageurl, price, stock, released, runtime, genres } =
     result.data;
   // Added below to check whether the genre is already exists or not.
     const genreExists = await prisma.genre.findFirst({
-      where:{name:genres.split(/,\w*/)},
+      where:{name:genres},
       select : {id:true}
     })
 
   try {
-//for multiple genres
-
- const genreNames = genres.flatMap(g => g.split(',').map(name => name.trim()));
-
- // Find or create individual genres
- const genreConnections = await Promise.all(
-   genreNames.map(async (genreName) => {
-     const existingGenre = await prisma.genre.findFirst({
-       where: {
-         // Case insensitive search for existing genre
-         name: {
-           equals: genreName,
-           mode: 'insensitive'
-         }
-       },
-     });
-
-     if (existingGenre) {
-       return { id: existingGenre.id };
-     } else {
-       // Create new genre only if it doesn't exist
-       const newGenre = await prisma.genre.create({
-         data: {
-           name: genreName,
-           description: `${genreName} genre movies` // Default description
-         },
-       });
-       return { id: newGenre.id };
-     }
-   })
- );
-
-   // Process both directors and actors
-   const directorsname = directors.flatMap(g => g.split(',').map(name => name.trim()));
-   const actorsName = actors.flatMap(g => g.split(',').map(name => name.trim()));
- 
-   // Create connections for both directors and actors
-   const starringConnections = await Promise.all([
-     ...directorsname.map(async (directorName) => {
-       const existingPerson = await prisma.person.findFirst({
-         where: {
-           name: {
-             equals: directorName,
-             mode: 'insensitive'
-           }
-         },
-       });
- 
-       const personId = existingPerson ? existingPerson.id : 
-         (await prisma.person.create({
-           data: {
-             name: directorName,
-             description: `Director`
-           },
-         })).id;
- 
-       return {
-         role: Role.DIRECTOR,
-         person: {
-           connect: {
-             id: personId
-           }
-         }
-       };
-     }),
-     ...actorsName.map(async (actorName) => {
-       const existingPerson = await prisma.person.findFirst({
-         where: {
-           name: {
-             equals: actorName,
-             mode: 'insensitive'
-           }
-         },
-       });
- 
-       const personId = existingPerson ? existingPerson.id : 
-         (await prisma.person.create({
-           data: {
-             name: actorName,
-             description: `Actor`
-           },
-         })).id;
- 
-       return {
-         role: Role.ACTOR,
-         person: {
-           connect: {
-             id: personId
-           }
-         }
-       };
-     })
-   ]);
-
-//create movie form......
     const movie = await prisma.movie.create({
       data: {
         title,
@@ -207,19 +107,8 @@ export async function addMovie(formData: FormData) {
         runtime,
         // I added below 2 lines to connect if the genre already exists else create.
         genre : genreExists
-          ? {connect: {id: genreExists.id}}
-          : {create: {name: genres, description:""}},
-        starring: {
-          create: starringConnections, 
-      },
-    },
-      include: {
-        genre: true, // Include genres in the response
-        starring: {
-          include: {
-            person: true
-          }
-        },
+        ? {connect: {id: genreExists.id}}
+        : {create: {name: genres, description:""}}
       },
     });
 
