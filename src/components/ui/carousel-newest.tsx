@@ -10,36 +10,13 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { $Enums } from "@prisma/client";
 import FetchMovies from "@/app/actions/customer-movie";
-import Image from "next/image";
-
-export interface OLDMOVIE {
-  id: string;
-  title: string;
-  description: string;
-  imageUrl: string | null;
-  price: number;
-  stock: number;
-  releaseDate: number;
-  runtime: string;
-  genre: {
-    id: string;
-    name: string;
-  }[];
-  starring: {
-    id: string;
-    role: $Enums.Role;
-    person: {
-      id: string;
-      starName: string;
-    }[];
-  }[];
-}
+import { CUSTOMMOVIE } from "./carousel-oldMovies";
+import DialogMovie from "./dialog-movie";
 
 export function CarouselNewMovies() {
   const [loading, setLoading] = React.useState(false);
-  const [movie, setMovie] = React.useState<OLDMOVIE[]>([]);
+  const [movie, setMovie] = React.useState<CUSTOMMOVIE[]>([]);
 
   {
     /* fetch movies from DB*/
@@ -59,11 +36,13 @@ export function CarouselNewMovies() {
     oldMovies();
   }, []);
 
-  if (loading) return <p>Loading...</p>;
-  const sortedMovies = movie.sort((a, b) => b.releaseDate - a.releaseDate);
+  if (loading) return <div>Loading...</div>;
+
+  const sortedMovies = movie.sort((a, b) => b.releaseDate - a.releaseDate);  // sort movie data orderby releasedate
   const newestMovies = sortedMovies.slice(0, 5); // Get most oldest 5 movies
 
   return (
+    
     <Carousel
       opts={{
         align: "start",
@@ -74,23 +53,15 @@ export function CarouselNewMovies() {
         {newestMovies.map((m) => (
           <CarouselItem key={m.id} className="md:basis-1/2 lg:basis-1/5">
             <div className="p-1">
-              <Card>
+              <Card className="transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
                 <CardContent className="flex aspect-square items-center justify-center p-6">
                   {
-                    <span className="text-lg">
-                      {m.imageUrl && (
-                        <Image
-                          src={m.imageUrl}
-                          alt="Movie Cover"
-                          height={600}
-                          width={600}
-                          className=""
-                        />
-                      )}
+                    <div className="text-lg">
+                      <DialogMovie movie={m} />
                       <span className="flex justify-center">
                         ({m.releaseDate})
                       </span>
-                    </span>
+                    </div>
                   }
                 </CardContent>
               </Card>
@@ -101,5 +72,6 @@ export function CarouselNewMovies() {
       <CarouselPrevious />
       <CarouselNext />
     </Carousel>
+       
   );
 }

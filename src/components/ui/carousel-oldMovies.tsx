@@ -12,9 +12,9 @@ import {
 } from "@/components/ui/carousel";
 import { $Enums } from "@prisma/client";
 import FetchMovies from "@/app/actions/customer-movie";
-import Image from "next/image";
+import DialogMovie from "./dialog-movie";
 
-export interface OLDMOVIE {
+export interface CUSTOMMOVIE {
   id: string;
   title: string;
   description: string;
@@ -39,7 +39,7 @@ export interface OLDMOVIE {
 
 export function CarouselOldMovies() {
   const [loading, setLoading] = React.useState(false);
-  const [movie, setMovie] = React.useState<OLDMOVIE[]>([]);
+  const [movie, setMovie] = React.useState<CUSTOMMOVIE[]>([]);
 
   {
     /* fetch movies from DB*/
@@ -75,19 +75,13 @@ export function CarouselOldMovies() {
         {oldestMovies.map((m) => (
           <CarouselItem key={m.id} className="md:basis-1/2 lg:basis-1/5">
             <div className="p-1">
-              <Card>
+              <Card className="transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
                 <CardContent className="flex aspect-square items-center justify-center p-6">
                   {
                     <span className="text-lg">
-                      {m.imageUrl && (
-                        <Image
-                          src={m.imageUrl}
-                          alt="Movie Cover"
-                          height={600}
-                          width={600}
-                          className=""
-                        />
-                      )}
+                      {
+                        <DialogMovie movie={m}/>
+                      }
                       <span className="flex justify-center">
                         ({m.releaseDate})
                       </span>
