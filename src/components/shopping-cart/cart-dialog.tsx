@@ -8,24 +8,23 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Person } from "@prisma/client";
+import { ShoppingBasket } from "lucide-react";
+import { CartFront } from "@/types/cartType";
+import CartList from "./cart-list";
 
-import { PenBox } from "lucide-react";
-import PeopleForm from "./people-form";
-
-export function PeopleDialog({ data }: { data?: Person }) {
+export function CartDialog({ cart }: { cart: CartFront }) {
   return (
     <Dialog>
       <DialogTrigger asChild>
         <Button className="border-2">
-          {!data ? "Add Person" : <PenBox />}
+          <ShoppingBasket />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle></DialogTitle>
         </DialogHeader>
-        {data ? <PeopleForm data={data} /> : <PeopleForm />}
+        <CartList cart={cart} />
       </DialogContent>
     </Dialog>
   );
