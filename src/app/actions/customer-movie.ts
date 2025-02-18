@@ -4,9 +4,9 @@ import { prisma } from "@/lib/prisma";
 
 export default async function FetchMovies() {
   const movies = await prisma.movie.findMany({
-    orderBy: {
-      releaseDate: "asc",
-    },
+    // orderBy: {
+    //   releaseDate: "asc",
+    // },
     select: {
       id: true,
       title: true,

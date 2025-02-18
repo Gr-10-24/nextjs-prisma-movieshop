@@ -28,9 +28,6 @@ export interface OLDMOVIE {
   }[];
 }
 
-export interface GENRES {
-  name: string;
-}
 
 export default function TopOldMovies() {
   const [loading, setLoading] = useState(false);
@@ -85,31 +82,33 @@ export default function TopOldMovies() {
               <div className="pr-4">Duration : {m.runtime}min</div>
               {m.stock > 0 ? <p>In Stock</p> : <p>N/A</p>}{" "}
               {/* This will show the availability of movie*/}
+              <span className="ml-6">
+                {" "}
+                {m.genre.flatMap((g) => g.name).join("-")}
+              </span>
             </div>
             <h2 className="mt-4 text-xl font-semibold">Description: </h2>
             <div className="mr-2">{m.description}</div>
 
-            {/* Render Directors and Stars*/}
+            {/* Render Stars in line on the browser*/}
+            <div className="flex justify-stretch">
+              <div className="mt-4 mr-4 pr-6">
+                <h1 className="text-lg font-bold">Stars,</h1>
+                {m.starring
+                  .filter((s) => s.role !== "DIRECTOR")
+                  .flatMap((s) => s.person.map((p) => p.starName))
+                  .join(", ")}
+              </div>
 
-            { m.starring.map((s) =>
-              s.role === "DIRECTOR" ? (
-                  
-                  <div key={s.id}>
-                  {s.person.map((p) => (
-                      <div key={p.id}>Directed by: {p.starName}</div>
-                    ))}
-                </div>
-              ) : (
-                  <div key={s.id}>
-                  {s.person.map((p) => (
-                      <div key={p.id}>
-                      <h3 className="text-lg font-">Stars</h3>
-                      <div key={p.id}>{p.starName}</div>
-                    </div>
-                  ))}
-                </div>
-              )
-            )}
+              {/* Render Directors in line on the browser*/}
+              <div className="mt-4 pr-6">
+                <h1 className="text-lg font-bold">Directed by,</h1>
+                {m.starring
+                  .filter((s) => s.role !== "ACTOR")
+                  .flatMap((s) => s.person.map((p) => p.starName))
+                  .join(", ")}
+              </div>
+            </div>
           </div>
         </div>
       ))}
