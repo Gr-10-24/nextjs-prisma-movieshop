@@ -20,4 +20,6 @@ export type CartItemFront = {
   cartId: string;
 
   title: string;
+  description: string;
+  imageUrl: string | null;
 };

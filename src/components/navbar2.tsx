@@ -1,11 +1,14 @@
-import { Button } from "./ui/button";
-import { authClient } from "@/lib/auth-client";
+// import { Button } from "./ui/button";
+// import { authClient } from "@/lib/auth-client";
 import { LoginDialog } from "./login-dialog";
 import { SignupDialog } from "./signup-dialog";
 import { CartDialog } from "./shopping-cart/cart-dialog";
-import { getOrCreateCart } from "@/app/actions/cart";
+import { getCartFront } from "@/app/actions/cart";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
+import LogoutButton from "./logout-button";
+import { ShoppingBasket } from "lucide-react";
+import { Button } from "./ui/button";
 
 export default async function NavBar2() {
   //const session = authClient.useSession();
@@ -13,7 +16,8 @@ export default async function NavBar2() {
     headers: await headers(),
   });
 
-  const cart = await getOrCreateCart();
+  //const cart = await getOrCreateCart();
+  const cart = await getCartFront();
 
   return (
     <header className="bg-primary">
@@ -30,10 +34,18 @@ export default async function NavBar2() {
           </div>
         ) : (
           <div className="flex item-center gap-2">
-            <CartDialog cart={cart} />
-            <Button variant={"secondary"} onClick={() => authClient.signOut()}>
+            {cart === undefined ? (
+              <Button variant={"secondary"}>
+                <ShoppingBasket />
+              </Button>
+            ) : (
+              <CartDialog cart={cart} />
+            )}
+
+            {/* <Button variant={"secondary"} onClick={() => authClient.signOut()}>
               Logout
-            </Button>
+            </Button> */}
+            <LogoutButton />
           </div>
         )}
       </div>

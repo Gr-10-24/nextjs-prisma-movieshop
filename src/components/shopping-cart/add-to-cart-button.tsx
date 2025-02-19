@@ -1,6 +1,9 @@
 "use client";
 
-import { AddToCart } from "@/app/actions/cart";
+import {
+  //AddToCart,
+  AddToCart2,
+} from "@/app/actions/cart";
 import { Button } from "../ui/button";
 
 export default function AddToCartButton({ movieId }: { movieId: string }) {
@@ -10,7 +13,7 @@ export default function AddToCartButton({ movieId }: { movieId: string }) {
       onClick={() =>
         //add movieId or whole movie to shopping cart
         {
-          AddToCart(movieId);
+          AddToCart2(movieId);
         }
       }
     >

@@ -8,7 +8,9 @@ import {
   CartItem,
   CartItemFront,
 } from "@/types/cartType";
+import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
+//import { useEffect } from "react";
 
 // export async function getOrCreateCart() {
 //   const cookieStore = await cookies();
@@ -49,15 +51,23 @@ import { cookies } from "next/headers";
 export async function getOrCreateCart() {
   const cookieStore = await cookies();
   const cartId = cookieStore.get("cartId")?.value;
-
   if (cartId) {
     const cart = await getCart2(cartId);
     return convertCart2(cart);
   }
-  const cart = await setCart();
+  const cart = await setCart2();
   cookieStore.set("cartId", cart.id);
 
   return convertCart2(cart);
+}
+
+export async function getCartFront() {
+  const cookieStore = await cookies();
+  const cartId = cookieStore.get("cartId")?.value;
+  if (cartId) {
+    const cart = await getCart2(cartId);
+    return convertCart2(cart);
+  }
 }
 
 // export async function getCart(id: string) {
@@ -75,7 +85,13 @@ export async function getCart2(id: string) {
     return await prisma.cart.findUniqueOrThrow({
       where: { id },
       include: {
-        CartItems: { include: { movie: { select: { title: true } } } },
+        CartItems: {
+          include: {
+            movie: {
+              select: { title: true, description: true, imageUrl: true },
+            },
+          },
+        },
       },
     });
   } catch (e) {
@@ -91,10 +107,24 @@ export async function setCart() {
   return cart;
 }
 
+export async function setCart2() {
+  try {
+    const cart = await prisma.cart.create({
+      data: { total: 0.0 },
+      include: { CartItems: { include: { movie: true } } },
+    });
+    return cart;
+  } catch (e) {
+    throw e;
+  }
+}
+
 export async function getCartItem(id: string) {
   const cartItem = await prisma.cartitems.findUniqueOrThrow({
     where: { id },
-    include: { movie: { select: { title: true } } },
+    include: {
+      movie: { select: { title: true, description: true, imageUrl: true } },
+    },
   });
   return cartItem;
 }
@@ -230,9 +260,97 @@ export async function convertCartItem2(
       cartId: cartItem.cartId,
 
       title: cartItem.movie.title,
+      description: cartItem.movie.description,
+      imageUrl: cartItem.movie.imageUrl,
     };
     return newCartItem;
   } catch (e) {
     throw e;
+  }
+}
+
+//-----------------------------------------------------------------------------
+
+export async function getCart() {
+  const cookieStore = await cookies();
+  const cartId = cookieStore.get("cartId")?.value;
+
+  if (!cartId) return null;
+  return await prisma.cart.findUnique({
+    where: { id: cartId },
+    include: {
+      CartItems: {
+        include: {
+          movie: {
+            select: {
+              id: true,
+              title: true,
+              description: true,
+              imageUrl: true,
+            },
+          },
+        },
+      },
+    },
+  });
+}
+
+async function createCart() {
+  return await prisma.cart.create({
+    data: { total: 0.0 },
+    include: { CartItems: true },
+  });
+}
+
+export async function AddToCart2(movieId: string) {
+  const cookieStore = await cookies();
+  const existingCart = await getCart();
+  const cart = existingCart || (await createCart());
+
+  if (!existingCart) {
+    cookieStore.set("cartId", cart.id);
+  }
+
+  const existingItems = await prisma.cartitems.findFirst({
+    where: {
+      cartId: cart.id,
+      movieId: movieId,
+    },
+  });
+
+  if (existingItems) {
+    await prisma.cartitems.update({
+      where: { id: existingItems.id },
+      data: { quantity: existingItems.quantity + 1 },
+    });
+  } else {
+    const movie = await prisma.movie.findUnique({
+      where: { id: movieId },
+    });
+    if (movie) {
+      await prisma.cartitems.create({
+        data: {
+          cartId: cart.id,
+          movieId: movieId,
+          quantity: 1,
+          price: movie.price,
+        },
+      });
+    }
+  }
+  updateCartTotal2();
+  revalidatePath("/", "layout");
+}
+
+export async function updateCartTotal2() {
+  const cart = await getCart();
+  if (cart !== null) {
+    let total = 0.0;
+    cart.CartItems.map((cartItem) => (total = total + Number(cartItem.price)));
+
+    await prisma.cart.update({
+      where: { id: cart.id },
+      data: { total },
+    });
   }
 }
