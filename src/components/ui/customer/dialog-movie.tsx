@@ -17,8 +17,8 @@ export default function DialogMovie({ movie }: { movie: CUSTOMMOVIE }) {
           <Image
             src={movie.imageUrl}
             alt="Movie Cover"
-            height={600}
-            width={600}
+            height={700}
+            width={700}
           />
         )}
       </DialogTrigger>
@@ -26,10 +26,7 @@ export default function DialogMovie({ movie }: { movie: CUSTOMMOVIE }) {
         <DialogHeader>
           <DialogTitle></DialogTitle>
           <div>
-            <div
-              key={movie.id}
-              className="flex justify-start"
-            >
+            <div key={movie.id} className="flex justify-start">
               <div>
                 {movie.imageUrl && (
                   <Image
@@ -48,13 +45,21 @@ export default function DialogMovie({ movie }: { movie: CUSTOMMOVIE }) {
                 </h1>
                 <div className="flex">
                   <div className="pr-4">Duration : {movie.runtime}min</div>
-                  {movie.stock > 0 ? <p>In Stock</p> : <p>N/A</p>}{" "}
-                  {/* This will show the availability of movie*/}
                   <span className="ml-6">
-                    
                     {movie.genre.flatMap((g) => g.name).join("-")}
                   </span>
                 </div>
+                <div className="flex justify-evenly">
+                  <div className="mt-2">price : {movie.price} SEK</div>
+                  {/* below line will show the availability of movie*/}
+                  {movie.stock > 0 ? (
+                    <p className="mt-2">In Stock</p>
+                  ) : (
+                    <p className="text-red-700 mt-2">out of stock</p>
+                  )}{" "}
+                  <AddToCartButton movieID={movie.id} />
+                </div>
+
                 <h2 className="mt-4 text-xl font-semibold">Description: </h2>
                 <div className="mr-2">{movie.description}</div>
 
@@ -64,10 +69,10 @@ export default function DialogMovie({ movie }: { movie: CUSTOMMOVIE }) {
                     <h1 className="text-lg font-bold">Stars</h1>
                     <div>
                       {movie.starring
-                      .filter((s) => s.role !== "DIRECTOR")
-                      .flatMap((s) => s.person.map((p) => p.starName))
-                      .join(", ")}
-                      </div>
+                        .filter((s) => s.role !== "DIRECTOR")
+                        .flatMap((s) => s.person.map((p) => p.starName))
+                        .join(", ")}
+                    </div>
                   </div>
 
                   {/* Render Directors in line on the browser*/}

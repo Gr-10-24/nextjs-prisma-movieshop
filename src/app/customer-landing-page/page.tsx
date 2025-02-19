@@ -1,6 +1,6 @@
-import { CarouselCheapestMovies } from "@/components/ui/carousel-cheapest";
-import { CarouselNewMovies } from "@/components/ui/carousel-newest";
-import { CarouselOldMovies } from "@/components/ui/carousel-oldMovies";
+import { CarouselCheapestMovies } from "@/components/ui/customer/carousel-cheapest";
+import { CarouselNewMovies } from "@/components/ui/customer/carousel-newest";
+import { CarouselOldMovies } from "@/components/ui/customer/carousel-oldMovies";
 
 export default function Page() {
   return (

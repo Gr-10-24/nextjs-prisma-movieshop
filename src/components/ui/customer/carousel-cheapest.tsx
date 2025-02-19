@@ -11,10 +11,10 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import FetchMovies from "@/app/actions/customer-movie";
-import { CUSTOMMOVIE } from "./carousel-oldMovies";
 import DialogMovie from "./dialog-movie";
+import { CUSTOMMOVIE } from "./carousel-oldMovies";
 
-export function CarouselNewMovies() {
+export function CarouselCheapestMovies() {
   const [loading, setLoading] = React.useState(false);
   const [movie, setMovie] = React.useState<CUSTOMMOVIE[]>([]);
 
@@ -36,13 +36,12 @@ export function CarouselNewMovies() {
     oldMovies();
   }, []);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <p>Loading...</p>;
 
-  const sortedMovies = movie.sort((a, b) => b.releaseDate - a.releaseDate);  // sort movie data orderby releasedate
-  const newestMovies = sortedMovies.slice(0, 5); // Get most oldest 5 movies
+  const sortedMovies = movie.sort((a, b) => a.price - b.price);
+  const cheapestMovies = sortedMovies.slice(0, 5); // Get most cheapest 5 movies
 
   return (
-    
     <Carousel
       opts={{
         align: "start",
@@ -50,18 +49,15 @@ export function CarouselNewMovies() {
       className="w-full max-w-fit"
     >
       <CarouselContent>
-        {newestMovies.map((m) => (
+        {cheapestMovies.map((m) => (
           <CarouselItem key={m.id} className="md:basis-1/2 lg:basis-1/5">
             <div className="p-1">
               <Card className="transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
                 <CardContent className="flex aspect-square items-center justify-center p-6">
                   {
-                    <div className="text-lg">
-                      <DialogMovie movie={m} />
-                      <span className="flex justify-center">
-                        ({m.releaseDate})
-                      </span>
-                    </div>
+                    <span className="text-3xl font-semibold">
+                      {<DialogMovie movie={m} />}
+                    </span>
                   }
                 </CardContent>
               </Card>
@@ -72,6 +68,5 @@ export function CarouselNewMovies() {
       <CarouselPrevious />
       <CarouselNext />
     </Carousel>
-       
   );
 }

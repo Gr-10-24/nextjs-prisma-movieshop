@@ -10,34 +10,11 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { $Enums } from "@prisma/client";
 import FetchMovies from "@/app/actions/customer-movie";
+import { CUSTOMMOVIE } from "./carousel-oldMovies";
 import DialogMovie from "./dialog-movie";
 
-export interface CUSTOMMOVIE {
-  id: string;
-  title: string;
-  description: string;
-  imageUrl: string | null;
-  price: number;
-  stock: number;
-  releaseDate: number;
-  runtime: string;
-  genre: {
-    id: string;
-    name: string;
-  }[];
-  starring: {
-    id: string;
-    role: $Enums.Role;
-    person: {
-      id: string;
-      starName: string;
-    }[];
-  }[];
-}
-
-export function CarouselOldMovies() {
+export function CarouselNewMovies() {
   const [loading, setLoading] = React.useState(false);
   const [movie, setMovie] = React.useState<CUSTOMMOVIE[]>([]);
 
@@ -59,10 +36,10 @@ export function CarouselOldMovies() {
     oldMovies();
   }, []);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <div>Loading...</div>;
 
-  const sortedMovies = movie.sort((a, b) => a.releaseDate - b.releaseDate);
-  const oldestMovies = sortedMovies.slice(0, 5); // Get most oldest 5 movies
+  const sortedMovies = movie.sort((a, b) => b.releaseDate - a.releaseDate); // sort movie data orderby releasedate
+  const newestMovies = sortedMovies.slice(0, 5); // Get most oldest 5 movies
 
   return (
     <Carousel
@@ -72,20 +49,18 @@ export function CarouselOldMovies() {
       className="w-full max-w-fit"
     >
       <CarouselContent>
-        {oldestMovies.map((m) => (
+        {newestMovies.map((m) => (
           <CarouselItem key={m.id} className="md:basis-1/2 lg:basis-1/5">
             <div className="p-1">
               <Card className="transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
                 <CardContent className="flex aspect-square items-center justify-center p-6">
                   {
-                    <span className="text-lg">
-                      {
-                        <DialogMovie movie={m}/>
-                      }
+                    <div className="text-lg">
+                      <DialogMovie movie={m} />
                       <span className="flex justify-center">
                         ({m.releaseDate})
                       </span>
-                    </span>
+                    </div>
                   }
                 </CardContent>
               </Card>
