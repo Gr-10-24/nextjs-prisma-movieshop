@@ -14,17 +14,16 @@ import { useState } from "react";
 export type Genre = {
   id: string;
   name: string;
-  description: string;
+  description: string | null;
   createdAt: Date;
   updatedAt: Date;
 };
 
 export default function ExpandableText({ text }: { text: string }) {
   const [expanded, setExpanded] = useState(false);
-  const maxLength = 50;
-  if (!text)
-    return <div></div>
+  const maxLength = 50;               // maxLength defines displaying max length of description by default.
 
+  // if number of chars in text less than maxlength, then show text else show maximum number of chars (50 here)
   if (text.length < maxLength) {
     return <div>{text}</div>;
   }
@@ -116,6 +115,8 @@ export const columns: ColumnDef<Genre>[] = [
     },
   },
   {
+    accessorKey: "edit",
+
     id: "edit",
     header: () => <div className="text-start">Edit</div>,
 
@@ -128,6 +129,8 @@ export const columns: ColumnDef<Genre>[] = [
     enableHiding: false,
   },
   {
+    accessorKey: "delete",
+
     id: "delete",
     header: () => <div className="text-start">Delete</div>,
 

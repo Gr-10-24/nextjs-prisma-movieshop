@@ -52,9 +52,12 @@ export default async function AddGenre(
 }
 
 export async function GetGenre() {
-  await prisma.genre.findMany();
-}
+  {
+  const genre= await prisma.genre.findMany({})
 
+  return genre
+}
+}
 export async function DeleteGenre(id: string) {
   try {
     await prisma.genre.delete({

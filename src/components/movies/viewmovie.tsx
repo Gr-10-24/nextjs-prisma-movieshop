@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { DeleteTodo, GetMovie, MovieData } from "@/app/actions/viewmovie";
 import {
   Table,
@@ -9,7 +9,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@/components/ui/table";
 import { toast } from "@/hooks/use-toast";
 import { Movie, Role } from "@prisma/client";
 import { useEffect, useState } from "react";
