@@ -6,6 +6,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { Prisma } from '@prisma/client';
+import { revalidatePath } from "next/cache";
 import assert from 'node:assert';
 import fs from 'node:fs';
 
@@ -142,5 +143,6 @@ export async function populateDb() {
   console.log("%s Movies inserted", movieResult?.length)
 
   console.log("All done")
+  revalidatePath("/")
 }
 
