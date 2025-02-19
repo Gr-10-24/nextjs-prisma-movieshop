@@ -129,7 +129,7 @@ async function insertMovies(movies: Movie[]) {
 }
 
 export async function populateDb() {
-  const resource = "public/top250_min.json";
+  const resource = "public/top250.json";
   const data = fs.readFileSync(resource, 'utf8');
   const movies = JSON.parse(data)
 
