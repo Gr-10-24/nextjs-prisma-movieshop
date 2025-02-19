@@ -9,14 +9,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import MovieForm from "@/components/ui/movies/form";
-import AddToCartButton from "@/components/shopping-cart/add-to-cart-button";
 
 export default async function Movies() {
   const getmovie = await GetMovie();
 
   return (
     <div className="flex">
-      <AddToCartButton movieId="cm6rrrsg200004xzkxsf53xg4" />
       <div className="w-1/2 lg:w-1/3">
         <div className="flex container justify-center">
           <h1 className="text-2xl text-black p-3">Movie Registration Form</h1>

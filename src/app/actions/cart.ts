@@ -346,11 +346,26 @@ export async function updateCartTotal2() {
   const cart = await getCart();
   if (cart !== null) {
     let total = 0.0;
-    cart.CartItems.map((cartItem) => (total = total + Number(cartItem.price)));
+    cart.CartItems.map(
+      (cartItem) => (total = total + Number(cartItem.price) * cartItem.quantity)
+    );
 
     await prisma.cart.update({
       where: { id: cart.id },
       data: { total },
     });
   }
+}
+
+export async function updateQuantityItem(id: string, quantity: number) {
+  if (quantity < 1) {
+    await deleteCartItem(id);
+  } else {
+    await prisma.cartitems.update({
+      where: { id },
+      data: { quantity },
+    });
+  }
+  updateCartTotal2();
+  revalidatePath("/", "layout");
 }

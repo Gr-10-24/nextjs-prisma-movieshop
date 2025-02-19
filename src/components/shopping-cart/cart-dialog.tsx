@@ -20,7 +20,7 @@ export function CartDialog({ cart }: { cart: CartFront }) {
           <ShoppingBasket />
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
           <DialogTitle></DialogTitle>
         </DialogHeader>
