@@ -1,8 +1,9 @@
+"use server";
+
 /*
   Use prisma client to populate the db from a remote resource
 */
 
-import ViewMovie from "@/components/movies/viewmovie";
 import { prisma } from "@/lib/prisma";
 import { Prisma } from '@prisma/client';
 import assert from 'node:assert';
@@ -21,6 +22,11 @@ type Top250Movie = {
 }
 type Movie = Prisma.MovieCreateInput
 type MovieUnion = Movie & Top250Movie
+
+export async function getMovieCount() {
+  const movieCount = await prisma.movie.count()
+  return movieCount
+}
 
 function parseMovie(movie: Top250Movie): Movie {
   return {
@@ -71,11 +77,11 @@ assert(parseRuntime("PT2H4M") === "124")
 // Insert missing genres
 async function insertMissingGenres(movies: MovieUnion[]) {
   const allGenresSet = movies.reduce((genres, movie) => {
-    // Set.union could be used here, but since I have an older node
-    // version this will have to do.
+    // Set.union could have been used here, but since I have an older
+    // node version this will have to do.
     movie.genre.map(genre => genres.add(genre))
     return genres
-  }, new Set())
+  }, new Set() as Set<string>)
 
   // Convert set to a array so map becomes available
   const allGenres = [...allGenresSet]
@@ -83,7 +89,7 @@ async function insertMissingGenres(movies: MovieUnion[]) {
   const result = allGenres.map(genre =>
     prisma.genre.upsert({
       where: { name: genre },
-      update: {}, // Empty update is necessary for prisma limitations
+      update: {}, // update is mandatory for prismas implementation of upsert
       create: { name: genre }
     }).catch(error => console.error('Error upserting genre:', error))
   );
@@ -122,24 +128,19 @@ async function insertMovies(movies: Movie[]) {
   }
 }
 
-async function populateDb() {
-  const data = fs.readFileSync("public/top250.json", 'utf8');
+export async function populateDb() {
+  const resource = "public/top250_min.json";
+  const data = fs.readFileSync(resource, 'utf8');
   const movies = JSON.parse(data)
 
   console.log(movies[0])
 
-  // const genres = await insertMissingGenres(movies)
-  // console.log("Upserted %s genres in total", genres.length)
+  const genres = await insertMissingGenres(movies)
+  console.log("Upserted %s genres in total", genres.length)
 
-  // const movieResult = await insertMovies(movies)
-  // console.log("%s Movies inserted", movieResult.length)
+  const movieResult = await insertMovies(movies)
+  console.log("%s Movies inserted", movieResult?.length)
 
-  // console.log("All done")
-  process.exit(0)
+  console.log("All done")
 }
 
-if (!process.argv[2]) {
-  console.log("Please provide a resource to fetch data from")
-  process.exit(1)
-}
-populateDb()
