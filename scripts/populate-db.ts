@@ -1,21 +1,52 @@
-#!/usr/bin/node
-
 /*
   Use prisma client to populate the db from a remote resource
 */
 
-const { PrismaClient } = require('@prisma/client');
-const assert = require('node:assert');
-const fs = require('node:fs');
+import ViewMovie from "@/components/movies/viewmovie";
+import { prisma } from "@/lib/prisma";
+import { Prisma } from '@prisma/client';
+import assert from 'node:assert';
+import fs from 'node:fs';
 
-const prisma = new PrismaClient();
+type Top250Movie = {
+  actor: { name: string }[],
+  director: { name: string }[],
+  genre: string[]
+  name: string
+  image: string
+  datePublished: string
+  duration: string
+  description: string
+  // Among other things...
+}
+type Movie = Prisma.MovieCreateInput
+type MovieUnion = Movie & Top250Movie
 
-function dateStringToYear(s) {
+function parseMovie(movie: Top250Movie): Movie {
+  return {
+    title: movie.name,
+    description: movie.description,
+    stock: 5,
+    genre: {
+      connect: movie.genre.map(genre => {
+        return { name: genre }
+      })
+    },
+    // TODO
+    // starring: {},
+    imageUrl: movie.image,
+    price: moviePrice(movie),
+    releaseDate: dateStringToYear(movie.datePublished),
+    runtime: parseRuntime(movie.duration)
+  }
+}
+
+function dateStringToYear(s: string) {
   return new Date(s).getFullYear()
 }
 assert(dateStringToYear("1961-09-13") === 1961)
 
-function moviePrice(movie) {
+function moviePrice(movie: Top250Movie) {
   const year = dateStringToYear(movie.datePublished)
   if (year < 1980)
     return 79
@@ -23,15 +54,13 @@ function moviePrice(movie) {
     return 99
   if (year < 2010)
     return 149
-  else
-    return 199
+  return 199
 }
-assert(moviePrice({ datePublished: "1961-09-13"}) === 79)
 
-function parseRuntime(duration) {
+function parseRuntime(duration: string) {
   const match = duration.match(/PT((?<hours>\d+)H)?((?<minutes>\d+)M)?/)
-  const hours = Number(match.groups.hours || 0)
-  const minutes = Number(match.groups.minutes || 0)
+  const hours = Number(match?.groups?.hours || 0)
+  const minutes = Number(match?.groups?.minutes || 0)
   return String((hours * 60) + minutes)
 }
 assert(parseRuntime("PT1H50M") === "110")
@@ -40,7 +69,7 @@ assert(parseRuntime("PT45M") === "45")
 assert(parseRuntime("PT2H4M") === "124")
 
 // Insert missing genres
-async function insertMissingGenres(movies) {
+async function insertMissingGenres(movies: MovieUnion[]) {
   const allGenresSet = movies.reduce((genres, movie) => {
     // Set.union could be used here, but since I have an older node
     // version this will have to do.
@@ -63,7 +92,7 @@ async function insertMissingGenres(movies) {
 }
 
 // // Insert Movies
-async function insertMovies(movies) {
+async function insertMovies(movies: Movie[]) {
   try {
     // createMany and connect many cannot be combined, so use create
     // instead.
@@ -93,26 +122,19 @@ async function insertMovies(movies) {
   }
 }
 
-async function fetchJSON(url) {
-  const response = await fetch(url);
-  const data = await response.json();
-  return data;
-}
-
 async function populateDb() {
-  // const data = fs.readFileSync("scripts/top250.json", 'utf8');
-  // const movies = JSON.parse(data)
-  const movies = await fetchJSON(process.argv[2])
+  const data = fs.readFileSync("public/top250.json", 'utf8');
+  const movies = JSON.parse(data)
 
-  console.log("Using resource: ", process.argv[2])
+  console.log(movies[0])
 
-  const genres = await insertMissingGenres(movies)
-  console.log("Upserted %s genres in total", genres.length)
+  // const genres = await insertMissingGenres(movies)
+  // console.log("Upserted %s genres in total", genres.length)
 
-  const movieResult = await insertMovies(movies)
-  console.log("%s Movies inserted", movieResult.length)
+  // const movieResult = await insertMovies(movies)
+  // console.log("%s Movies inserted", movieResult.length)
 
-  console.log("All done")
+  // console.log("All done")
   process.exit(0)
 }
 
