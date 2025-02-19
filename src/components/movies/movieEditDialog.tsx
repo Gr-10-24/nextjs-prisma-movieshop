@@ -15,7 +15,6 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { toast } from "@/hooks/use-toast"
 import { useState } from "react"
 import { addMovie } from "@/app/actions/addmovie"
 import { MovieData } from "@/app/actions/viewmovie"
@@ -95,7 +94,6 @@ export default function MovieForm({ data }: { data: MovieData }) {
      }
    } catch (error) {
      console.error("Form submission error", error);
-    // toast.error("Failed to submit the form. Please try again.");
    }
  
  

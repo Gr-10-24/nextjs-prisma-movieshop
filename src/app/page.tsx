@@ -1,6 +1,5 @@
 "use server"
 
-// import SignUpForm from "@/components/signup-form";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import PopulateDBToast from "@/app/movie/populate-db-toast";
