@@ -1,5 +1,5 @@
 "use client"
-import { DeleteTodo, GetMovie, MovieData } from "@/app/actions/viewmovie";
+import { GetMovie, MovieData } from "@/app/actions/viewmovie";
 import {
   Table,
   TableBody,
@@ -15,6 +15,7 @@ import { Movie, Role } from "@prisma/client";
 import { useEffect, useState } from "react";
 import { EditDialog } from "./movieEdit";
 import { Actor } from "next/font/google";
+import { DeleteTodo } from "@/app/actions/editupdateMovie";
  
 
 export default function ViewMovie({ data }: { data:MovieData}){
