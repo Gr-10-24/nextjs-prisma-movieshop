@@ -13,12 +13,6 @@ export default function ViewMovie({ data }: { data: MovieData }) {
       .map((star) => star.person.name)
       .join(", ") || "No Directors";
 
-  const actors =
-    data.starring
-      ?.filter((star) => star.role === Role.ACTOR)
-      .map((star) => star.person.name)
-      .join(", ") || "No Actors";
-
   const actors = data.starring
     ?.filter(star => star.role === Role.ACTOR)
     .map(star => star.person.name)
