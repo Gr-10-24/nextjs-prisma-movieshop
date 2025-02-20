@@ -8,19 +8,7 @@ import { CartItemFront } from "@/types/cartType";
 import { Input } from "../ui/input";
 import { useState } from "react";
 import Image from "next/image";
-//import { CartItem } from "@/types/cartType";
 
-// type CartItemProps = {
-//   cartItemId: string;
-//   title: string;
-//   quantity: number;
-// };
-
-// export default function CartItemCard({
-//   cartItemId,
-//   title,
-//   quantity,
-// }: CartItemProps) {
 export default function CartItemCard({
   cartItem,
 }: {
@@ -46,14 +34,6 @@ export default function CartItemCard({
           ) : (
             <SquareX />
           )}
-          {/* <Image
-            src={cartItem.imageUrl !== null ? cartItem.imageUrl : ""}
-            alt={"image missing"}
-            className="object-cover"
-            width={150}
-            height={50}
-            priority
-          /> */}
         </div>
         <div className="flex flex-col px-3 my-auto">
           <p>

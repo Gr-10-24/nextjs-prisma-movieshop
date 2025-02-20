@@ -95,8 +95,8 @@ export default function CarouselAllMovies() {
               >
                 <div className="p-1">
                   <Card className="transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
-                    <CardContent className="flex aspect-square items-center justify-center p-6">
-                      <span className="text-lg justify-center">
+                    <CardContent className="flex aspect-square items-center p-6">
+                      <span className="text-sm justify-end">
                         {<DialogMovie movie={movie} />}
                       </span>
                     </CardContent>
@@ -168,7 +168,7 @@ export default function CarouselAllMovies() {
               <div className="p-1">
                 <Card className="transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
                   <CardContent className="flex aspect-square items-center justify-center p-6">
-                    <span className="text-3xl font-semibold">
+                    <span className="text-sm justify-end">
                       {<DialogMovie movie={movie} />}
                     </span>
                   </CardContent>
