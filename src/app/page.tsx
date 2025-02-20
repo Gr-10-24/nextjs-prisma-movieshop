@@ -8,6 +8,22 @@ export default async function Page() {
     headers: await headers(),
   });
 
+  // const cookieStore = await cookies();
+  // const test = await cookieStore.get("test");
+  // console.log(test);
+  // const testing: string[] = ["a", "b", "c"];
+  // if (test === undefined) {
+  //   await cookieStore.set("test", testing.join(", "));
+  // }
+  // const cookieStore = await cookies();
+  // const test = await fetchCookie();
+  // const test2 = await setCookie("a, b, c");
+  // if (test === undefined) {
+  //   const testing: string[] = ["a", "b", "c"];
+  //   cookieStore.set("test", testing.join(", "));
+  // }
+  //console.log(test);
+
   return (
     <main className="flex flex-col container mx-auto py-12 gap-2">
 

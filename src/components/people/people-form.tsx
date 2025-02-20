@@ -81,7 +81,7 @@ export default function PeopleForm({ data }: { data?: Person }) {
                 name="description"
                 id="description"
                 //type="text"
-                defaultValue={data ? data.description : ""}
+                defaultValue={data?.description ? data.description : ""}
                 placeholder="Enter a description"
                 className="border-2 border-black rounded-md m-2"
               />
