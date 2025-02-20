@@ -36,7 +36,7 @@ function parseMovie(movie: Top250Movie): Movie {
     stock: 5,
     genre: {
       connect: movie.genre.map(genre => {
-        return { name: genre }
+        return { name: genre, description: "" }
       })
     },
     // TODO
