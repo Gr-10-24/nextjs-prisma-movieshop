@@ -17,11 +17,11 @@ export default async function Movies() {
       <h1 className="text-black m-4">Movie details</h1>
       {getmovie.length === 0 && <p>No book at yet</p>}
       {getmovie.length > 0 && (
-        <Table>
+        <Table className="table-fixed">
           <TableCaption>A list of Movie</TableCaption>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[100px]">Title</TableHead>
+              <TableHead>Title</TableHead>
               <TableHead>Description</TableHead>
               <TableHead>ImageUrl</TableHead>
               <TableHead>Genres</TableHead>
@@ -31,8 +31,8 @@ export default async function Movies() {
               <TableHead>Stock</TableHead>
               <TableHead>Released Date</TableHead>
               <TableHead>Runtime</TableHead>
-              <TableHead>Edit</TableHead>
-              <TableHead>Delete</TableHead>
+              <TableHead className="w-[80px]">Edit</TableHead>
+              <TableHead className="w-[80px]">Delete</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>

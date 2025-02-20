@@ -22,14 +22,8 @@ export default function ViewMovie({ data }: { data: MovieData }) {
   return (
     <TableRow>
       <TableCell className="font-medium">{data.title}</TableCell>
-      <TableCell>
-        {data.description.length > 50
-          ? `${data.description.slice(0, 50)}...`
-          : data.description}
-      </TableCell>
-      <TableCell title={data.imageUrl ?? "No Image"}>
-        {data.imageUrl ? `${data.imageUrl.slice(0, 30)}...` : "No Image"}
-      </TableCell>
+      <TableCell className="truncate">{data.description}</TableCell>
+      <TableCell className="truncate">{data.imageUrl || "No Image"}</TableCell>
       <TableCell>{data.genres.map((genre) => genre.name).join(", ")}</TableCell>
       <TableCell>{actors}</TableCell>
       <TableCell>{directors}</TableCell>
