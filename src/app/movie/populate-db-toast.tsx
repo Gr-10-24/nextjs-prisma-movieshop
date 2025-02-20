@@ -16,10 +16,22 @@ export default function PopulateDBToast () {
           description: "This site seems a bit empty. Do you want me to add some movies to it?",
           action: (
             <>
-            <ToastAction
-              onClick={populateDb}
-              altText="Add movies"
-            >
+              <ToastAction
+                onClick={() => {
+                  const result = await populateDb()
+                  if (result) {
+                    toast({
+                      description: "Successfully added movies!",
+                    })
+                  } else {
+                    toast({
+                      description: "Something went wrong. :-(",
+                      variant: "destructive"
+                    })
+                  }
+                }}
+                altText="Add movies"
+              >
               Add some Movies
             </ToastAction>
             <ToastAction

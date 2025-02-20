@@ -130,17 +130,26 @@ async function insertMovies(movies: Movie[]) {
 }
 
 export async function populateDb() {
-  const resource = "public/top250.json";
-  const data = fs.readFileSync(resource, 'utf8');
-  const movies = JSON.parse(data)
+  try {
+    const resource = "public/top250.json";
+    const data = fs.readFileSync(resource, 'utf8');
+    const movies = JSON.parse(data)
 
-  const genres = await insertMissingGenres(movies)
-  console.info("Upserted %s genres in total", genres.length)
+    const genres = await insertMissingGenres(movies)
+    console.info("Upserted %s genres in total", genres.length)
 
-  const movieResult = await insertMovies(movies)
-  console.info("%s Movies inserted", movieResult?.length)
+    const movieResult = await insertMovies(movies)
+    console.info("%s Movies inserted", movieResult?.length)
 
-  console.info("All done")
-  revalidatePath("/")
+    console.info("All done")
+    revalidatePath("/")
+
+    return true;
+  }
+  catch (error) {
+    console.error("Failed to add movies:", error)
+    return false;
+  }
 }
+
 
