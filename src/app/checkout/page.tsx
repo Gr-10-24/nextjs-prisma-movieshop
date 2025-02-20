@@ -27,9 +27,12 @@ export default async function Page() {
           ) : (
             <CartList cart={cart} />
           )}
+          {session?.user.address === undefined ? (
+            <p>No address listed</p>
+          ) : (
+            <p>Address: {session.user.address}</p>
+          )}
         </div>
-
-        // {session?.user.address}
       )}
     </main>
   );
