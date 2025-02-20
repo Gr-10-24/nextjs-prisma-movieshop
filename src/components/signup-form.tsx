@@ -3,23 +3,8 @@
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-//import { useForm } from "react-hook-form";
-// import { z } from "zod";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-//import { FormField } from "./ui/form";
-
-// const stringSchema = z.object({
-//   name: z
-//     .string()
-//     .min(3, "needs to be at least 3 characters long")
-//     .max(25, "needs to be less than 26 characters"),
-//   email: z.string().email(),
-//   password: z
-//     .string()
-//     .min(6, "needs to be at least 6 characters long")
-//     .max(25, "needs to be less than 26 characters"),
-// });
 
 export default function SignUpForm() {
   const [name, setName] = useState("");
