@@ -1,8 +1,16 @@
 "use server"
 
 import { prisma } from "@/lib/prisma";
+import { Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
+
+type Movie = Prisma.MovieGetPayload<{
+    include: {
+      starring: true,
+      genre: true,
+    },
+}>
 
 // From components/ui/movies/form.tsx
 const movieSchema = z.object({
@@ -49,4 +57,17 @@ export async function deleteMovie(id: string) {
   });
   revalidatePath("/");
   return true;
+}
+
+export async function getMovies() {
+  const movies = await prisma.movie.findMany({
+    include: {
+      starring: true,
+      genre: true,
+    },
+    orderBy: {
+      createdAt: "asc",
+    },
+  });
+  return movies
 }
