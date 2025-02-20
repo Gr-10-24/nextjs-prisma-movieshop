@@ -4,18 +4,18 @@
 import { toast } from "@/hooks/use-toast";
 import { ToastAction } from "@radix-ui/react-toast";
 import { useEffect } from "react";
-import { getMovieCount, populateDb } from "../actions/populate-db";
+import { getMovieCount, populateDb } from "@/app/actions/populate-db";
 
 export default function PopulateDBToast () {
   useEffect(() => {
     const f = async () => {
       const movieCount = await getMovieCount()
       if (movieCount < 10)
-      toast({
-        title: "Add some movies?",
-        description: "This site seems a bit empty. Do you want me to add some movies to it?",
-        action: (
-          <>
+        toast({
+          title: "Add some movies?",
+          description: "This site seems a bit empty. Do you want me to add some movies to it?",
+          action: (
+            <>
             <ToastAction
               onClick={populateDb}
               altText="Add movies"
@@ -29,7 +29,7 @@ export default function PopulateDBToast () {
               No, go away forever
             </ToastAction >
           </>
-        )
+          )
       })
     }
     f()

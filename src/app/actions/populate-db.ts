@@ -134,15 +134,13 @@ export async function populateDb() {
   const data = fs.readFileSync(resource, 'utf8');
   const movies = JSON.parse(data)
 
-  console.log(movies[0])
-
   const genres = await insertMissingGenres(movies)
-  console.log("Upserted %s genres in total", genres.length)
+  console.info("Upserted %s genres in total", genres.length)
 
   const movieResult = await insertMovies(movies)
-  console.log("%s Movies inserted", movieResult?.length)
+  console.info("%s Movies inserted", movieResult?.length)
 
-  console.log("All done")
+  console.info("All done")
   revalidatePath("/")
 }
 
