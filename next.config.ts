@@ -7,6 +7,9 @@ const nextConfig: NextConfig = {
       {
         hostname: "image.tmdb.org",
       },
+      {
+        hostname: "m.media-amazon.com",
+      }
     ],
   },
 };
