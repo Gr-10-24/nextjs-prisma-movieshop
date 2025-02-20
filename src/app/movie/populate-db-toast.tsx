@@ -18,17 +18,18 @@ export default function PopulateDBToast () {
             <>
               <ToastAction
                 onClick={() => {
-                  const result = await populateDb()
-                  if (result) {
-                    toast({
-                      description: "Successfully added movies!",
-                    })
-                  } else {
-                    toast({
-                      description: "Something went wrong. :-(",
-                      variant: "destructive"
-                    })
-                  }
+                  populateDb().then(result => {
+                    if (result) {
+                      toast({
+                        description: "Successfully added movies!",
+                      })
+                    } else {
+                      toast({
+                        description: "Something went wrong. :-(",
+                        variant: "destructive"
+                      })
+                    }
+                  })
                 }}
                 altText="Add movies"
               >
