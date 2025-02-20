@@ -15,6 +15,7 @@ import FetchMovies from "@/app/actions/customer-movie";
 import DialogMovie from "./dialog-movie";
 import { DotIcon } from "lucide-react";
 import { Input } from "../input";
+import AddToCartButton from "@/components/shopping-cart/add-to-cart-button";
 
 export default function CarouselAllMovies() {
   const [loading, setLoading] = React.useState(false);
@@ -82,7 +83,7 @@ export default function CarouselAllMovies() {
         opts={{
           align: "start",
         }}
-        className="w-full max-w-2xl"
+        className="w-full h-max-240"
       >
         <h1 className="mt-6">A-J movies</h1>
         <CarouselContent>
@@ -90,7 +91,7 @@ export default function CarouselAllMovies() {
             A_JMovies.map((movie) => (
               <CarouselItem
                 key={movie.id}
-                className="md:basis-1/2 lg:basis-1/3"
+                className="md:basis-1/2 lg:basis-1/5"
               >
                 <div className="p-1">
                   <Card className="transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
@@ -106,7 +107,7 @@ export default function CarouselAllMovies() {
                       ) : (
                         <DotIcon className=" ml-2 mb-0 text-red-500 size-10" />
                       )}
-                      {<AddToCartButton movieID={movie.id} />}
+                      {<AddToCartButton movieId={movie.id} />}
                     </div>
                   </Card>
                 </div>
@@ -129,7 +130,7 @@ export default function CarouselAllMovies() {
         <h1 className="mt-6">K-T movies</h1>
         <CarouselContent>
           {K_TMovies.map((movie) => (
-            <CarouselItem key={movie.id} className="md:basis-1/2 lg:basis-1/3">
+            <CarouselItem key={movie.id} className="md:basis-1/2 lg:basis-1/10">
               <div className="p-1">
                 <Card className="transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
                   <CardContent className="flex aspect-square items-center justify-center p-6">
@@ -143,7 +144,7 @@ export default function CarouselAllMovies() {
                     ) : (
                       <DotIcon className=" ml-2 mb-0 text-red-500 size-10" />
                     )}
-                    {<AddToCartButton movieID={movie.id} />}
+                    {<AddToCartButton movieId={movie.id} />}
                   </div>
                 </Card>
               </div>
@@ -163,7 +164,7 @@ export default function CarouselAllMovies() {
         <h1 className="mt-6">U-Z movies</h1>
         <CarouselContent>
           {U_ZMovies.map((movie) => (
-            <CarouselItem key={movie.id} className="md:basis-1/2 lg:basis-1/3">
+            <CarouselItem key={movie.id} className="md:basis-1/2 lg:basis-1/10">
               <div className="p-1">
                 <Card className="transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
                   <CardContent className="flex aspect-square items-center justify-center p-6">
@@ -177,7 +178,7 @@ export default function CarouselAllMovies() {
                     ) : (
                       <DotIcon className=" ml-2 mb-0 text-red-500 size-10" />
                     )}
-                    {<AddToCartButton movieID={movie.id} />}
+                    {<AddToCartButton movieId={movie.id} />}
                   </div>
                 </Card>
               </div>

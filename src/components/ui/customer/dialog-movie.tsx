@@ -8,11 +8,14 @@ import {
 
 import { CUSTOMMOVIE } from "./carousel-oldMovies";
 import Image from "next/image";
+import AddToCartButton from "@/components/shopping-cart/add-to-cart-button";
 
 export default function DialogMovie({ movie }: { movie: CUSTOMMOVIE }) {
   return (
     <Dialog>
-      <DialogTrigger asChild>
+      <DialogTrigger
+        asChild
+        className="max-h-[400]">
         {movie.imageUrl && (
           <Image
             src={movie.imageUrl}
@@ -26,14 +29,15 @@ export default function DialogMovie({ movie }: { movie: CUSTOMMOVIE }) {
         <DialogHeader>
           <DialogTitle></DialogTitle>
           <div>
-            <div key={movie.id} className="flex justify-start">
+            <div key={movie.id}
+              className="flex justify-start max-h-[600]">
               <div>
                 {movie.imageUrl && (
                   <Image
                     src={movie.imageUrl}
                     alt="Movie Cover"
-                    height={1000}
-                    width={1000}
+                    height={600}
+                    width={400}
                     className="mt-6 ml-4 mb-4"
                   />
                 )}
@@ -57,7 +61,7 @@ export default function DialogMovie({ movie }: { movie: CUSTOMMOVIE }) {
                   ) : (
                     <p className="text-red-700 mt-2">out of stock</p>
                   )}{" "}
-                  <AddToCartButton movieID={movie.id} />
+                  <AddToCartButton movieId={movie.id} />
                 </div>
 
                 <h2 className="mt-4 text-xl font-semibold">Description: </h2>
