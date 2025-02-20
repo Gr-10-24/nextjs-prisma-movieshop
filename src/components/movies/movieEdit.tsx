@@ -23,8 +23,7 @@ const MovieSchema = z.object({
   description: z
     .string({ required_error: "Description is required" })
     .min(5, { message: "Description must be at least 5 characters." }),
-  imageurl: z
-    .string().url("Invalid URL").nullable().or(z.literal("")),
+  imageurl: z.string().url("Invalid URL").nullable().or(z.literal("")),
   genres: z
     .string({ required_error: "Genres are required" })
     .min(1, { message: "At least one genre is required" }),
@@ -56,26 +55,28 @@ type FormData = z.infer<typeof MovieSchema>;
 
 export function EditDialog({ data }: { data: MovieData }) {
   const [open, setOpen] = useState(false);
-  const initialGenres = data.genres ? data.genres.map(g => g.name).join(", ") : "";
+  const initialGenres = data.genres
+    ? data.genres.map((g) => g.name).join(", ")
+    : "";
   const initialActors = data.starring
-  ? data.starring
-      .filter(g => g.role === "ACTOR" && g.person?.name) // Ensure role is "ACTOR" (uppercase) and name exists
-      .map(g => g.person.name)
-      .join(", ")
-  : "";
+    ? data.starring
+        .filter((g) => g.role === "ACTOR" && g.person?.name) // Ensure role is "ACTOR" (uppercase) and name exists
+        .map((g) => g.person.name)
+        .join(", ")
+    : "";
   const initialDirectors = data.starring
-  ? data.starring
-      .filter(g => g.role === "DIRECTOR" && g.person?.name) // Ensure role is "DIRECTOR" (uppercase) and name exists
-      .map(g => g.person.name)
-      .join(", ")
-  : "";
+    ? data.starring
+        .filter((g) => g.role === "DIRECTOR" && g.person?.name) // Ensure role is "DIRECTOR" (uppercase) and name exists
+        .map((g) => g.person.name)
+        .join(", ")
+    : "";
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-    watch
+    watch,
   } = useForm<FormData>({
     resolver: zodResolver(MovieSchema),
     defaultValues: {
@@ -84,7 +85,7 @@ export function EditDialog({ data }: { data: MovieData }) {
       imageurl: data.imageUrl ?? "",
       genres: initialGenres,
       actors: initialActors,
-      directors:initialDirectors,
+      directors: initialDirectors,
 
       price: Number(data.price),
       stock: Number(data.stock),
@@ -99,7 +100,7 @@ export function EditDialog({ data }: { data: MovieData }) {
   const onSubmit = async (formData: FormData) => {
     try {
       const result = await UpdateTodo(data.id, formData);
-      
+
       if (result.success) {
         toast.success(`Updated movie: ${formData.title}`);
         setOpen(false);
@@ -107,21 +108,28 @@ export function EditDialog({ data }: { data: MovieData }) {
         toast.error(result.message || "Could not update the movie");
       }
 
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       toast.error("Could not update the movie");
     }
   };
 
   return (
-    <Dialog open={open} onOpenChange={(newOpen) => {
-      setOpen(newOpen);
-      if (!newOpen) {
-        // Reset form to initial values when dialog closes
-        reset();
-      }
-    }}>
+    <Dialog
+      open={open}
+      onOpenChange={(newOpen) => {
+        setOpen(newOpen);
+        if (!newOpen) {
+          // Reset form to initial values when dialog closes
+          reset();
+        }
+      }}
+    >
       <DialogTrigger asChild>
-        <Button variant="outline" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 border hover:text-white border-blue-700 rounded">
+        <Button
+          variant="outline"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 border hover:text-white border-blue-700 rounded"
+        >
           Edit
         </Button>
       </DialogTrigger>
@@ -132,43 +140,57 @@ export function EditDialog({ data }: { data: MovieData }) {
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)} className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <label className="block text-sm font-medium col-span-1">Title</label>
+            <label className="block text-sm font-medium col-span-1">
+              Title
+            </label>
             <input
               {...register("title")}
               defaultValue={formValues.title}
               className="w-full border rounded px-2 py-1 col-span-3"
             />
             {errors.title && (
-              <p className="text-red-500 text-sm col-span-3 col-start-2">{errors.title.message}</p>
+              <p className="text-red-500 text-sm col-span-3 col-start-2">
+                {errors.title.message}
+              </p>
             )}
           </div>
 
           <div className="grid grid-cols-4 items-center gap-4">
-            <label className="block text-sm font-medium col-span-1">Description</label>
+            <label className="block text-sm font-medium col-span-1">
+              Description
+            </label>
             <input
               {...register("description")}
               defaultValue={formValues.description}
               className="w-full border rounded px-2 py-1 col-span-3"
             />
             {errors.description && (
-              <p className="text-red-500 text-sm col-span-3 col-start-2">{errors.description.message}</p>
+              <p className="text-red-500 text-sm col-span-3 col-start-2">
+                {errors.description.message}
+              </p>
             )}
           </div>
 
           <div className="grid grid-cols-4 items-center gap-4">
-            <label className="block text-sm font-medium col-span-1">Image URL</label>
+            <label className="block text-sm font-medium col-span-1">
+              Image URL
+            </label>
             <input
               {...register("imageurl")}
               defaultValue={formValues.imageurl ?? ""}
               className="w-full border rounded px-2 py-1 col-span-3"
             />
             {errors.imageurl && (
-              <p className="text-red-500 text-sm col-span-3 col-start-2">{errors.imageurl.message}</p>
+              <p className="text-red-500 text-sm col-span-3 col-start-2">
+                {errors.imageurl.message}
+              </p>
             )}
           </div>
 
           <div className="grid grid-cols-4 items-center gap-4">
-            <label className="block text-sm font-medium col-span-1">Genres</label>
+            <label className="block text-sm font-medium col-span-1">
+              Genres
+            </label>
             <input
               {...register("genres")}
               defaultValue={formValues.genres}
@@ -176,12 +198,16 @@ export function EditDialog({ data }: { data: MovieData }) {
               className="w-full border rounded px-2 py-1 col-span-3"
             />
             {errors.genres && (
-              <p className="text-red-500 text-sm col-span-3 col-start-2">{errors.genres.message}</p>
+              <p className="text-red-500 text-sm col-span-3 col-start-2">
+                {errors.genres.message}
+              </p>
             )}
           </div>
 
           <div className="grid grid-cols-4 items-center gap-4">
-            <label className="block text-sm font-medium col-span-1">Actors</label>
+            <label className="block text-sm font-medium col-span-1">
+              Actors
+            </label>
             <input
               {...register("actors")}
               defaultValue={formValues.actors}
@@ -189,12 +215,16 @@ export function EditDialog({ data }: { data: MovieData }) {
               className="w-full border rounded px-2 py-1 col-span-3"
             />
             {errors.actors && (
-              <p className="text-red-500 text-sm col-span-3 col-start-2">{errors.actors.message}</p>
+              <p className="text-red-500 text-sm col-span-3 col-start-2">
+                {errors.actors.message}
+              </p>
             )}
           </div>
 
           <div className="grid grid-cols-4 items-center gap-4">
-            <label className="block text-sm font-medium col-span-1">Directors</label>
+            <label className="block text-sm font-medium col-span-1">
+              Directors
+            </label>
             <input
               {...register("directors")}
               defaultValue={formValues.directors}
@@ -202,13 +232,16 @@ export function EditDialog({ data }: { data: MovieData }) {
               className="w-full border rounded px-2 py-1 col-span-3"
             />
             {errors.directors && (
-              <p className="text-red-500 text-sm col-span-3 col-start-2">{errors.directors.message}</p>
+              <p className="text-red-500 text-sm col-span-3 col-start-2">
+                {errors.directors.message}
+              </p>
             )}
           </div>
 
-
           <div className="grid grid-cols-4 items-center gap-4">
-            <label className="block text-sm font-medium col-span-1">Price</label>
+            <label className="block text-sm font-medium col-span-1">
+              Price
+            </label>
             <input
               {...register("price", { valueAsNumber: true })}
               defaultValue={formValues.price}
@@ -217,12 +250,16 @@ export function EditDialog({ data }: { data: MovieData }) {
               className="w-full border rounded px-2 py-1 col-span-3"
             />
             {errors.price && (
-              <p className="text-red-500 text-sm col-span-3 col-start-2">{errors.price.message}</p>
+              <p className="text-red-500 text-sm col-span-3 col-start-2">
+                {errors.price.message}
+              </p>
             )}
           </div>
 
           <div className="grid grid-cols-4 items-center gap-4">
-            <label className="block text-sm font-medium col-span-1">Stock</label>
+            <label className="block text-sm font-medium col-span-1">
+              Stock
+            </label>
             <input
               {...register("stock", { valueAsNumber: true })}
               defaultValue={formValues.stock}
@@ -230,12 +267,16 @@ export function EditDialog({ data }: { data: MovieData }) {
               className="w-full border rounded px-2 py-1 col-span-3"
             />
             {errors.stock && (
-              <p className="text-red-500 text-sm col-span-3 col-start-2">{errors.stock.message}</p>
+              <p className="text-red-500 text-sm col-span-3 col-start-2">
+                {errors.stock.message}
+              </p>
             )}
           </div>
 
           <div className="grid grid-cols-4 items-center gap-4">
-            <label className="block text-sm font-medium col-span-1">Release Year</label>
+            <label className="block text-sm font-medium col-span-1">
+              Release Year
+            </label>
             <input
               {...register("release", { valueAsNumber: true })}
               defaultValue={formValues.release}
@@ -243,19 +284,25 @@ export function EditDialog({ data }: { data: MovieData }) {
               className="w-full border rounded px-2 py-1 col-span-3"
             />
             {errors.release && (
-              <p className="text-red-500 text-sm col-span-3 col-start-2">{errors.release.message}</p>
+              <p className="text-red-500 text-sm col-span-3 col-start-2">
+                {errors.release.message}
+              </p>
             )}
           </div>
 
           <div className="grid grid-cols-4 items-center gap-4">
-            <label className="block text-sm font-medium col-span-1">Runtime</label>
+            <label className="block text-sm font-medium col-span-1">
+              Runtime
+            </label>
             <input
               {...register("runtime")}
               defaultValue={formValues.runtime}
               className="w-full border rounded px-2 py-1 col-span-3"
             />
             {errors.runtime && (
-              <p className="text-red-500 text-sm col-span-3 col-start-2">{errors.runtime.message}</p>
+              <p className="text-red-500 text-sm col-span-3 col-start-2">
+                {errors.runtime.message}
+              </p>
             )}
           </div>
 
