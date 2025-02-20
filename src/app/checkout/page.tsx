@@ -1,4 +1,3 @@
-// import SignUpForm from "@/components/signup-form";
 import CartList from "@/components/shopping-cart/cart-list";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
@@ -29,6 +28,8 @@ export default async function Page() {
             <CartList cart={cart} />
           )}
         </div>
+
+        // {session?.user.address}
       )}
     </main>
   );
