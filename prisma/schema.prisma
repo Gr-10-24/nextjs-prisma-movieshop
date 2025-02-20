@@ -130,7 +130,7 @@ model Starring {
   createdAt DateTime @default(now()) @db.Timestamptz(0)
   updatedAt DateTime @updatedAt @db.Timestamptz(0)
   person Person @relation(fields: [personId], references: [id])
-  movie Movie @relation(fields: [movieId], references: [id])
+  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@map("starring")
 }

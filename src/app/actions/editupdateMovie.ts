@@ -118,19 +118,6 @@ export async function GetMovie(): Promise<MovieData[]> {
   }));
 }
 
-export async function DeleteTodo(id: string) {
-  await prisma.starring.deleteMany({
-    where: {
-      movieId: id,
-    },
-  });
-  await prisma.movie.delete({
-    where: {
-      id,
-    },
-  });
-  revalidatePath("/");
-}
 /// from here start update function
 export async function UpdateTodo(
   id: string,

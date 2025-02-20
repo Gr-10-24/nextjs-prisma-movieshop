@@ -1,5 +1,7 @@
 "use server"
 
+import { prisma } from "@/lib/prisma";
+import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 // From components/ui/movies/form.tsx
@@ -38,3 +40,13 @@ const movieSchema = z.object({
     .number({ required_error: "Runtime must be a valid number" })
     .min(1, { message: "Runtime must be a positive number" }),
 });
+
+export async function deleteMovie(id: string) {
+  await prisma.movie.delete({
+    where: {
+      id,
+    },
+  });
+  revalidatePath("/");
+  return true;
+}

@@ -4,7 +4,7 @@ import { TableCell, TableRow } from "@/components/ui/table";
 import { toast } from "@/hooks/use-toast";
 import { Role } from "@prisma/client";
 import { EditDialog } from "./movieEdit";
-import { DeleteTodo } from "@/app/actions/editupdateMovie";
+import { deleteMovie } from "@/app/actions/movie";
 
 export default function ViewMovie({ data }: { data: MovieData }) {
   const directors =
@@ -37,7 +37,7 @@ export default function ViewMovie({ data }: { data: MovieData }) {
       <TableCell>
         <button
           onClick={() =>
-            DeleteTodo(data.id).then(() =>
+            deleteMovie(data.id).then(() =>
               toast({
                 title: "Delete successful",
                 description: data.title + "Was deleted",
