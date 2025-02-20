@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
@@ -85,14 +85,13 @@ export function EditDialog({ data }: { data: MovieData }) {
       genres: initialGenres,
       actors: initialActors,
       directors:initialDirectors,
+
       price: Number(data.price),
       stock: Number(data.stock),
       release: Number(data.releaseDate),
       runtime: data.runtime,
     },
   });
-
-  
 
   // Watch all form values - this gives us access to current form values
   const formValues = watch();
@@ -107,6 +106,7 @@ export function EditDialog({ data }: { data: MovieData }) {
       } else {
         toast.error(result.message || "Could not update the movie");
       }
+
     } catch (error) {
       toast.error("Could not update the movie");
     }

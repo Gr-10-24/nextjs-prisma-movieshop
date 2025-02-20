@@ -16,39 +16,45 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Genre } from "@prisma/client";
-import { GetGenre } from "@/app/actions/genre";
+import { Person } from "@prisma/client";
 
-interface getGenresProps {
+interface getActorsProps {
   field: {
     value: string;
     onChange: (value: string) => void;
   };
 }
 
-export function GetGenres({ field }: getGenresProps) {
-  const [genres, setGenres] = React.useState<Genre[]>([]);
+export function GetActors({ field }: getActorsProps) {
+  const [actors, setActors] = React.useState<Person[]>([]);
   const [open, setOpen] = React.useState(false);
   const [inputValue, setInputValue] = React.useState("");
+
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
-    const genres = async () => {
-      setLoading(true);
+    async function getActors() {
       try {
-        const data = await GetGenre();
-        setGenres(data);
+        const res = await fetch("/api/people", { method: "GET" });
+
+        if (!res.ok) {
+          throw new Error(`Failed to fetch, ${res.statusText}`);
+        }
+        const data = await res.json();
+
+        if (data.sucess) {
+          setActors(data.data);
+        }
       } catch (error) {
-        return error;
+        console.error("Error in fetching actors", error);
       } finally {
         setLoading(false);
       }
-    };
-
-    genres();
+    }
+    getActors();
   }, []);
 
-  if (loading) return <>Loading...</>;
+  if (loading) return <p>Loading...</p>;
 
   return (
     <div>
@@ -73,22 +79,24 @@ export function GetGenres({ field }: getGenresProps) {
               variant="ghost"
               className="w-[150px] justify-start border border-black bg-gray-300"
             >
-              {<>+ Select a genre</>}
+              {<>+ Select an actor</>}
             </Button>
           </PopoverTrigger>
           <PopoverContent className="p-0" side="right" align="start">
             <Command>
-              <CommandInput />
+              <CommandInput/>
               <CommandList>
                 <CommandEmpty>No results found.</CommandEmpty>
                 <CommandGroup>
-                  {genres.map((genre) => (
+                  {actors.map((actor) => (
                     <CommandItem
-                      key={genre.name}
-                      value={genre.name}
+                      key={actor.name}
+                      value={actor.name}
                       onSelect={(name: string) => {
                         const selectedGenre =
-                          genres.find((g) => g.name === name) || null;
+                          actors.find((a) => a.name === name) || null;
+                        //   setSelectedStatus( selectedGenre)
+                        //   field.onChange(selectedGenre? selectedGenre.name : "")
                         if (selectedGenre) {
                           const newValue = inputValue
                             ? `${inputValue},${selectedGenre.name}`
@@ -100,7 +108,7 @@ export function GetGenres({ field }: getGenresProps) {
                         setOpen(false);
                       }}
                     >
-                      {genre.name}
+                      {actor.name}
                     </CommandItem>
                   ))}
                 </CommandGroup>

@@ -5,6 +5,7 @@ import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { LoginDialog } from "./login-dialog";
 import { SignupDialog } from "./signup-dialog";
+import AddToCartButton from "./shopping-cart/add-to-cart-button";
 
 export default function NavBar() {
   const session = authClient.useSession();
@@ -29,6 +30,7 @@ export default function NavBar() {
           </div>
         ) : (
           <div className="flex item-center gap-2">
+            <AddToCartButton movieId="cm6rrrsg200004xzkxsf53xg4" />
             <Button
               variant={"secondary"}
               onClick={() => authClient.signOut().then(router.refresh)}
