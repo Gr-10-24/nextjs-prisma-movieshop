@@ -178,7 +178,8 @@ export async function deleteCartItem(cartItemId: string) {
   await prisma.cartitems.delete({
     where: { id: cartItemId },
   });
-  //revalidatePath("/"); this might be needed?
+  updateCartTotal2();
+  revalidatePath("/");
 }
 
 // export function convertCart(cart: Cart): CartFront | undefined {
