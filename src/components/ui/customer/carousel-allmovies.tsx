@@ -114,7 +114,7 @@ export default function CarouselAllMovies() {
               </CarouselItem>
             ))
           ) : (
-            <div>no movies to show</div>
+            <div className="p-4 text-red-600">no movies to show</div>
           )}
         </CarouselContent>
         <CarouselPrevious />
@@ -129,7 +129,8 @@ export default function CarouselAllMovies() {
       >
         <h1 className="mt-6">K-T movies</h1>
         <CarouselContent>
-          {K_TMovies.map((movie) => (
+          {filteredMovie.length > 0 ? (
+          K_TMovies.map((movie) => (
             <CarouselItem key={movie.id} className="md:basis-1/2 lg:basis-1/5">
               <div className="p-1">
                 <Card className="transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
@@ -149,7 +150,11 @@ export default function CarouselAllMovies() {
                 </Card>
               </div>
             </CarouselItem>
-          ))}
+          ))
+        ):(
+          <div className="p-4 text-red-600">no movies to show</div>
+        )
+        }
         </CarouselContent>
         <CarouselPrevious />
         <CarouselNext />
@@ -163,7 +168,8 @@ export default function CarouselAllMovies() {
       >
         <h1 className="mt-6">U-Z movies</h1>
         <CarouselContent>
-          {U_ZMovies.map((movie) => (
+          {filteredMovie.length > 0 ? (
+          U_ZMovies.map((movie) => (
             <CarouselItem key={movie.id} className="md:basis-1/2 lg:basis-1/5">
               <div className="p-1">
                 <Card className="transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
@@ -183,7 +189,11 @@ export default function CarouselAllMovies() {
                 </Card>
               </div>
             </CarouselItem>
-          ))}
+          ))
+        ):(
+          <div className="p-4 text-red-600">no movies to show</div>
+        )
+        }
         </CarouselContent>
         <CarouselPrevious />
         <CarouselNext />
