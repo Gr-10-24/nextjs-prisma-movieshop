@@ -1,4 +1,3 @@
-// import SignUpForm from "@/components/signup-form";
 import CartList from "@/components/shopping-cart/cart-list";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
@@ -27,6 +26,11 @@ export default async function Page() {
             <p>Your cart is empty</p>
           ) : (
             <CartList cart={cart} />
+          )}
+          {session?.user.address === undefined ? (
+            <p>No address listed</p>
+          ) : (
+            <p>Address: {session.user.address}</p>
           )}
         </div>
       )}
