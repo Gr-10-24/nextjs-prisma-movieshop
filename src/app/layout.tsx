@@ -4,6 +4,8 @@ import "./globals.css";
 //import NavBar from "@/components/navbar";
 import NavBar2 from "@/components/navbar2";
 //import NavBar from "@/components/navbar";
+import PopulateDBToast from "@/app/movie/populate-db-toast";
+import { Toaster } from "@/components/ui/toaster";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,6 +34,8 @@ export default function RootLayout({
       >
         <NavBar2 />
         {children}
+        <PopulateDBToast />
+        <Toaster />
       </body>
     </html>
   );
