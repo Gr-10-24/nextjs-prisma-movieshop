@@ -154,15 +154,14 @@ export async function UpdateTodo(
       where: { id },
       data: {
         genre: {
-          disconnect: await prisma.movie
-            .findUnique({
-              where: { id },
-              select: {
-                genre: {
-                  select: { id: true },
-                },
+          disconnect: await prisma.movie.findUnique({
+            where: { id },
+            select: {
+              genre: {
+                select: { id: true },
               },
-            })
+            },
+          })
             .then((movie) => movie?.genre || []),
         },
       },

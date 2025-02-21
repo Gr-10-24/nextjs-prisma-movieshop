@@ -1,16 +1,22 @@
 "use server"
 
 import { prisma } from "@/lib/prisma";
-import { Prisma } from "@prisma/client";
+import { Movie as PrismaMovie, Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-type Movie = Prisma.MovieGetPayload<{
-    include: {
-      starring: true,
-      genre: true,
-    },
-}>
+type Movie = PrismaMovie & {
+  genres: string[],
+  actors: string[],
+  directors: string[]
+}
+
+// type Movie = Prisma.MovieGetPayload<{
+//     include: {
+//       starring: true,
+//       genre: true,
+//     },
+// }>
 
 // From components/ui/movies/form.tsx
 const movieSchema = z.object({
@@ -71,3 +77,31 @@ export async function getMovies() {
   });
   return movies
 }
+
+export async function upsertMovie(movie: Movie, id?: string, ) {
+  prisma.movie.update({
+    where: { id },
+    data: {
+      ...movie,
+      genre: {
+        connect: movie.genres,
+      },
+      starring: {
+        connect: movie.actors
+      },
+    },
+  })
+}
+
+function formToMovie() {
+  
+}
+
+function movieToForm(movie: Movie) {
+  return {
+    ...movie,
+    genres: movie.genre,
+    price: movie.price.toNumber(), // Convert price to number
+  }
+}
+
