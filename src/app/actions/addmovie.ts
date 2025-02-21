@@ -23,7 +23,7 @@ const movieSchema = z.object({
     })
     .min(0, { message: "Price must be atleast 0" })
     .max(500, { message: "Price can't be above 500" }),
-  // .refine((value)=>(/^\d+(\.\d{1,2})?$/).test(value.toString()),{message: "Price must have up to 2 decimal places"}),
+  
   stock: z.string().refine(
     (value) => {
       const parsedVal = parseInt(value, 10);
@@ -34,7 +34,7 @@ const movieSchema = z.object({
   released: z.string().refine(
     (value) => {
       const parsedValue = parseInt(value);
-      return parsedValue < new Date().getFullYear();
+      return parsedValue <= new Date().getFullYear();
     },
     { message: "Published date should be a past year" }
   ),
