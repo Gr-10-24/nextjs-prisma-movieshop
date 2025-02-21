@@ -54,7 +54,9 @@ const FormSchema = z.object({
   released: z.string().refine(
     (value) => {
       const parsedValue = parseInt(value);
+
       return parsedValue <= new Date().getFullYear();
+
     },
     { message: "Published date should be a past year" }
   ),
