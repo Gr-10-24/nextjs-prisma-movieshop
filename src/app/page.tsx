@@ -1,4 +1,5 @@
-// import SignUpForm from "@/components/signup-form";
+"use server";
+
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 
@@ -40,10 +41,6 @@ export default async function Page() {
           This is shown if you are logged in as Customer.
         </div>
       )}
-
-      {/* <div>
-        <SignUpForm />
-      </div> */}
     </main>
   );
 }

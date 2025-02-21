@@ -15,13 +15,14 @@ export default function DialogMovie({ movie }: { movie: CUSTOMMOVIE }) {
     <Dialog>
       <DialogTrigger
         asChild
-        className="max-h-[400]">
+        className="max-h-[300] justify-center">
         {movie.imageUrl && (
           <Image
             src={movie.imageUrl}
-            alt="Movie Cover"
+            alt="Movie Cover is missing"
             height={700}
             width={700}
+            className="w-full h-full object-cover"
           />
         )}
       </DialogTrigger>
@@ -30,19 +31,19 @@ export default function DialogMovie({ movie }: { movie: CUSTOMMOVIE }) {
           <DialogTitle></DialogTitle>
           <div>
             <div key={movie.id}
-              className="flex justify-start max-h-[600]">
-              <div>
+              className="flex justify-start ">
+              <div className="flex w-1/2">
                 {movie.imageUrl && (
                   <Image
                     src={movie.imageUrl}
                     alt="Movie Cover"
-                    height={600}
-                    width={400}
-                    className="mt-6 ml-4 mb-4"
+                    height={300}
+                    width={300}
+                    className="mt-6 ml-4 mb-8"
                   />
                 )}
               </div>
-              <div className="pl-10 pt-4 ">
+              <div className="pl-10 pt-4 w-1/2">
                 <h1 className="text-3xl font-bold">
                   {movie.title} ({movie.releaseDate}){" "}
                   {/* Render Title (Released Year)*/}
