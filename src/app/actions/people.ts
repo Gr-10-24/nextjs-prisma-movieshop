@@ -9,11 +9,15 @@ export async function getPeople() {
 }
 
 export async function getPeopleWstarring() {
-  return await prisma.person.findMany({
-    include: {
-      movies: true,
-    },
-  });
+  try {
+    return await prisma.person.findMany({
+      include: {
+        movies: { include: { movie: { omit: { price: true } } } },
+      },
+    });
+  } catch (e) {
+    throw e;
+  }
 }
 
 export async function getPerson(id: string) {
@@ -25,14 +29,18 @@ export async function getPerson(id: string) {
 }
 
 export async function getPersonWstarring(id: string) {
-  return await prisma.person.findUnique({
-    where: {
-      id,
-    },
-    include: {
-      movies: true,
-    },
-  });
+  try {
+    return await prisma.person.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        movies: { include: { movie: { omit: { price: true } } } },
+      },
+    });
+  } catch (e) {
+    throw e;
+  }
 }
 
 const formSchema = z.object({

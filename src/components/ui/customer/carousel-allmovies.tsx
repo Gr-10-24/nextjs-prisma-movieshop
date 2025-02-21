@@ -95,8 +95,8 @@ export default function CarouselAllMovies() {
               >
                 <div className="p-1">
                   <Card className="transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
-                    <CardContent className="flex aspect-square items-center justify-center p-6">
-                      <span className="text-3xl font-semibold">
+                    <CardContent className="flex aspect-square items-center p-6">
+                      <span className="text-sm justify-end">
                         {<DialogMovie movie={movie} />}
                       </span>
                     </CardContent>
@@ -114,7 +114,7 @@ export default function CarouselAllMovies() {
               </CarouselItem>
             ))
           ) : (
-            <div>no movies to show</div>
+            <div className="p-4 text-red-600">no movies to show</div>
           )}
         </CarouselContent>
         <CarouselPrevious />
@@ -125,16 +125,17 @@ export default function CarouselAllMovies() {
         opts={{
           align: "start",
         }}
-        className="w-full max-w-2xl"
+        className="w-full h-max-240"
       >
         <h1 className="mt-6">K-T movies</h1>
         <CarouselContent>
-          {K_TMovies.map((movie) => (
-            <CarouselItem key={movie.id} className="md:basis-1/2 lg:basis-1/10">
+          {filteredMovie.length > 0 ? (
+          K_TMovies.map((movie) => (
+            <CarouselItem key={movie.id} className="md:basis-1/2 lg:basis-1/5">
               <div className="p-1">
                 <Card className="transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
-                  <CardContent className="flex aspect-square items-center justify-center p-6">
-                    <span className="text-3xl font-semibold">
+                  <CardContent className="flex aspect-square items-center  p-6">
+                    <span className="text-sm justify-end">
                       {<DialogMovie movie={movie} />}
                     </span>
                   </CardContent>
@@ -149,7 +150,11 @@ export default function CarouselAllMovies() {
                 </Card>
               </div>
             </CarouselItem>
-          ))}
+          ))
+        ):(
+          <div className="p-4 text-red-600">no movies to show</div>
+        )
+        }
         </CarouselContent>
         <CarouselPrevious />
         <CarouselNext />
@@ -159,16 +164,17 @@ export default function CarouselAllMovies() {
         opts={{
           align: "start",
         }}
-        className="w-full max-w-2xl"
+        className="w-full h-max-240"
       >
         <h1 className="mt-6">U-Z movies</h1>
         <CarouselContent>
-          {U_ZMovies.map((movie) => (
-            <CarouselItem key={movie.id} className="md:basis-1/2 lg:basis-1/10">
+          {filteredMovie.length > 0 ? (
+          U_ZMovies.map((movie) => (
+            <CarouselItem key={movie.id} className="md:basis-1/2 lg:basis-1/5">
               <div className="p-1">
                 <Card className="transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
                   <CardContent className="flex aspect-square items-center justify-center p-6">
-                    <span className="text-3xl font-semibold">
+                    <span className="text-sm justify-end">
                       {<DialogMovie movie={movie} />}
                     </span>
                   </CardContent>
@@ -183,7 +189,11 @@ export default function CarouselAllMovies() {
                 </Card>
               </div>
             </CarouselItem>
-          ))}
+          ))
+        ):(
+          <div className="p-4 text-red-600">no movies to show</div>
+        )
+        }
         </CarouselContent>
         <CarouselPrevious />
         <CarouselNext />
