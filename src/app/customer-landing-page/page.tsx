@@ -4,7 +4,7 @@ import { CarouselOldMovies } from "@/components/ui/customer/carousel-oldMovies";
 
 export default function Page() {
   return (
-    <div>
+    <div className="px-12">
       <div className="text-2xl font-semibold justify-center mt-10">
         <h1>Oldest Movies</h1>
       </div>
