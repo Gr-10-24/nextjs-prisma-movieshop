@@ -22,6 +22,7 @@ export default function DialogMovie({ movie }: { movie: CUSTOMMOVIE }) {
             alt="Movie Cover is missing"
             height={700}
             width={700}
+            className="w-full h-full object-cover"
           />
         )}
       </DialogTrigger>
@@ -38,7 +39,7 @@ export default function DialogMovie({ movie }: { movie: CUSTOMMOVIE }) {
                     alt="Movie Cover"
                     height={300}
                     width={300}
-                    className="mt-6 ml-4 mb-4"
+                    className="mt-6 ml-4 mb-8"
                   />
                 )}
               </div>
