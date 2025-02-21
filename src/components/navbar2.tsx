@@ -22,13 +22,49 @@ export default async function NavBar2() {
 
   return (
     <header className="bg-primary">
-      <div className="flex justify-between py-4 container mx-auto">
+      <div className="flex flex-row justify-between py-4 container mx-auto">
         <div>
-          <Link href="/">
+          <Link href="/" prefetch={true}>
             <h1 className="text-2xl font-bold text-primary-foreground">
               Movie Shop
             </h1>
           </Link>
+        </div>
+        <div>
+          <Link href="/customer-landing-page" prefetch={true}>
+            <Button className="m-1" variant={"secondary"}>
+              landing
+            </Button>
+          </Link>
+          <Link href="/customer-movies" prefetch={true}>
+            <Button className="m-1" variant={"secondary"}>
+              movies
+            </Button>
+          </Link>
+          <Link href="/genre" prefetch={true}>
+            <Button className="m-1" variant={"secondary"}>
+              genre
+            </Button>
+          </Link>
+          <Link href="/people" prefetch={true}>
+            <Button className="m-1" variant={"secondary"}>
+              people
+            </Button>
+          </Link>
+          {session?.user.role === "ADMIN" ? (
+            <Link href="/movie" prefetch={true}>
+              <Button className="m-1" variant={"secondary"}>
+                A-movie
+              </Button>
+            </Link>
+          ) : (
+            ""
+          )}
+          {/* <Link href="/movie">
+            <Button className="m-1" variant={"secondary"}>
+              A-movie
+            </Button>
+          </Link> */}
         </div>
 
         {session === null ? (

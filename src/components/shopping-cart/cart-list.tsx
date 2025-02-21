@@ -2,6 +2,8 @@
 
 import { CartFront } from "@/types/cartType";
 import CartItemCard from "./cart-item-card";
+// import { Button } from "../ui/button";
+// import Link from "next/link";
 
 export default function CartList({ cart }: { cart: CartFront }) {
   return (
@@ -13,6 +15,11 @@ export default function CartList({ cart }: { cart: CartFront }) {
       </div>
       <div>
         <h2>Total: {cart.total} SEK</h2>
+      </div>
+      <div>
+        {/* <Link href="/checkout">
+          <Button>Go to Checkout</Button>
+        </Link> */}
       </div>
     </div>
   );

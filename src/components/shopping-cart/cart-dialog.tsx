@@ -11,10 +11,14 @@ import {
 import { ShoppingBasket } from "lucide-react";
 import { CartFront } from "@/types/cartType";
 import CartList from "./cart-list";
+import { useState } from "react";
+import Link from "next/link";
 
 export function CartDialog({ cart }: { cart: CartFront }) {
+  const [open, setOpen] = useState(false);
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button className="border-2">
           <ShoppingBasket />
@@ -25,6 +29,9 @@ export function CartDialog({ cart }: { cart: CartFront }) {
           <DialogTitle></DialogTitle>
         </DialogHeader>
         <CartList cart={cart} />
+        <Link href="/checkout">
+          <Button onClick={() => setOpen(false)}>Go to Checkout</Button>
+        </Link>
       </DialogContent>
     </Dialog>
   );
