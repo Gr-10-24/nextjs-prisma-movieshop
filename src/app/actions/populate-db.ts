@@ -131,7 +131,7 @@ async function insertMovies(movies: Movie[]) {
 
 // Used for toast UI
 
-const rejectCookieName = "rejectAddingMovies";
+const rejectCookieName = "dontAddMovies";
 
 export async function getRejectCookie(): Promise<Boolean> {
   const resolvedCookies = cookies()
@@ -140,7 +140,7 @@ export async function getRejectCookie(): Promise<Boolean> {
 }
 
 export async function setRejectCookie() {
-  cookies().then(resolvedCookies => {
+  await cookies().then(resolvedCookies => {
     resolvedCookies.set(rejectCookieName, "true")
   })
 }
