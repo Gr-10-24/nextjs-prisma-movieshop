@@ -8,7 +8,7 @@ import { getMovieCount, getRejectCookie, populateDb, setRejectCookie } from "@/a
 
 export default function PopulateDBToast () {
   useEffect(() => {
-    const f = async () => {
+    (async () => {
       const movieCount = getMovieCount()
       const isRejected = getRejectCookie()
       await Promise.all([movieCount, isRejected])
@@ -46,8 +46,7 @@ export default function PopulateDBToast () {
           </>
           )
       })
-    }
-    f()
+    })()
   })
 
   return null
