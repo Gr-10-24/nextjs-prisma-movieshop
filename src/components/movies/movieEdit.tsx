@@ -87,7 +87,7 @@ export function EditDialog({ data }: { data: MovieData }) {
       directors:initialDirectors,
 
       price: Number(data.price),
-      stock: Number(data.stock),
+      stock: Number(data.stock) || 0,
       release: Number(data.releaseDate),
       runtime: data.runtime,
     },
@@ -225,7 +225,7 @@ export function EditDialog({ data }: { data: MovieData }) {
             <label className="block text-sm font-medium col-span-1">Stock</label>
             <input
               {...register("stock", { valueAsNumber: true })}
-              defaultValue={formValues.stock}
+              defaultValue={isNaN(Number(data.stock)) ? 0 : Number(data.stock)}
               type="number"
               className="w-full border rounded px-2 py-1 col-span-3"
             />
