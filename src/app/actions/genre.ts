@@ -71,7 +71,7 @@ export async function DeleteGenre(id: string) {
   }
 }
 
-export async function EditGenre(id: string, name: string, descript: string) {
+export async function EditGenre(id: string, name: string, descript: string|null) {
   const rawData = {
     name,
     descript,

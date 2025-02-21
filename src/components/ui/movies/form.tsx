@@ -44,7 +44,6 @@ const FormSchema = z.object({
     })
     .min(0, { message: "Price must be atleast 0" })
     .max(500, { message: "Price can't be above 500" }),
-  // .refine((value)=>(/^\d+(\.\d{1,2})?$/).test(value.toString()),{message: "Price must have up to 2 decimal places"}),
   stock: z.string().refine(
     (value) => {
       const parsedVal = parseInt(value, 10);
@@ -55,7 +54,9 @@ const FormSchema = z.object({
   released: z.string().refine(
     (value) => {
       const parsedValue = parseInt(value);
-      return parsedValue <= (new Date().getFullYear());
+
+      return parsedValue <= new Date().getFullYear();
+
     },
     { message: "Published date should be a past year" }
   ),
@@ -86,7 +87,6 @@ const FormSchema = z.object({
 
 export default function MovieForm() {
   const [message, setMessage] = useState<string | null>(null);
-  //usestate use
   const [count, setCount] = useState(0);
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -133,7 +133,7 @@ export default function MovieForm() {
       return {
         success: false,
         message: error instanceof Error ? error.message : "Failed to add movie",
-        error: error instanceof Error ? error.stack : undefined
+        error: error instanceof Error ? error.stack : undefined,
       };
     }
   }
@@ -251,73 +251,7 @@ export default function MovieForm() {
             </FormItem>
           )}
         />
-        {/* <FormField
-          control={form.control}
-          name="genres"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-lg">Genres</FormLabel>
-              <FormControl>
-                <GetGenres field={field}/>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        /> */}
-        {/* <FormField
-          control={form.control}
-          name="genres"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-lg">Genres</FormLabel>
-              <FormControl>
-                <Input
-                  className="border border-black mb-6"
-                  placeholder="Type genres' names with seperated by commas..."
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        /> */}
-        
-       
-        {/* <FormField
-          control={form.control}
-          name="directors"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-lg">Directors</FormLabel>
-              <FormControl>
-                <Input
-                  className="border border-black mb-6"
-                  placeholder="Type directors' names with seperated by commas..."
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-         
-        <FormField
-          control={form.control}
-          name="actors"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-lg">Actors</FormLabel>
-              <FormControl>
-                <Input
-                  className="border border-black mb-6"
-                  placeholder="Type actors' names with seperated by commas..."
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />  */}
+
         <FormField
           control={form.control}
           name="price"
