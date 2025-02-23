@@ -10,12 +10,12 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { CUSTOMMOVIE } from "./carousel-oldMovies";
 import FetchMovies from "@/app/actions/customer-movie";
 import DialogMovie from "./dialog-movie";
 import { DotIcon } from "lucide-react";
 import { Input } from "../input";
 import AddToCartButton from "@/components/shopping-cart/add-to-cart-button";
+import { CUSTOMMOVIE } from "./landing-movies";
 
 export default function CarouselAllMovies() {
   const [loading, setLoading] = React.useState(false);
@@ -95,7 +95,7 @@ export default function CarouselAllMovies() {
               >
                 <div className="p-1">
                   <Card className="transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
-                    <CardContent className="flex aspect-square items-center justify center p-6">
+                    <CardContent className="flex aspect-square items-center justify-center p-6">
                       <span className="text-sm justify-end">
                         {<DialogMovie movie={movie} />}
                       </span>
@@ -134,7 +134,7 @@ export default function CarouselAllMovies() {
             <CarouselItem key={movie.id} className="md:basis-1/2 lg:basis-1/5">
               <div className="p-1">
                 <Card className="transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
-                  <CardContent className="flex aspect-square items-center  p-6">
+                  <CardContent className="flex aspect-square items-center justify-center p-6">
                     <span className="text-sm justify-end">
                       {<DialogMovie movie={movie} />}
                     </span>
