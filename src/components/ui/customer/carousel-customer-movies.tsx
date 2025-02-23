@@ -15,17 +15,13 @@ import { DotIcon } from "lucide-react";
 import AddToCartButton from "@/components/shopping-cart/add-to-cart-button";
 import { CUSTOMMOVIE } from "./landing-movies";
 
-interface ALLMOVIECARPROP{
-    movies : CUSTOMMOVIE[]
+interface ALLMOVIECARPROP {
+  movies: CUSTOMMOVIE[];
 }
 
-export default function CarouselAllMovies({movies}:ALLMOVIECARPROP) {
- 
-
+export default function CarouselAllMovies({ movies }: ALLMOVIECARPROP) {
   return (
     <>
- 
-
       {/* Carousel for A-J movies */}
 
       <Carousel
@@ -34,7 +30,6 @@ export default function CarouselAllMovies({movies}:ALLMOVIECARPROP) {
         }}
         className="w-full h-max-240"
       >
-        
         <CarouselContent>
           {movies.length > 0 ? (
             movies.map((movie) => (
@@ -49,7 +44,7 @@ export default function CarouselAllMovies({movies}:ALLMOVIECARPROP) {
                         {<DialogMovie movie={movie} />}
                       </span>
                     </CardContent>
-                    <div className="flex justify-between">
+                    <div className="flex justify-between pr-4">
                       {/* below DotIcon will be green if stocks available and red if not. */}
                       {movie.stock > 0 ? (
                         <DotIcon className=" ml-2 mb-0 text-green-500 size-10" />
@@ -69,5 +64,6 @@ export default function CarouselAllMovies({movies}:ALLMOVIECARPROP) {
         <CarouselPrevious />
         <CarouselNext />
       </Carousel>
-      </>
-  )}
+    </>
+  );
+}
