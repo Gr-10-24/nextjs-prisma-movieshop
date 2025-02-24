@@ -24,7 +24,7 @@ export default async function Movies() {
         </div>
       </div>
       <div className="w-1/2 lg:w-2/3 overflow-auto p-2">
-        <h1 className="text-black m-4">Movie details</h1>
+        <h1 className="text-2xl text-black p-3 text-center">Movie details</h1>
         {getmovie.length === 0 && <p>No book at yet</p>}
         {getmovie.length > 0 && (
           <Table>

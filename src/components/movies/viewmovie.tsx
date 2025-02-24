@@ -15,6 +15,8 @@ import { Role } from "@prisma/client";
 import { EditDialog } from "./movieEdit";
 import { Actor } from "next/font/google";
 import { DeleteTodo } from "@/app/actions/editupdateMovie";
+import { Trash, Trash2, Trash2Icon } from "lucide-react";
+import { Button } from "../ui/button";
  
  
 export default function ViewMovie({ data }: { data:MovieData}){
@@ -53,14 +55,14 @@ const actors = data.starring
                         <TableCell>{data.releaseDate}</TableCell>
                         <TableCell>{data.runtime}</TableCell>
                         <TableCell><EditDialog data={data} /></TableCell>
-                        <TableCell><button  onClick={() =>DeleteTodo(data.id).then(() =>
+                        <TableCell><Button  onClick={() =>DeleteTodo(data.id).then(() =>
                                         toast({
                                            title: "Delete successful",
                                        description: data.title + "Was deleted",
                                              variant: "destructive",
                                                   })
                                         )
-                                         } className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 border border-red-700 rounded">Delete</button>
+                                         } className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 border border-red-700 rounded "><Trash/></Button>
                         </TableCell>
                     </TableRow>
  
