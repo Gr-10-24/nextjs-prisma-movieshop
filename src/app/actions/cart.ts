@@ -178,7 +178,7 @@ export async function deleteCartItem(cartItemId: string) {
   await prisma.cartitems.delete({
     where: { id: cartItemId },
   });
-  updateCartTotal2();
+  await updateCartTotal2();
   revalidatePath("/");
 }
 
@@ -367,6 +367,6 @@ export async function updateQuantityItem(id: string, quantity: number) {
       data: { quantity },
     });
   }
-  updateCartTotal2();
+  await updateCartTotal2();
   revalidatePath("/", "layout");
 }

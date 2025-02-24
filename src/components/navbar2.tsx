@@ -21,7 +21,9 @@ export default async function NavBar2() {
   const cart = await getCartFront();
 
   return (
-    <header className="bg-primary">
+    <header className="bg-primary z-50 top-0 sticky">
+      {" "}
+      {/*top-0 sticky origin-top*/}
       <div className="flex flex-row justify-between py-4 container mx-auto">
         <div>
           <Link href="/" prefetch={true}>
