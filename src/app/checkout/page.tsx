@@ -21,17 +21,21 @@ export default async function Page() {
         </div>
       )}
       {session?.user.role === "CUSTOMER" && (
-        <div className="flex mx-auto mb-6">
-          {cart === undefined ? (
-            <p>Your cart is empty</p>
-          ) : (
-            <CartList cart={cart} />
-          )}
-          {session?.user.address === undefined ? (
-            <p>No address listed</p>
-          ) : (
-            <p>Address: {session.user.address}</p>
-          )}
+        <div className="flex flex-col mx-auto mb-6 gap-2">
+          <div>
+            {cart === undefined ? (
+              <p>Your cart is empty</p>
+            ) : (
+              <CartList cart={cart} />
+            )}
+          </div>
+          <div>
+            {session?.user.address === undefined ? (
+              <p>No address listed</p>
+            ) : (
+              <p>Your listed Address is: {session.user.address}</p>
+            )}
+          </div>
         </div>
       )}
     </main>

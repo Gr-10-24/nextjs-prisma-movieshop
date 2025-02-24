@@ -1,19 +1,9 @@
-"use client"
-import { GetMovie, MovieData } from "@/app/actions/viewmovie";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
+"use client";
+import { MovieData } from "@/app/actions/viewmovie";
+import { TableCell, TableRow } from "@/components/ui/table";
 import { toast } from "@/hooks/use-toast";
 import { Role } from "@prisma/client";
 import { EditDialog } from "./movieEdit";
-import { Actor } from "next/font/google";
 import { DeleteTodo } from "@/app/actions/editupdateMovie";
 import { Trash, Trash2, Trash2Icon } from "lucide-react";
 import { Button } from "../ui/button";
