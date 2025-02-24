@@ -6,9 +6,9 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-import { CUSTOMMOVIE } from "./carousel-oldMovies";
 import Image from "next/image";
 import AddToCartButton from "@/components/shopping-cart/add-to-cart-button";
+import { CUSTOMMOVIE } from "./landing-movies";
 
 export default function DialogMovie({ movie }: { movie: CUSTOMMOVIE }) {
   return (
@@ -26,12 +26,12 @@ export default function DialogMovie({ movie }: { movie: CUSTOMMOVIE }) {
           />
         )}
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[800px] ">
+      <DialogContent className="sm:max-w-[800px] h-400">
         <DialogHeader>
           <DialogTitle></DialogTitle>
           <div>
             <div key={movie.id}
-              className="flex justify-start ">
+              className="flex justify-start item-center">
               <div className="flex w-1/2">
                 {movie.imageUrl && (
                   <Image
@@ -43,18 +43,18 @@ export default function DialogMovie({ movie }: { movie: CUSTOMMOVIE }) {
                   />
                 )}
               </div>
-              <div className="pl-10 pt-4 w-1/2">
+              <div className=" pt-4 w-1/2">
                 <h1 className="text-3xl font-bold">
                   {movie.title} ({movie.releaseDate}){" "}
                   {/* Render Title (Released Year)*/}
                 </h1>
                 <div className="flex">
-                  <div className="pr-4">Duration : {movie.runtime}min</div>
-                  <span className="ml-6">
+                  <div className="pr-4 w-1/2">Duration : {movie.runtime}min</div>
+                  <div className="ml-6 w-1/2">
                     {movie.genre.flatMap((g) => g.name).join("-")}
-                  </span>
+                  </div>
                 </div>
-                <div className="flex justify-evenly">
+                <div className="flex justify-between">
                   <div className="mt-2">price : {movie.price} SEK</div>
                   {/* below line will show the availability of movie*/}
                   {movie.stock > 0 ? (

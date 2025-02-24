@@ -7,8 +7,11 @@
 import { prisma } from "@/lib/prisma";
 import { Prisma } from '@prisma/client';
 import { revalidatePath } from "next/cache";
+import { cookies } from "next/headers";
 import assert from 'node:assert';
 import fs from 'node:fs';
+
+// Types
 
 type Top250Movie = {
   actor: { name: string }[],
@@ -24,10 +27,7 @@ type Top250Movie = {
 type Movie = Prisma.MovieCreateInput
 type MovieUnion = Movie & Top250Movie
 
-export async function getMovieCount() {
-  const movieCount = await prisma.movie.count()
-  return movieCount
-}
+// Utility functions
 
 function parseMovie(movie: Top250Movie): Movie {
   return {
@@ -75,7 +75,8 @@ assert(parseRuntime("PT3H") === "180")
 assert(parseRuntime("PT45M") === "45")
 assert(parseRuntime("PT2H4M") === "124")
 
-// Insert missing genres
+// Main insertion functions
+
 async function insertMissingGenres(movies: MovieUnion[]) {
   const allGenresSet = movies.reduce((genres, movie) => {
     // Set.union could have been used here, but since I have an older
@@ -98,7 +99,6 @@ async function insertMissingGenres(movies: MovieUnion[]) {
   return await Promise.all(result)
 }
 
-// // Insert Movies
 async function insertMovies(movies: Movie[]) {
   try {
     // createMany and connect many cannot be combined, so use create
@@ -128,6 +128,29 @@ async function insertMovies(movies: Movie[]) {
     console.error('Error inserting movie:', error)
   }
 }
+
+// Used for toast UI
+
+const rejectCookieName = "dontAddMovies";
+
+export async function getRejectCookie(): Promise<Boolean> {
+  const resolvedCookies = cookies()
+  const userRejected = (await resolvedCookies).has(rejectCookieName)
+  return userRejected
+}
+
+export async function setRejectCookie() {
+  await cookies().then(resolvedCookies => {
+    resolvedCookies.set(rejectCookieName, "true")
+  })
+}
+
+export async function getMovieCount() {
+  const movieCount = await prisma.movie.count()
+  return movieCount
+}
+
+// Main function
 
 export async function populateDb() {
   try {

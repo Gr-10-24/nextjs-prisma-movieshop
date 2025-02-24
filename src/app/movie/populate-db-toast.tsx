@@ -4,13 +4,15 @@
 import { toast } from "@/hooks/use-toast";
 import { ToastAction } from "@radix-ui/react-toast";
 import { useEffect } from "react";
-import { getMovieCount, populateDb } from "@/app/actions/populate-db";
+import { getMovieCount, getRejectCookie, populateDb, setRejectCookie } from "@/app/actions/populate-db";
 
 export default function PopulateDBToast () {
   useEffect(() => {
-    const f = async () => {
-      const movieCount = await getMovieCount()
-      if (movieCount < 10)
+    (async () => {
+      const movieCount = getMovieCount()
+      const isRejected = getRejectCookie()
+      await Promise.all([movieCount, isRejected])
+      if (!await isRejected && await movieCount < 10)
         toast({
           title: "Add some movies?",
           description: "This site seems a bit empty. Do you want me to add some movies to it?",
@@ -36,7 +38,7 @@ export default function PopulateDBToast () {
               Add some Movies
             </ToastAction>
             <ToastAction
-              onClick={async () => console.log("goodbye")}
+              onClick={setRejectCookie}
               altText="Dismiss Forever"
             >
               No, go away forever
@@ -44,8 +46,7 @@ export default function PopulateDBToast () {
           </>
           )
       })
-    }
-    f()
+    })()
   })
 
   return null
