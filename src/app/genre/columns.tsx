@@ -20,11 +20,12 @@ export type Genre = {
 };
 
 export default function ExpandableText({ text }: { text: string }) {
+  const [expanded, setExpanded] = useState(false);
+  const maxLength = 50;      
+           // maxLength defines displaying max length of description by default.
   if (!text)
     return ""
 
-  const [expanded, setExpanded] = useState(false);
-  const maxLength = 50;               // maxLength defines displaying max length of description by default.
 
   // if number of chars in text less than maxlength, then show text else show maximum number of chars (50 here)
   if (text.length < maxLength) {

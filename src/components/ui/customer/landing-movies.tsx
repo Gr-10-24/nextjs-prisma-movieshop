@@ -10,11 +10,43 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { $Enums } from "@prisma/client";
 import FetchMovies from "@/app/actions/customer-movie";
-import { CUSTOMMOVIE } from "./carousel-oldMovies";
 import DialogMovie from "./dialog-movie";
 
-export function CarouselNewMovies() {
+export interface CUSTOMMOVIE {
+  id: string;
+  title: string;
+  description: string;
+  imageUrl: string | null;
+  price: number;
+  stock: number;
+  releaseDate: number;
+  runtime: string;
+  genre: {
+    id: string;
+    name: string;
+  }[];
+  starring: {
+    id: string;
+    role: $Enums.Role;
+    person: {
+      id: string;
+      starName: string;
+    }[];
+  }[];
+}
+
+interface movieProps{
+  sortBy : "releaseDate" | "price"
+  orderedBy: "asc" | "desc"
+  limit: number
+  
+  }
+
+export function CarouselMovies({
+  sortBy,orderedBy,limit}:movieProps
+) {
   const [loading, setLoading] = React.useState(false);
   const [movie, setMovie] = React.useState<CUSTOMMOVIE[]>([]);
 
@@ -36,31 +68,35 @@ export function CarouselNewMovies() {
     oldMovies();
   }, []);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <p>Loading...</p>;
 
-  const sortedMovies = movie.sort((a, b) => b.releaseDate - a.releaseDate); // sort movie data orderby releasedate
-  const newestMovies = sortedMovies.slice(0, 5); // Get most oldest 5 movies
+  const sortedMovies = movie.sort((a, b) => {
+    const aValue = a[sortBy]
+    const bValue = b[sortBy]
+    return orderedBy === "asc"? aValue-bValue : bValue-aValue}).slice(0,limit);
 
   return (
     <Carousel
       opts={{
         align: "start",
       }}
-      className="w-full max-w-fit"
+      className="w-full h-max-240"
     >
       <CarouselContent>
-        {newestMovies.map((m) => (
+        {sortedMovies.map((m) => (
           <CarouselItem key={m.id} className="md:basis-1/2 lg:basis-1/5">
             <div className="p-1">
               <Card className="transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
                 <CardContent className="flex aspect-square items-center justify-center p-6">
                   {
-                    <div className="text-lg">
-                      <DialogMovie movie={m} />
+                    <span className="text-sm justify-end">
+                      {<DialogMovie movie={m} />}
                       <span className="flex justify-center">
-                        ({m.releaseDate})
+                       { 
+                          sortBy === "releaseDate"?<p>({m.releaseDate})</p>: <p>({m.price} kr )</p> 
+                         } 
                       </span>
-                    </div>
+                    </span>
                   }
                 </CardContent>
               </Card>
