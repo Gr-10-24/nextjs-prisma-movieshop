@@ -182,6 +182,13 @@ export async function deleteCartItem(cartItemId: string) {
   revalidatePath("/");
 }
 
+export async function deleteCart(cartId: string) {
+  await prisma.cart.delete({
+    where: { id: cartId },
+  });
+  revalidatePath("/");
+}
+
 // export function convertCart(cart: Cart): CartFront | undefined {
 //   if (cart !== undefined) {
 //     const newCart: CartFront = {

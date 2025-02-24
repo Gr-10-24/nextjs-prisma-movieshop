@@ -185,6 +185,8 @@ model Cart {
   id        String      @id @default(cuid())
   total     Decimal
   CartItems Cartitems[]
+  createdAt   DateTime      @default(now()) @db.Timestamptz(0)
+  updatedAt   DateTime      @updatedAt @db.Timestamptz(0)
 }
 
 model Cartitems {
@@ -197,4 +199,7 @@ model Cartitems {
 
   cartId String
   cart   Cart   @relation(fields: [cartId], references: [id], onDelete: Cascade)
+
+  createdAt   DateTime      @default(now()) @db.Timestamptz(0)
+  updatedAt   DateTime      @updatedAt @db.Timestamptz(0)
 }

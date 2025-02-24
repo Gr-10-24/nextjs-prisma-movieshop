@@ -2,6 +2,8 @@ import CartList from "@/components/shopping-cart/cart-list";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { getCartFront } from "../actions/cart";
+import { Button } from "@/components/ui/button";
+import CheckoutButton from "@/components/shopping-cart/checkout-button";
 
 export default async function Page() {
   const session = await auth.api.getSession({
@@ -36,6 +38,12 @@ export default async function Page() {
               <p>Your listed Address is: {session.user.address}</p>
             )}
           </div>
+          {cart === undefined ? (
+            <Button>Nothing in cart</Button>
+          ) : (
+            //<Button onClick={() => Checkout(cart)}>Checkout</Button>
+            <CheckoutButton cart={cart} />
+          )}
         </div>
       )}
     </main>
