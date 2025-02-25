@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 import Genre from "../actions/genre";
@@ -21,11 +20,9 @@ export type Genre = {
 
 export default function ExpandableText({ text }: { text: string }) {
   const [expanded, setExpanded] = useState(false);
-  const maxLength = 50;      
-           // maxLength defines displaying max length of description by default.
-  if (!text)
-    return ""
-
+  const maxLength = 50;
+  // maxLength defines displaying max length of description by default.
+  if (!text) return "";
 
   // if number of chars in text less than maxlength, then show text else show maximum number of chars (50 here)
   if (text.length < maxLength) {
@@ -45,28 +42,6 @@ export default function ExpandableText({ text }: { text: string }) {
 }
 
 export const columns: ColumnDef<Genre>[] = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
   {
     accessorKey: "name",
     header: ({ column }) => {

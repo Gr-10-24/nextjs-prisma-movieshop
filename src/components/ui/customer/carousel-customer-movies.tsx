@@ -47,11 +47,20 @@ export default function CarouselAllMovies({ movies }: ALLMOVIECARPROP) {
                     <div className="flex justify-between pr-4">
                       {/* below DotIcon will be green if stocks available and red if not. */}
                       {movie.stock > 0 ? (
-                        <DotIcon className=" ml-2 mb-0 text-green-500 size-10" />
+                        <div className="flex justify-between w-full">
+                          <DotIcon className="mb-2 text-green-500 size-10 w-1/2" />
+                          <div className="w-1/2">
+                            {<AddToCartButton movieId={movie.id} />}
+                          </div>
+                        </div>
                       ) : (
-                        <DotIcon className=" ml-2 mb-0 text-red-500 size-10" />
+                        <div className="flex justify-between w-full">
+                          <DotIcon className=" mb-2 text-red-500 size-10 w-1/2" />
+                          <div className=" mt-1 text-red-600 font-bold text-xl">
+                            Out of stock
+                          </div>
+                        </div>
                       )}
-                      {<AddToCartButton movieId={movie.id} />}
                     </div>
                   </Card>
                 </div>

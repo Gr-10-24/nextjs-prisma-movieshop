@@ -15,7 +15,7 @@ export default async function Movies() {
 
   return (
     <div className="flex">
-      <div className="w-1/2 lg:w-1/3">
+      <div className=" border w-1/2 lg:w-1/3 py-5 pr-8">
         <div className="flex container justify-center">
           <h1 className="text-2xl text-black p-3">Movie Registration Form</h1>
         </div>
@@ -23,8 +23,8 @@ export default async function Movies() {
           <MovieForm />
         </div>
       </div>
-      <div className="w-1/2 lg:w-2/3 overflow-auto p-2">
-        <h1 className="text-2xl text-black p-3 text-center">Movie details</h1>
+      <div className="w-1/2 lg:w-2/3 overflow-auto p-2 py-5">
+        <h1 className="flex text-black justify-center m-4 text-2xl">Movie details</h1>
         {getmovie.length === 0 && <p>No book at yet</p>}
         {getmovie.length > 0 && (
           <Table>

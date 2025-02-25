@@ -13,6 +13,7 @@ import {
 import { useState } from "react";
 import { Input } from "../input";
 
+
 export function EditDialog({ genre }: { genre: Genre }) {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState(genre.name);
@@ -50,7 +51,7 @@ export function EditDialog({ genre }: { genre: Genre }) {
         <form onSubmit={handleUpdate}>
           <DialogHeader>
             <DialogTitle>Quick Edit Form</DialogTitle>
-            <DialogDescription>Filled your Changes Below</DialogDescription>
+            <DialogDescription>Fill your Changes Below</DialogDescription>
           </DialogHeader>
 
           <div className="grid gap-4 py-4">
@@ -70,14 +71,16 @@ export function EditDialog({ genre }: { genre: Genre }) {
             )}
             <div className="grid grid-cols-4 items-center gap-4">
               <label htmlFor="descript">Description</label>
-              <textarea
-                className="w-96 border border-black mb-6 p-2 rounded-md resize-y"
-                rows={3}
-                placeholder="description of the genre"
-                id="descript"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              />
+              {description && (
+                <textarea
+                  className="w-96 border border-black mb-6 p-2 rounded-md resize-y"
+                  rows={3}
+                  placeholder="description of the genre"
+                  id="descript"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+              )}
             </div>
             {FieldError.descript && (
               <div className="text-red-600 flex justify-end">
