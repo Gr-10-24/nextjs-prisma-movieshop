@@ -6,8 +6,9 @@ import { Button } from "../ui/button";
 import { deleteCartItem, updateQuantityItem } from "@/app/actions/cart";
 import { CartItemFront } from "@/types/cartType";
 import { Input } from "../ui/input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
+import { getMovieStock } from "@/app/actions/viewmovie";
 
 export default function CartItemCard({
   cartItem,
@@ -15,6 +16,19 @@ export default function CartItemCard({
   cartItem: CartItemFront;
 }) {
   const [q, setQ] = useState(cartItem.quantity);
+  const [stock, setStock] = useState(0);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await getMovieStock(cartItem.movieId);
+        setStock(result.stock);
+      } catch (e) {
+        throw e;
+      }
+    };
+    fetchData();
+  });
+  //const stock = await getMovieStock(cartItem.movieId);
   return (
     <div
       key={cartItem.id}
@@ -54,11 +68,16 @@ export default function CartItemCard({
               id={"quantity"}
               type={"number"}
               min={0}
-              max={100}
+              max={stock}
+              //max={100}
               value={q}
               onChange={async (e) => {
                 setQ(Number(e.target.value));
-                await updateQuantityItem(cartItem.id, Number(e.target.value));
+                await updateQuantityItem(
+                  cartItem.id,
+                  cartItem.movieId,
+                  Number(e.target.value)
+                );
               }}
             />
           </div>

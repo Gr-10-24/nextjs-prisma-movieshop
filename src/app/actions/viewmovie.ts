@@ -168,3 +168,10 @@ export async function UpdateTodo(
     };
   }
 }
+
+export async function getMovieStock(id: string) {
+  return await prisma.movie.findUniqueOrThrow({
+    where: { id },
+    select: { stock: true },
+  });
+}
