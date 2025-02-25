@@ -56,9 +56,9 @@ export default function CartItemCard({
               min={0}
               max={100}
               value={q}
-              onChange={(e) => {
+              onChange={async (e) => {
                 setQ(Number(e.target.value));
-                updateQuantityItem(cartItem.id, Number(e.target.value));
+                await updateQuantityItem(cartItem.id, Number(e.target.value));
               }}
             />
           </div>

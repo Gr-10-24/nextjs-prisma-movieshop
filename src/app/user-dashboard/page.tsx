@@ -1,5 +1,5 @@
 export default async function Dashboard(){
-  const getValues = await GetUser();
+  
     
   return (
     <div className="flex">

@@ -20,7 +20,7 @@ export function CartDialog({ cart }: { cart: CartFront }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="border-2">
+        <Button variant={"green"} className="border-2 border-black">
           <ShoppingBasket />
         </Button>
       </DialogTrigger>
@@ -29,7 +29,7 @@ export function CartDialog({ cart }: { cart: CartFront }) {
           <DialogTitle></DialogTitle>
         </DialogHeader>
         <CartList cart={cart} />
-        <Link href="/checkout">
+        <Link className="m-auto" href="/checkout">
           <Button onClick={() => setOpen(false)}>Go to Checkout</Button>
         </Link>
       </DialogContent>

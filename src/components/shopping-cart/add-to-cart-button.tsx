@@ -5,11 +5,12 @@ import {
   AddToCart2,
 } from "@/app/actions/cart";
 import { Button } from "../ui/button";
+import { ShoppingBasket } from "lucide-react";
 
 export default function AddToCartButton({ movieId }: { movieId: string }) {
   return (
     <Button
-      variant={"secondary"}
+      variant={"green"}
       onClick={() =>
         //add movieId or whole movie to shopping cart
         {
@@ -17,7 +18,7 @@ export default function AddToCartButton({ movieId }: { movieId: string }) {
         }
       }
     >
-      <p>Add to Cart</p>
+      <ShoppingBasket />
     </Button>
   );
 }

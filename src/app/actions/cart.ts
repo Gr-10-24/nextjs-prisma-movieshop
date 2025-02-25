@@ -178,7 +178,15 @@ export async function deleteCartItem(cartItemId: string) {
   await prisma.cartitems.delete({
     where: { id: cartItemId },
   });
-  //revalidatePath("/"); this might be needed?
+  await updateCartTotal2();
+  revalidatePath("/");
+}
+
+export async function deleteCart(cartId: string) {
+  await prisma.cart.delete({
+    where: { id: cartId },
+  });
+  revalidatePath("/");
 }
 
 // export function convertCart(cart: Cart): CartFront | undefined {
@@ -366,6 +374,6 @@ export async function updateQuantityItem(id: string, quantity: number) {
       data: { quantity },
     });
   }
-  updateCartTotal2();
+  await updateCartTotal2();
   revalidatePath("/", "layout");
 }
