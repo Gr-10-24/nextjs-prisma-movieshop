@@ -48,21 +48,26 @@ export default function DialogMovie({ movie }: { movie: CUSTOMMOVIE }) {
                   {movie.title} ({movie.releaseDate}){" "}
                   {/* Render Title (Released Year)*/}
                 </h1>
-                <div className="flex">
-                  <div className="pr-4 w-1/2">Duration : {movie.runtime}min</div>
-                  <div className="ml-6 w-1/2">
+                <div className="flex pt-4 ">
+                  <div className=" w-2/5">Duration : {movie.runtime}min</div>
+                  <div className=" w-3/5">
                     {movie.genre.flatMap((g) => g.name).join("-")}
                   </div>
                 </div>
-                <div className="flex justify-between">
-                  <div className="mt-2">price : {movie.price} SEK</div>
+                <div className="flex justify-between ">
+                  <div className="w-2/5 mt-4">price : {movie.price} SEK</div>
                   {/* below line will show the availability of movie*/}
                   {movie.stock > 0 ? (
-                    <p className="mt-2">In Stock</p>
+                    <div className="w-3/5 flex justify-between">
+                      <p className="mr-2 mt-4">In Stock</p>
+                      <div className="mt-2">
+                      <AddToCartButton movieId={movie.id}/>
+
+                      </div>
+                    </div>
                   ) : (
-                    <p className="text-red-700 mt-2">out of stock</p>
+                    <p className="text-red-600 mt-4 justify-start font-bold text-xl">Out of stock</p>
                   )}{" "}
-                  <AddToCartButton movieId={movie.id} />
                 </div>
 
                 <h2 className="mt-4 text-xl font-semibold">Description: </h2>

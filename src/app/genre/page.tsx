@@ -12,16 +12,18 @@ async function getData(): Promise<Genre[]> {
 export default async function DemoPage() {
   const data = await getData();
   return (
-    <div className="flex container">
-      <div className="border w-1/4 pl-8 ">
-      <h1 className="text-2xl text-black py-5">Genre Registration Form</h1>
+    <div className="flex w-full">
+      <div className=" border  w-1/2 lg:w-1/3 py-6 ">
+      <h1 className="flex justify-center pb-2 text-2xl text-black ">Genre Registration Form</h1>
+       <div className="flex container justify-center">
         <GenreForm />
+       </div>
       </div>
-      <div className="w-3/4  px-3">
-        <div className=" flex container justify-center text-2xl py-5">
+      <div className="w-1/2 lg:w-2/3 pl-2 overflow-auto py-5">
+        <div className="flex  justify-center text-2xl ">
           <h1>List of Genres</h1>
         </div>
-        <div className="container mx-auto py-10">
+        <div className="">
           <DataTable columns={columns} data={data} />
         </div>
       </div>

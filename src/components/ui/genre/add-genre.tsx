@@ -51,12 +51,12 @@ export function GetGenres({ field }: getGenresProps) {
   if (loading) return <>Loading...</>;
 
   return (
-    <div>
+    <div className="flex border border-black rounded-md">
       {/* gather different types of relevant genres  */}
-      <div className="flex items-center space-x-4 mb-2">
+      <div className="flex items-center space-x-4">
         <input
           placeholder="Genre Name (Comma Seperated)"
-          className="w-96 px-4 py-2 border border-black"
+          className="flex container h-full w-72 px-2 items-center rounded-lg "
           value={inputValue}
           onChange={(e) => {
             setInputValue(e.target.value);
@@ -65,15 +65,15 @@ export function GetGenres({ field }: getGenresProps) {
         />
       </div>
       {/* get access and select existing genres */}
-      <div className="flex items-center space-x-4">
+      <div className="flex justify-end ">
         <p className="text-sm text-muted-foreground"></p>
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
             <Button
-              variant="ghost"
-              className="w-[150px] justify-start border border-black bg-gray-300"
+              variant="default"
+              className="h-12 pr-4"
             >
-              {<>+ Select a genre</>}
+              {<>+Add</>}
             </Button>
           </PopoverTrigger>
           <PopoverContent className="p-0" side="right" align="start">
