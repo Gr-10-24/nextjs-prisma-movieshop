@@ -326,16 +326,22 @@ export async function AddToCart2(movieId: string) {
     },
   });
 
+  const movie = await prisma.movie.findUniqueOrThrow({
+    where: { id: movieId },
+  });
+
   if (existingItems) {
-    await prisma.cartitems.update({
-      where: { id: existingItems.id },
-      data: { quantity: existingItems.quantity + 1 },
-    });
+    if (movie.stock > existingItems.quantity) {
+      await prisma.cartitems.update({
+        where: { id: existingItems.id },
+        data: { quantity: existingItems.quantity + 1 },
+      });
+    }
   } else {
-    const movie = await prisma.movie.findUnique({
-      where: { id: movieId },
-    });
-    if (movie) {
+    // const movie = await prisma.movie.findUnique({
+    //   where: { id: movieId },
+    // });
+    if (movie.stock > 0) {
       await prisma.cartitems.create({
         data: {
           cartId: cart.id,
@@ -365,14 +371,23 @@ export async function updateCartTotal2() {
   }
 }
 
-export async function updateQuantityItem(id: string, quantity: number) {
+export async function updateQuantityItem(
+  id: string,
+  movieId: string,
+  quantity: number
+) {
   if (quantity < 1) {
     await deleteCartItem(id);
   } else {
-    await prisma.cartitems.update({
-      where: { id },
-      data: { quantity },
+    const movie = await prisma.movie.findUniqueOrThrow({
+      where: { id: movieId },
     });
+    if (movie.stock >= quantity) {
+      await prisma.cartitems.update({
+        where: { id },
+        data: { quantity },
+      });
+    }
   }
   await updateCartTotal2();
   revalidatePath("/", "layout");
