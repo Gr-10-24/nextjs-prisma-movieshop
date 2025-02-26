@@ -78,7 +78,8 @@ export async function PopulateDbWTmdb() {
   console.log(test);
 }
 
-export async function testing(): Promise<dBMovie[]> {
+export async function testing() {
+  //: Promise<dBMovie[]>
   const url =
     "https://api.themoviedb.org/3/discover/movie?api_key=9d93513a5360eeddedf357629119d2ab&append_to_response=credits";
   try {
@@ -87,11 +88,36 @@ export async function testing(): Promise<dBMovie[]> {
       throw new Error(`Response status: ${response.status}`);
     }
 
-    const json = await response.json();
-    return json;
+    //const json = await response.json();
+    let text = await response.text();
+    text = text.substring(1, text.length - 1);
+    console.log(text);
+    const start = text.indexOf("{");
+    const end = text.lastIndexOf("}");
+    console.log(text.substring(start, end));
+
+    //const test = await convertApi(json);
+
+    //console.log(test);
+    //test.map((movie) => console.log(movie));
+
+    //return json;
   } catch (e) {
     throw e;
   }
 }
 
 export type TestingType = Awaited<ReturnType<typeof testing>>;
+
+export async function convertApi(arr: dBMovie[]): Promise<
+  {
+    genre_ids: number[];
+    title: string;
+    overview: string;
+    poster_path: string;
+    release_date: string;
+  }[]
+> {
+  arr.forEach((movie) => console.log(movie));
+  return arr;
+}
