@@ -2,6 +2,7 @@
 
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
+import UserDash from "./user-dashboard/page";
 
 export default async function Page() {
   const session = await auth.api.getSession({
@@ -25,21 +26,15 @@ export default async function Page() {
   //console.log(test);
 
   return (
-    <main className="flex flex-col container mx-auto py-12 gap-2">
-      {session && (
-        <div className="flex justify-end mb-6">
-          This is shown if you are logged in.
-        </div>
-      )}
+    <main className="flex flex-col container mx-auto gap-2">
+      
       {session?.user.role === "ADMIN" && (
         <div className="flex justify-end mb-6">
           This is shown if you are logged in as Admin.
         </div>
       )}
       {session?.user.role === "CUSTOMER" && (
-        <div className="flex justify-end mb-6">
-          This is shown if you are logged in as Customer.
-        </div>
+        <UserDash/>
       )}
     </main>
   );

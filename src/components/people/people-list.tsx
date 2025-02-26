@@ -11,7 +11,6 @@ export default function PeopleList(data: {
 }) {
   return (
     <div className="Flex gap-2 m-2 p-2">
-      <h1 className="text-2xl text-black p-3 text-center pb-4">People details</h1>
       {data.people.map((person) =>
         data.userRole ? (
           person !== null ? (

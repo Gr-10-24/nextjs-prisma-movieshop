@@ -4,7 +4,7 @@ import { getUserDetails, getUserOrders } from "../actions/userOrders";
 import { Film, Trash } from "lucide-react";
 import UserMovieForm from "@/components/ui/userDashboard/userForm";
 
-export default async function Page() {
+export default async function UserDash() {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -28,9 +28,9 @@ export default async function Page() {
           </div>
       </div>
       <div className=" border w-1/2 lg:w-2/3 py-5 pr-8">
-      <h1 className="text-2xl font-bold">Your Order History</h1>
+      <h1 className="text-2xl font-bold pl-6">Your Order History</h1>
       {orders.length > 0 ? (
-        <ul className="mt-4 space-y-4">
+        <ul className="mt-4 space-y-4 pl-10">
           {orders.map((order) => (
             <li key={order.id} className="border p-4 rounded-lg shadow">
               <p className="font-semibold">Order ID: {order.id}</p>

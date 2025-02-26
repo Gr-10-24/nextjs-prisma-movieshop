@@ -13,11 +13,11 @@ export default function PeopleForm({ data }: { data?: Person }) {
   );
 
   return (
-    <form action={action} className="max-w-lg mx-auto pl-10 bg-white rounded-lg">
-    <h1 className="text-2xl text-black p-7 text-center">
+    <form action={action} className="max-w-lg mx-auto pl-10 rounded-lg">
+    <h1 className="text-2xl text-black p-4 text-center">
       {data ? "Edit person" : "Add a new person"}
     </h1>
-    <div className=" content-center justify-center pl-8">
+    <div className=" content-center justify-center pl-4">
       {data ? (
         <div className="flex flex-col container p-2">
           <div className="flex">
