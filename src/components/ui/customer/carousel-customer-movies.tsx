@@ -39,17 +39,17 @@ export default function CarouselAllMovies({ movies }: ALLMOVIECARPROP) {
               >
                 <div className="p-1">
                   <Card className="transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
-                    <CardContent className="flex aspect-square items-center justify-center p-6">
+                    <CardContent className="flex aspect-square items-center justify-center px-6 pt-6 pb-2">
                       <span className="text-sm justify-end">
                         {<DialogMovie movie={movie} />}
                       </span>
                     </CardContent>
-                    <div className="flex justify-between pr-4">
+                    <div className="flex justify-evenly pr-2 ">
                       {/* below DotIcon will be green if stocks available and red if not. */}
                       {movie.stock > 0 ? (
-                        <div className="flex justify-between w-full">
+                        <div className="flex w-full ">
                           <DotIcon className="mb-2 text-green-500 size-10 w-1/2" />
-                          <div className="w-1/2">
+                          <div className="flex container justify-end w-1/2 pr-6">
                             {<AddToCartButton movieId={movie.id} />}
                           </div>
                         </div>

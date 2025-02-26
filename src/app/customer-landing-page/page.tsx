@@ -3,7 +3,7 @@ import { CarouselMovies } from "@/components/ui/customer/landing-movies";
 export default function Page() {
   return (
     <div className="px-12 pb-8">
-      <div className="text-2xl font-semibold justify-center mt-10">
+      <div className="text-2xl  font-semibold justify-center mt-10">
         <h1>Oldest Movies</h1>
       </div>
       <div className="flex justify-start mt-2">
