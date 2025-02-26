@@ -2,6 +2,7 @@
 
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
+import AddMoviesButton from "@/components/tmdb/add-button";
 
 export default async function Page() {
   const session = await auth.api.getSession({
@@ -26,6 +27,7 @@ export default async function Page() {
 
   return (
     <main className="flex flex-col container mx-auto py-12 gap-2">
+      <AddMoviesButton />
       {session && (
         <div className="flex justify-end mb-6">
           This is shown if you are logged in.
