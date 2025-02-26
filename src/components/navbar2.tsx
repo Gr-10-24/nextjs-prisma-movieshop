@@ -28,7 +28,7 @@ export default async function NavBar2() {
         <div>
           <Link href="/" prefetch={true}>
             <h1 className="text-2xl font-bold text-primary-foreground">
-              Movie Shop
+              Movie Bazaar
             </h1>
           </Link>
         </div>
