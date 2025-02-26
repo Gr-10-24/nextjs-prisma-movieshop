@@ -324,7 +324,7 @@ export default function MovieForm() {
         />
 
         <Button type="submit">Submit</Button>
-        {message && <p className="text-black">{message}</p>}
+        {message && <p className="text-green-700">{message}</p>}
       </form>
     </Form>
   );
