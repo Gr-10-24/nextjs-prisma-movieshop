@@ -10,7 +10,8 @@ export default function LogoutButton() {
 
   return (
     <Button
-      variant={"secondary"}
+      // variant={"secondary"}
+      // className="border-white border-2"
       onClick={() => authClient.signOut().then(router.refresh)}
     >
       Logout
