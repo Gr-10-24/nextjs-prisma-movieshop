@@ -11,17 +11,26 @@ export default async function Page() {
   const people = await getPeopleWstarring();
 
   return (
-    <main className="flex flex-col container mx-auto py-12 gap-2">
-      {session?.user.role === "ADMIN" && (
-        <div>
-          <PeopleForm />
-        </div>
-      )}
-      {session !== null ? (
-        <PeopleList people={people} userRole={session.user.role} />
-      ) : (
-        <PeopleList people={people} />
-      )}
-    </main>
+    <div className="flex">
+    <div className="w-1/2 lg:w-1/4 ">
+    {session?.user.role === "ADMIN" && (
+      <div className="">
+        <PeopleForm />
+      </div>
+    )}
+    </div>
+    <div className="w-1/2 lg:w-3/4">
+    <h1 className="text-2xl text-black p-7 text-center">
+        People Lists
+    </h1>
+    {session !== null ? (
+      <PeopleList people={people} userRole={session.user.role} />
+    ) : (
+      <PeopleList people={people} />
+    )}
+    </div>
+
+  </div>
+
   );
 }
