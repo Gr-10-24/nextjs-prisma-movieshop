@@ -17,7 +17,7 @@ export default function AddMoviesButton() {
           //await PopulateDbWTmdb();
           //await populateDb();
           //App();
-          testing();
+          await testing();
         }
       }
     >
