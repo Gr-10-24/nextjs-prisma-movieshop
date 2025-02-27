@@ -24,7 +24,7 @@ export default async function Page() {
         People Lists
     </h1>
     {session !== null ? (
-      <PeopleList people={people} userRole={session.user.role} />
+      <PeopleList people={people} userRole={session.user.role}/>
     ) : (
       <PeopleList people={people} />
     )}
