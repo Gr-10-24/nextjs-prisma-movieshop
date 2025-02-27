@@ -1,6 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
+import { addStarringQ } from "../starring";
 
 // type genre = {
 //   id: number;
@@ -204,17 +205,38 @@ export async function testing() {
         throw new Error(`Response status: ${response.status}`);
       }
       const json = await response.json();
-      json.results.map((movie: dbMovies) => {
-        const aMovie = prisma.movie.create({
+      json.results.map(async (movie: dbMovies) => {
+        const aMovie = await prisma.movie.create({
           data: {
             title: movie.title,
             description: movie.overview,
             imageUrl: "image.tmdb.org" + movie.poster_path,
-            price: moviePrice(movie),
-            stock: 5,
-            releaseDate: dateStringToYear(movie.datePublished),
-            runtime: parseRuntime(movie.duration),
+            price: moviePrice(movie.release_date),
+            stock: 15,
+            releaseDate: dateStringToYear(movie.release_date),
+            runtime: movie.runtime.toString(),
           },
+        });
+        for (let j = 0; j < movie.genres.length; j++) {
+          await prisma.genre.upsert({
+            where: { name: movie.genres[j].name },
+            update: {
+              movies: {
+                connect: { id: aMovie.id },
+              },
+            },
+            create: {
+              name: movie.genres[j].name,
+            },
+          });
+        }
+        for (let k = 0; k < 5; k++) {
+          await addStarringQ(aMovie.id, movie.credits.cast[k].name, "ACTOR");
+        }
+        movie.credits.crew.map(async (person) => {
+          if (person.job === "Director") {
+            await addStarringQ(aMovie.id, person.name, "DIRECTOR");
+          }
         });
       });
     }
@@ -257,4 +279,8 @@ function moviePrice(date: string) {
   if (year < 2000) return 99;
   if (year < 2010) return 149;
   return 199;
+}
+
+function dateStringToYear(s: string) {
+  return new Date(s).getFullYear();
 }
