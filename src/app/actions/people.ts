@@ -150,6 +150,33 @@ export async function addPersonQ(name: string) {
   return person.id;
 }
 
+export async function addPersonQimport(name: string) {
+  //takes a single string and creates a person out of it, excluding desc.
+  const result = stringSchema.safeParse(name);
+  if (!result.success) {
+    console.log(result.error.flatten());
+    return "Error";
+  }
+
+  const check = await prisma.person.findFirst({
+    where: {
+      name: result.data,
+    },
+  });
+  //console.log(check);
+  if (check !== null) {
+    return check.id;
+  }
+
+  const person = await prisma.person.create({
+    data: {
+      name: result.data,
+      description: "",
+    },
+  });
+  return person.id;
+}
+
 export async function UpdatePerson(previousState: unknown, formData: FormData) {
   const result = formSchema.safeParse(Object.fromEntries(formData));
   if (!result.success) {

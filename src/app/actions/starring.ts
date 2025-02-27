@@ -1,10 +1,10 @@
-"user server";
+"use server";
 
 import { prisma } from "@/lib/prisma";
 import { Role } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
-import { addPersonQ } from "./people";
+import { addPersonQ, addPersonQimport } from "./people";
 
 const formSchema = z.object({
   id: z.string().optional(),
@@ -118,6 +118,51 @@ export async function addStarringQ(movieId: string, name: string, role: Role) {
 
   revalidatePath("/");
   console.log(starring.id);
+}
+
+export async function addStarringQimport(
+  movieId: string,
+  name: string,
+  role: Role
+) {
+  const nameResult = stringSchema.safeParse(name);
+
+  if (!nameResult.success) {
+    console.log(nameResult.error.flatten());
+    return nameResult.error.flatten();
+  }
+  const movieResult = stringSchema.safeParse(movieId);
+
+  if (!movieResult.success) {
+    console.log(movieResult.error.flatten());
+    return movieResult.error.flatten();
+  }
+
+  const roleResult = enumSchema.safeParse(role);
+
+  if (!roleResult.success) {
+    console.log(roleResult.error.flatten());
+    return roleResult.error.flatten();
+  }
+
+  const person = await addPersonQimport(nameResult.data);
+  if (person === "Errror") {
+    return {
+      fieldErrors: {
+        movieId: [""],
+        name: ["There was something wrong with the name: " + name],
+        role: [""],
+      },
+    };
+  }
+
+  await prisma.starring.create({
+    data: {
+      personId: person,
+      movieId: movieResult.data,
+      role: roleResult.data,
+    },
+  });
 }
 
 // export async function addStarringQ2(movieId: string, name: string, role: Role) {
