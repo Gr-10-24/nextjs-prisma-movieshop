@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Button } from "../ui/button";
 import Link from "next/link";
-import {  ChevronsDown, Clapperboard, FileStack } from "lucide-react";
+import { ChevronsDown, Clapperboard, FileStack } from "lucide-react";
 import { CarouselMovies } from "../ui/customer/landing-movies";
 
 export default function Welcome() {
@@ -18,13 +18,16 @@ export default function Welcome() {
           />
         </div>
         <div className="flex relative w-full justify-center items-center">
-          <h1 className="text-5xl mt-40 pl-30 font-extrabold text-white font-serif">
-            MOVIE BAZAAR.
+          <h1 className="text-5xl mt-40 pl-30 font-extrabold text-white font-serif drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
+            MOVIE BAZAAR
           </h1>
         </div>
         <div className="flex relative w-full justify-center items-center mt-20">
           <Link href="/customer-movies">
-            <Button variant={"default"} className="text-xl border rounded-md py-4">
+            <Button
+              variant={"default"}
+              className="text-xl border rounded-md py-4"
+            >
               {" "}
               <FileStack /> BROWSE OUR ALL MOVIES
             </Button>
@@ -32,17 +35,15 @@ export default function Welcome() {
         </div>
         <div className="flex relative w-full justify-center items-center mt-10">
           <Link href="#movies">
-            <ChevronsDown className="text-purple-700" size={"md"}/>
+            <ChevronsDown className="text-purple-700" size={"md"} />
           </Link>
         </div>
       </div>
 
       <div className="mt-8">
-
         {/*Rendering the specified movie lists */}
 
         <div className="px-12 pb-8" id="movies">
-
           {/*Rendering the most latest 5 movies list */}
 
           <div className="flex w-full text-2xl font-semibold justify-center mt-8 bg-purple-800 text-white border rounded-md py-2">
