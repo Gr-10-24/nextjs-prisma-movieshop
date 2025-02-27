@@ -100,8 +100,10 @@ export interface Crew {
 }
 
 export async function importTMDB() {
-  const max = 500;
+  const max = 20; // max allowed b TMDB is 500
   const movieIds: number[] = [];
+  const addedMovieIds: number[] = [];
+  const notAddedMovieIds: number[] = [];
 
   try {
     for (let i = 1; i < max; i++) {
@@ -131,7 +133,13 @@ export async function importTMDB() {
         },
       });
 
-      if (check === null) {
+      const today: Date = new Date();
+
+      if (
+        check === null &&
+        dateStringToYear(json.release_date) !== 0 &&
+        today > new Date(json.release_date)
+      ) {
         const aMovie = await prisma.movie.create({
           data: {
             title: json.title,
@@ -177,11 +185,18 @@ export async function importTMDB() {
             await addStarringQimport(aMovie.id, person.name, "DIRECTOR");
           }
         });
+        addedMovieIds.push(json.id);
       }
     }
   } catch (e) {
     throw e;
   }
+  for (let i = 0; i < movieIds.length; i++) {
+    if (!addedMovieIds.includes(movieIds[i])) {
+      notAddedMovieIds.push(movieIds[i]);
+    }
+  }
+  console.log(notAddedMovieIds);
 }
 
 function moviePrice(date: string) {
