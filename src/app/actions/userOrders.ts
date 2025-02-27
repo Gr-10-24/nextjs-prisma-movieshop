@@ -2,7 +2,7 @@
 import { prisma } from "@/lib/prisma";
 
 export async function getUserOrders(userId: string) {
-  return await prisma.order.findMany({
+  let orders = await prisma.order.findMany({
     where: { userId },
     include: {
       items: {
@@ -12,6 +12,76 @@ export async function getUserOrders(userId: string) {
       },
     },
   });
+
+  const today: Date = new Date();
+  const shipped: string[] = [];
+  const delivered: string[] = [];
+
+  orders.map((order) => {
+    const shippedDay: Date = order.createdAt;
+    const deliveredDay: Date = order.createdAt;
+    shippedDay.setDate(shippedDay.getDate() + 1);
+    deliveredDay.setDate(deliveredDay.getDate() + 3);
+    if (today < shippedDay && order.status === "PENDING") {
+      shipped.push(order.id);
+    } else if (today < deliveredDay && order.status === "SHIPPED") {
+      delivered.push(order.id);
+    }
+  });
+  try {
+    let check = 0;
+    if (shipped.length !== 0) {
+      check = 1;
+      await prisma.order.updateMany({
+        where: {
+          id: {
+            in: shipped,
+          },
+        },
+        data: {
+          status: "SHIPPED",
+        },
+      });
+      orders = await prisma.order.findMany({
+        where: { userId },
+        include: {
+          items: {
+            include: {
+              movie: true, // Include movie details
+            },
+          },
+        },
+      });
+    }
+    if (delivered.length !== 0) {
+      check = 1;
+      await prisma.order.updateMany({
+        where: {
+          id: {
+            in: delivered,
+          },
+        },
+        data: {
+          status: "DELIVERED",
+        },
+      });
+    }
+    if (check === 1) {
+      orders = await prisma.order.findMany({
+        where: { userId },
+        include: {
+          items: {
+            include: {
+              movie: true, // Include movie details
+            },
+          },
+        },
+      });
+    }
+  } catch (e) {
+    console.log(e);
+  }
+  return orders;
 }
 
 export async function getUserDetails(userId: string) {
@@ -33,7 +103,10 @@ export async function getUserDetails(userId: string) {
   }
 }
 
-export async function UpdateUser(id: string, updatedData: { name: string; email: string; address?: string | null}) {
+export async function UpdateUser(
+  id: string,
+  updatedData: { name: string; email: string; address?: string | null }
+) {
   try {
     const updatedUser = await prisma.user.update({
       where: { id },
