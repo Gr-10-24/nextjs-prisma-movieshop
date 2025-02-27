@@ -1,5 +1,7 @@
 "use server";
 
+import { prisma } from "@/lib/prisma";
+
 // type genre = {
 //   id: number;
 //   name: string;
@@ -178,33 +180,55 @@ export async function testing() {
     // }
     // const json = await response.json();
 
-    //console.log(json);
+    // console.log(json);
     // const url =
     //   "https://api.themoviedb.org/3/discover/movie?api_key=9d93513a5360eeddedf357629119d2ab&page=";
-    // for (let i = 1; i < max; i++) {
-    //   const response = await fetch(
-    //     `https://api.themoviedb.org/3/discover/movie?api_key=9d93513a5360eeddedf357629119d2ab&page=${i}`
-    //   );
-    //   console.log("test1");
-    //   if (!response.ok) {
-    //     throw new Error(`Response status: ${response.status}`);
-    //   }
-    //   const json = await response.json();
-    //   json.results.map((movie: dBMovie) => movieIds.push(movie.id));
-    // }
+    for (let i = 1; i < max; i++) {
+      const response = await fetch(
+        `https://api.themoviedb.org/3/discover/movie?api_key=9d93513a5360eeddedf357629119d2ab&page=${i}`
+      );
+      console.log("test1");
+      if (!response.ok) {
+        throw new Error(`Response status: ${response.status}`);
+      }
+      const json = await response.json();
+      json.results.map((movie: dbMovie) => movieIds.push(movie.id));
+    }
 
     //console.log(movieIds);
 
-    const url =
-      "https://api.themoviedb.org/3/movie/950396?api_key=9d93513a5360eeddedf357629119d2ab&include_adult=false&include_video=false&language=en-US&page=1&sort_by=title.asc&append_to_response=credits,genres";
-
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`Response status: ${response.status}`);
+    for (let i = 0; i < movieIds.length; i++) {
+      const url = `https://api.themoviedb.org/3/movie/${movieIds[i]}?api_key=9d93513a5360eeddedf357629119d2ab&include_adult=false&include_video=false&language=en-US&page=1&sort_by=title.asc&append_to_response=credits,genres`;
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`Response status: ${response.status}`);
+      }
+      const json = await response.json();
+      json.results.map((movie: dbMovies) => {
+        const aMovie = prisma.movie.create({
+          data: {
+            title: movie.title,
+            description: movie.overview,
+            imageUrl: "image.tmdb.org" + movie.poster_path,
+            price: moviePrice(movie),
+            stock: 5,
+            releaseDate: dateStringToYear(movie.datePublished),
+            runtime: parseRuntime(movie.duration),
+          },
+        });
+      });
     }
-    const json = await response.json();
-    console.log(json);
-    json.results.map((movie: dbMovies) => console.log(movie.id));
+
+    // const url =
+    //   "https://api.themoviedb.org/3/movie/950396?api_key=9d93513a5360eeddedf357629119d2ab&include_adult=false&include_video=false&language=en-US&page=1&sort_by=title.asc&append_to_response=credits,genres";
+
+    // const response = await fetch(url);
+    // if (!response.ok) {
+    //   throw new Error(`Response status: ${response.status}`);
+    // }
+    // const json = await response.json();
+    // console.log(json);
+    // json.results.map((movie: dbMovies) => console.log(movie.id + " : " + movie.credits));
 
     //json.results.map((movie: dBMovie) => console.log(movie.id)); //this is the way
   } catch (e) {
@@ -226,3 +250,11 @@ export async function testing() {
 //   arr.forEach((movie) => console.log(movie));
 //   return arr;
 // }
+
+function moviePrice(date: string) {
+  const year = new Date(date).getFullYear();
+  if (year < 1980) return 79;
+  if (year < 2000) return 99;
+  if (year < 2010) return 149;
+  return 199;
+}
