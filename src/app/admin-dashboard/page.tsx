@@ -5,6 +5,7 @@ import ScrollAreaStock from "@/components/ui/admin-dashboard/scroll-Area_stock";
 import FetchMovies from "../actions/customer-movie";
 
 export default async function Page() {
+
   const order = await FetchOrders();
   const movies = await FetchMovies();
 

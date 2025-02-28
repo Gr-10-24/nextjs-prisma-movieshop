@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 
 export async function FetchOrders() {
+  try{
   const orders = await prisma.order.findMany({
     select: {
       id: true,
@@ -75,4 +76,8 @@ export async function FetchOrders() {
       },
     })),
   }));
+} catch(error){
+  console.log("Error occured while fetching data",error)
+  throw new Error("Error occurred while fetching data")
+}
 }

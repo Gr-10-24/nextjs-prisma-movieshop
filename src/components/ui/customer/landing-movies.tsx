@@ -34,7 +34,7 @@ export interface CUSTOMMOVIE {
       id: string;
       starName: string;
     }[];
-  }[];
+  }[]
 }
 
 interface movieProps{
