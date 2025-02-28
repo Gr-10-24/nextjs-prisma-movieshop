@@ -98,7 +98,7 @@ export default function LoginForm() {
                     onResponse: () => {
                       setIsLoading(false);
                     },
-                    onError: () => {},
+                    onError: () => {alert("You are banned")},
                     onSuccess: () => {
                       router.refresh(); //router.push("/");
                     },

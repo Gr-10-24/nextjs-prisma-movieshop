@@ -27,27 +27,28 @@ export default async function UserDash() {
         </div>
       </div>
       <div className=" border w-1/2 lg:w-2/3 py-5 pr-8">
-        <h1 className="text-2xl font-bold pl-6">Your Order History</h1>
-        {orders.length > 0 ? (
-          <ul className="mt-4 space-y-4 pl-10">
-            {orders.map((order) => (
-              <li key={order.id} className="border p-4 rounded-lg shadow">
-                <p className="font-semibold">Order ID: {order.id}</p>
-                <p>Status: {order.status}</p>
-                <p>Total: {order.totalAmount.toFixed(2)}kr</p>
-                <ul className="mt-2 list-disc">
-                  {order.items.map((item) => (
-                    <li key={item.id} className="ml-4 text-sm">
-                      {item.movie.title} - {item.price.toFixed(2)}
-                    </li>
-                  ))}
-                </ul>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className="mt-4">No orders found.</p>
-        )}
+      <h1 className="text-2xl font-bold pl-6">Your Order History</h1>
+      {orders.length > 0 ? (
+        <ul className="mt-4 space-y-4 pl-10">
+          {orders.map((order) => (
+            <li key={order.id} className="border p-4 rounded-lg shadow">
+              <p className="font-semibold">Order ID: {order.id}</p>
+              <p>Status: {order.status}</p>
+              <p>Total: {order.totalAmount.toFixed(2)}kr</p>
+              <ul className="mt-2 list-disc">
+                {order.items.map((item) => (
+                  <li key={item.id} className="ml-4 text-sm" >
+                   {item.movie.title} - {item.price.toFixed(2)}
+                  </li>
+                ))}
+              </ul>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="mt-4 pl-6">No orders found.</p>
+      )}
+          
       </div>
     </main>
   );
