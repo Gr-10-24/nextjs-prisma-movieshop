@@ -3,8 +3,12 @@ import { Button } from "../ui/button";
 import Link from "next/link";
 import { ChevronsDown, Clapperboard, FileStack } from "lucide-react";
 import { CarouselMovies } from "../ui/customer/landing-movies";
+import { CarouselTopPurchased } from "../ui/customer/most-purchasedmovies";
+import { FetchOrderItems } from "@/app/actions/order";
 
-export default function Welcome() {
+export default async function Welcome() {
+
+  const topPurchased = await FetchOrderItems();
   return (
     <>
       <div className="relative h-[600px]">
@@ -72,6 +76,14 @@ export default function Welcome() {
           </div>
           <div className="flex justify-start mt-2">
             <CarouselMovies sortBy="price" orderedBy="asc" limit={5} />
+          </div>
+
+          <div className="flex w-full text-2xl font-semibold justify-center mt-2 bg-purple-800 text-white border rounded-md py-2">
+            <Clapperboard className="mt-1" />
+            <h1 className="ml-4"> Best Sellers: The Most Purchased</h1>
+          </div>
+          <div className="flex justify-start mt-2">
+            <CarouselTopPurchased purchasedMovie={topPurchased} />
           </div>
         </div>
       </div>
