@@ -1,8 +1,8 @@
 import OrderStat from "@/components/ui/admin-dashboard/order-stat";
-import { FetchOrders } from "../actions/order";
+import { FetchOrders } from "../../../app/actions/order";
 import SalesGraph from "@/components/ui/admin-dashboard/sales-graph";
 import ScrollAreaStock from "@/components/ui/admin-dashboard/scroll-Area_stock";
-import FetchMovies from "../actions/customer-movie";
+import FetchMovies from "../../../app/actions/customer-movie";
 
 export default async function Page() {
 
