@@ -31,7 +31,7 @@ export interface OrderProp {
         };
       }[];
     };
-  }[];
+  }[] | undefined;
 }
 
 export default function OrderStat({ order }: { order: OrderProp[] }) {
