@@ -34,7 +34,7 @@ export interface CUSTOMMOVIE {
       id: string;
       starName: string;
     }[];
-  }[];
+  }[]
 }
 
 interface movieProps{
@@ -54,7 +54,7 @@ export function CarouselMovies({
     /* fetch movies from DB*/
   }
   React.useEffect(() => {
-    const oldMovies = async () => {
+    const movies = async () => {
       setLoading(true);
       try {
         const movieData = await FetchMovies();
@@ -65,7 +65,7 @@ export function CarouselMovies({
         setLoading(false);
       }
     };
-    oldMovies();
+    movies();
   }, []);
 
   if (loading) return <p>Loading...</p>;

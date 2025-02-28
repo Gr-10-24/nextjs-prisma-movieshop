@@ -3,6 +3,7 @@
 import { prisma } from "@/lib/prisma";
 
 export default async function FetchMovies() {
+  try{
   const movies = await prisma.movie.findMany({
     // orderBy: {
     //   releaseDate: "asc",
@@ -61,4 +62,8 @@ export default async function FetchMovies() {
       ],
     })),
   }));
+ } catch(error){
+  console.log("Unexpected error occurred while fetching data",error)
+  throw new Error("Unexpected error occurred while fetching data")
+ }
 }

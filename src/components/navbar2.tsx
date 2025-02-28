@@ -10,6 +10,7 @@ import LogoutButton from "./logout-button";
 import { ShoppingBasket } from "lucide-react";
 import { Button } from "./ui/button";
 import Link from "next/link";
+import DashboardButton from "./ui/userDashboard/dashboard-button";
 
 export default async function NavBar2() {
   //const session = authClient.useSession();
@@ -90,10 +91,8 @@ export default async function NavBar2() {
             ) : (
               <CartDialog cart={cart} />
             )}
+            <DashboardButton />
 
-            {/* <Button variant={"secondary"} onClick={() => authClient.signOut()}>
-              Logout
-            </Button> */}
             <LogoutButton />
           </div>
         )}
