@@ -16,9 +16,7 @@ export default async function Page() {
         
           <div className="flex container justify-center">
           {session?.user.role === "ADMIN" && (
-              <div className="">
-                 <PeopleForm />
-              </div>
+               <PeopleForm />
           )}
           </div>
       </div>

@@ -47,7 +47,7 @@ export default async function UserDash() {
           ))}
         </ul>
       ) : (
-        <p className="mt-4">No orders found.</p>
+        <p className="mt-4 pl-6">No orders found.</p>
       )}
           
       </div>
