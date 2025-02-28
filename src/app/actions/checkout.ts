@@ -24,13 +24,15 @@ export async function Checkout(cart: CartFront) {
     });
 
     cart.cartItems.map(async (item) => {
-      await prisma.orderItem.create({
-        data: {
-          movieId: item.movieId,
-          orderId: order.id,
-          price: item.price,
-        },
-      });
+      for (let i = 0; i < item.quantity; i++) {
+        await prisma.orderItem.create({
+          data: {
+            movieId: item.movieId,
+            orderId: order.id,
+            price: item.price,
+          },
+        });
+      }
       await prisma.movie.update({
         where: { id: item.movieId },
         data: { stock: { decrement: item.quantity } },

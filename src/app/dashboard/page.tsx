@@ -9,5 +9,20 @@ export default async function Page() {
     headers: await headers(),
   });
 
-  return <main>{session?.user.role === "CUSTOMER" && <UserDash />}</main>;
+  return (
+    <main>
+      {session?.user.role === "CUSTOMER" && <UserDash />}
+      {session?.user.role === "ADMIN" && ""}
+    </main>
+  );
+
+  // <div >
+  //         <OrderStat order={order} />
+  //       </div>
+  //       <div className="flex w-200 h-100 mt-8 ml-8">
+  //         <SalesGraph order={order} />
+  //         <div className="ml-20">
+  //           <ScrollAreaStock movie={movies} />
+  //         </div>
+  //       </div>
 }
