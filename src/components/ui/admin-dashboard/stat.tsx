@@ -4,14 +4,13 @@ import SalesGraph from "@/components/ui/admin-dashboard/sales-graph";
 import ScrollAreaStock from "@/components/ui/admin-dashboard/scroll-Area_stock";
 import FetchMovies from "../../../app/actions/customer-movie";
 
-export default async function Page() {
-
+export default async function AdminDashboard() {
   const order = await FetchOrders();
   const movies = await FetchMovies();
 
   return (
     <>
-      <div >
+      <div>
         <OrderStat order={order} />
       </div>
       <div className="flex w-200 h-100 mt-8 ml-8">

@@ -3,6 +3,7 @@
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import UserDash from "../user-dashboard/page";
+import AdminDashboard from "@/components/ui/admin-dashboard/stat";
 
 export default async function Page() {
   const session = await auth.api.getSession({
@@ -12,7 +13,7 @@ export default async function Page() {
   return (
     <main>
       {session?.user.role === "CUSTOMER" && <UserDash />}
-      {session?.user.role === "ADMIN" && ""}
+      {session?.user.role === "ADMIN" && <AdminDashboard />}
     </main>
   );
 

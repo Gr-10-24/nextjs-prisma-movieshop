@@ -33,33 +33,34 @@ export default async function NavBar2() {
             </h1>
           </Link>
         </div>
-        <div>
-          <Link href="/customer-landing-page" prefetch={true}>
-            <Button className="m-1" variant={"secondary"}>
-              landing
-            </Button>
-          </Link>
+        <div className="flex flex-row">
           <Link href="/customer-movies" prefetch={true}>
-            <Button className="m-1" variant={"secondary"}>
-              movies
+            <Button className="text-2xl" variant={"menu"}>
+              Movies
             </Button>
           </Link>
-          <Link href="/genre" prefetch={true}>
-            <Button className="m-1" variant={"secondary"}>
-              genre
-            </Button>
-          </Link>
+          <h1 className="text-primary-foreground text-2xl">|</h1>
           <Link href="/people" prefetch={true}>
-            <Button className="m-1" variant={"secondary"}>
-              people
-            </Button>
+            <Button variant={"menu"}>People</Button>
           </Link>
+
           {session?.user.role === "ADMIN" ? (
-            <Link href="/movie" prefetch={true}>
-              <Button className="m-1" variant={"secondary"}>
-                A-movie
-              </Button>
-            </Link>
+            <div className="flex">
+              <h1 className="text-primary-foreground text-2xl">|</h1>
+              <Link href="/genre" prefetch={true}>
+                <Button variant={"menu"}>Genres</Button>
+              </Link>
+            </div>
+          ) : (
+            ""
+          )}
+          {session?.user.role === "ADMIN" ? (
+            <div className="flex">
+              <h1 className="text-primary-foreground text-2xl">|</h1>
+              <Link href="/movie" prefetch={true}>
+                <Button variant={"menu"}>A-Movie</Button>
+              </Link>
+            </div>
           ) : (
             ""
           )}

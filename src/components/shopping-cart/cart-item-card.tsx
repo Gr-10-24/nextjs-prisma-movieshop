@@ -27,7 +27,7 @@ export default function CartItemCard({
       }
     };
     fetchData();
-  });
+  }, [cartItem.movieId]);
   //const stock = await getMovieStock(cartItem.movieId);
   return (
     <div

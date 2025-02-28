@@ -218,6 +218,7 @@ export async function convertCart2(cart: Cart2): Promise<CartFront> {
       const tmp = await convertCartItem2(item);
       newCart.cartItems.push(tmp);
     });
+    //newCart.cartItems.sort();
 
     return newCart;
   } catch (e) {
