@@ -92,7 +92,7 @@ export default function PeopleForm({ data }: { data?: Person }) {
       </div>
 
       <div className="">
-        <Button disabled={isPending} className="text-left bg-black text-white py-2 px-4 rounded-md hover:bg-black transition">
+        <Button disabled={isPending} variant={"default"} className="text-left text-white py-2 px-4 rounded-md">
           Submit
         </Button>
       </div>
