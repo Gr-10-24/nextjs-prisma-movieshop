@@ -101,9 +101,9 @@ export default function LoginForm() {
                     onError: (e) => {
                       alert(
                         "alert: " +
-                          (e.error.message == "Failed to create session")
-                          ? "You have been banned"
-                          : e.error.message
+                          (e.error.message == "Failed to create session"
+                            ? "You have been banned"
+                            : e.error.message)
                       );
                     },
                     onSuccess: () => {
