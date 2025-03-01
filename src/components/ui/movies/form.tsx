@@ -147,7 +147,7 @@ export default function MovieForm() {
               <FormLabel className="text-lg">Title</FormLabel>
               <FormControl>
                 <Input
-                  className="border border-black mb-6"
+                  className="border border-purple-700 mb-6"
                   placeholder="Movie Title..."
                   {...field}
                 />
@@ -167,7 +167,7 @@ export default function MovieForm() {
               <FormControl>
                 <div>
                   <textarea
-                    className="border border-black mb-6 p-2 w-full rounded-md resize-y"
+                    className="border border-purple-700 mb-6 p-2 w-full rounded-md resize-y bg-transparent"
                     rows={4}
                     placeholder="description of the movie"
                     {...field}
@@ -192,7 +192,7 @@ export default function MovieForm() {
               <FormLabel className="text-lg">Movie Cover photo</FormLabel>
               <FormControl>
                 <Input
-                  className="border border-black mb-6"
+                  className="border border-purple-700 mb-6"
                   placeholder="URL for Movie Cover..."
                   {...field}
                 />
@@ -223,7 +223,7 @@ export default function MovieForm() {
               <FormLabel className="text-lg">Directors</FormLabel>
               <FormControl>
                 <Input
-                  className="border border-black mb-6"
+                  className="border border-purple-700 mb-6"
                   placeholder="Type directors' names with seperated by commas..."
                   {...field}
                 />
@@ -240,7 +240,7 @@ export default function MovieForm() {
               <FormLabel className="text-lg">Actors</FormLabel>
               <FormControl>
                 <Input
-                  className="border border-black mb-6"
+                  className="border border-purple-700 mb-6"
                   placeholder="Type actors' names with seperated by commas..."
                   {...field}
                 />
@@ -258,7 +258,7 @@ export default function MovieForm() {
               <FormLabel className="text-lg">Price</FormLabel>
               <FormControl>
                 <Input
-                  className="border border-black mb-6"
+                  className="border border-purple-700 mb-6"
                   placeholder="Price in SEK"
                   {...field}
                 />
@@ -276,7 +276,7 @@ export default function MovieForm() {
               <FormLabel className="text-lg">No of Copies</FormLabel>
               <FormControl>
                 <Input
-                  className="border border-black mb-6"
+                  className="border border-purple-700 mb-6"
                   placeholder="No of Copies..."
                   {...field}
                 />
@@ -294,7 +294,7 @@ export default function MovieForm() {
               <FormLabel className="text-lg">Released Year</FormLabel>
               <FormControl>
                 <Input
-                  className="border border-black mb-6"
+                  className="border border-purple-700 mb-6"
                   placeholder="Movie Released Year-YYYY"
                   {...field}
                 />
@@ -312,7 +312,7 @@ export default function MovieForm() {
               <FormLabel className="text-lg">Run time</FormLabel>
               <FormControl>
                 <Input
-                  className="border border-black mb-6"
+                  className="border border-purple-700 mb-6"
                   placeholder="Run time in min"
                   {...field}
                 />

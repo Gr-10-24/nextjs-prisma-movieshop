@@ -13,7 +13,7 @@ export default async function Page() {
   return (
     <main>
       {session?.user.role === "CUSTOMER" && <UserDash />}
-      {session?.user.role === "ADMIN" && <AdminDashboard />}
+      {session?.user.role === "ADMIN" && <AdminDashboard/>}
     </main>
   );
 

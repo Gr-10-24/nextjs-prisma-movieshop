@@ -24,7 +24,7 @@ export default function PersonCard(data: { person: Peep; role?: string }) {
               <p>Description: </p>
               <textarea
                 readOnly={true}
-                className="border-black rounded-md"
+                className="border-black rounded-md bg-transparent"
                 name="desc"
                 defaultValue={
                   data.person?.description

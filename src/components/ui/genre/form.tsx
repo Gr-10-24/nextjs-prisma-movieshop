@@ -79,7 +79,7 @@ export default function GenreForm() {
               <FormControl>
                 <div>
                   <textarea
-                    className="border border-black mb-6 p-2 w-full rounded-md resize-y"
+                    className="border border-black mb-6 p-2 w-full rounded-md resize-y bg-transparent"
                     rows={4}
                     placeholder="description of the genre"
                     {...field}

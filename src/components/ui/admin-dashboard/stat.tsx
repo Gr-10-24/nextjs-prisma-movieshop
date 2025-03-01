@@ -9,16 +9,16 @@ export default async function AdminDashboard() {
   const movies = await FetchMovies();
 
   return (
-    <>
-      <div>
-        <OrderStat order={order} />
-      </div>
-      <div className="flex w-200 h-100 mt-8 ml-8">
+    <div className="flex ">
+      <div className="w-200 h-100 mt-8 ml-8">
         <SalesGraph order={order} />
         <div className="ml-20">
           <ScrollAreaStock movie={movies} />
         </div>
       </div>
-    </>
+      <div>
+        <OrderStat order={order} />
+      </div>
+    </div>
   );
 }

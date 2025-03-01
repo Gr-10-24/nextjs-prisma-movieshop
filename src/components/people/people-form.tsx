@@ -75,7 +75,7 @@ export default function PeopleForm({ data }: { data?: Person }) {
             //type="text"
             defaultValue={data?.description ? data.description : ""}
             placeholder="Enter a description"
-            className="w-full border border-black rounded-md shadow-sm p-2 h-24"
+            className="w-full border border-black rounded-md shadow-sm p-2 h-24 bg-transparent"
           />
 
           <div className="flex container">
@@ -92,7 +92,7 @@ export default function PeopleForm({ data }: { data?: Person }) {
       </div>
 
       <div className="">
-        <Button disabled={isPending} className="text-left bg-black text-white py-2 px-4 rounded-md hover:bg-black transition">
+        <Button disabled={isPending} variant={"default"} className="text-left text-white py-2 px-4 rounded-md">
           Submit
         </Button>
       </div>
