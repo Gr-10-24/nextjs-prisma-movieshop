@@ -1,6 +1,9 @@
 "use client";
 
 import { $Enums } from "@prisma/client";
+import { Info } from "lucide-react";
+import Link from "next/link";
+import { Button } from "../button";
 
 export interface OrderProp {
   id: string;
@@ -8,30 +11,32 @@ export interface OrderProp {
   updatedAt: Date;
   status: $Enums.ShippedStatus;
   totalAmount: number;
-  items: {
-    id: string;
-    price: number;
-    movie: {
-      id: string;
-      price: number;
-      title: string;
-      stock: number;
-      releaseDate: number;
-      runtime: string;
-      genre: {
+  items:
+    | {
         id: string;
-        name: string;
-      }[];
-      starring: {
-        id: string;
-        role: $Enums.Role;
-        person: {
+        price: number;
+        movie: {
           id: string;
-          name: string;
+          price: number;
+          title: string;
+          stock: number;
+          releaseDate: number;
+          runtime: string;
+          genre: {
+            id: string;
+            name: string;
+          }[];
+          starring: {
+            id: string;
+            role: $Enums.Role;
+            person: {
+              id: string;
+              name: string;
+            };
+          }[];
         };
-      }[];
-    };
-  }[] | undefined;
+      }[]
+    | undefined;
 }
 
 export default function OrderStat({ order }: { order: OrderProp[] }) {
@@ -76,7 +81,7 @@ export default function OrderStat({ order }: { order: OrderProp[] }) {
   }, 0);
 
   return (
-    <div className="mr-20">
+    <div className="flex mr-20">
       {/* Render Total Revenue of the business */}
       <div className=" w-[300px] border mt-8 ml-8 border-purple-800 rounded-md md:border-4">
         <div className="flex justify-center mb-4">
@@ -118,6 +123,20 @@ export default function OrderStat({ order }: { order: OrderProp[] }) {
           <div className="">{shippedCost} SEK</div>
         </div>
       </div>
+
+      <div className="justify-center w-[300px] border  mt-8 ml-8 border-purple-800 rounded-md md:border-4">
+          <div className="flex justify-center mb-4">
+            <h1 className="text-xl font-bold pl-2 pt-4">USER MANAGEMENT</h1>
+          </div>
+          <div className="pl-2 flex justify-center">
+            <Info className="pr-1" /> Ban a scam users and See the list
+          </div>
+          <div className="flex justify-center mt-2">
+          <Link href="/ban">
+            <Button variant={"default"}>Manage Users</Button>
+          </Link>
+          </div>
+        </div>
     </div>
   );
 }

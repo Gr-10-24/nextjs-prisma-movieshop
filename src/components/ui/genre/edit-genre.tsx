@@ -40,8 +40,7 @@ export function EditDialog({ genre }: { genre: Genre }) {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button
-          variant="secondary"
-          className="bg-blue-700 text-white"
+          variant="edit"
           size={"default"}
         >
           Edit
