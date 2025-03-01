@@ -76,7 +76,7 @@ export default function OrderStat({ order }: { order: OrderProp[] }) {
   }, 0);
 
   return (
-    <div className="flex mr-20">
+    <div className="mr-20">
       {/* Render Total Revenue of the business */}
       <div className=" w-[300px] border mt-8 ml-8 border-purple-800 rounded-md md:border-4">
         <div className="flex justify-center mb-4">
@@ -99,6 +99,7 @@ export default function OrderStat({ order }: { order: OrderProp[] }) {
         <div className="pl-2 pt-2 pb-4">{isThisMonth} SEK</div>
       </div>
 
+      {/* Render Delivery Status */}
       <div className=" w-[300px] border mt-8 ml-8 border-purple-800 rounded-md md:border-4">
         <div className="flex justify-center mb-4">
           <h1 className="text-xl font-bold pl-2 pt-4">Delivery Status</h1>
