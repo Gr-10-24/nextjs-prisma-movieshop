@@ -3,6 +3,7 @@ import { FetchOrders } from "../../../app/actions/order";
 import SalesGraph from "@/components/ui/admin-dashboard/sales-graph";
 import ScrollAreaStock from "@/components/ui/admin-dashboard/scroll-Area_stock";
 import FetchMovies from "../../../app/actions/customer-movie";
+import BanUserButton from "@/components/ban/banuserbutton";
 
 export default async function AdminDashboard() {
   const order = await FetchOrders();
@@ -19,6 +20,7 @@ export default async function AdminDashboard() {
       <div>
         <OrderStat order={order} />
       </div>
+      <div><BanUserButton/></div>
     </div>
   );
 }

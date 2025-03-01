@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
+import { toast } from 'react-toastify';
 
 // Create a new PrismaClient instance for the middleware
 // Note: For production, consider using a singleton pattern for PrismaClient
@@ -22,6 +23,7 @@ export async function middleware(req: NextRequest) {
         const isBanActive = !session.user.banExpires || new Date() < session.user.banExpires;
         
         if (isBanActive) {
+         
           // Create a response that redirects to the movies page
           console.log("Ban is active. Redirecting to /banned");
           const response = NextResponse.redirect(new URL('/banned', req.url));

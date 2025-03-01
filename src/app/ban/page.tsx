@@ -13,7 +13,7 @@ import AddBan from "@/components/ban/banform";
 import { Getban } from "../actions/ban";
 import ViewBan from "@/components/ban/banview";
 
-export default async function Movies() {
+export default async function Bans() {
   const getban = await Getban();
 
   return (
@@ -26,7 +26,7 @@ export default async function Movies() {
  
       
       <div className="w-1/2 lg:w-2/3 overflow-auto p-2 py-5">
-        <h1 className="flex text-black justify-center m-4 text-2xl">Movie details</h1>
+        <h1 className="flex text-black justify-center m-4 text-2xl">Ban details</h1>
         {getban.length === 0 && <p>No ban user at yet</p>}
         {getban.length > 0 && (
           <Table>
