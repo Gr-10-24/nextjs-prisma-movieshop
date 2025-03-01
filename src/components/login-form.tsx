@@ -98,7 +98,14 @@ export default function LoginForm() {
                     onResponse: () => {
                       setIsLoading(false);
                     },
-                    onError: () => {alert("You are banned")},
+                    onError: (e) => {
+                      alert(
+                        "alert: " +
+                          (e.error.message == "Failed to create session")
+                          ? "You have been banned"
+                          : e.error.message
+                      );
+                    },
                     onSuccess: () => {
                       router.refresh(); //router.push("/");
                     },
@@ -114,3 +121,21 @@ export default function LoginForm() {
     </div>
   );
 }
+
+// "alert: " + e.error.message ===
+//                           "Failed to create session"
+//                           ? "You have been banned"
+//                           : e.error.message
+
+// "status: " +
+//                           e.error.status +
+//                           " statusText: " +
+//                           e.error.statusText +
+//                           " name: " +
+//                           e.error.name +
+//                           " errror: " +
+//                           e.error.error +
+//                           " message: " +
+//                           e.error.message +
+//                           " stack: " +
+//                           e.error.stack
