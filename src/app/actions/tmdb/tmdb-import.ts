@@ -135,6 +135,12 @@ export async function importTMDB() {
 
       const today: Date = new Date();
 
+      for (let x = 0; x < json.credits.cast.length; x++) {
+        if (json.credits.cast[x].name == "Gal Gadot") {
+          console.log(json.title + " : " + json.id);
+        }
+      }
+
       if (
         check === null &&
         dateStringToYear(json.release_date) !== 0 &&
