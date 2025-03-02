@@ -14,6 +14,7 @@ export async function getPeopleWstarring() {
       include: {
         movies: { include: { movie: { omit: { price: true } } } },
       },
+      orderBy: { name: "asc" },
     });
   } catch (e) {
     throw e;

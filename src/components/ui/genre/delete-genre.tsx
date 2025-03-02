@@ -9,7 +9,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Trash } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import { useState } from "react";
 
 export function DeleteDialog({ genre }: { genre: Genre }) {
@@ -19,7 +19,7 @@ export function DeleteDialog({ genre }: { genre: Genre }) {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="destructive" size={"icon"}>
-          <Trash />
+          <Trash2 />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] ">

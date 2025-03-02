@@ -1,5 +1,5 @@
-import ViewMovie from "@/components/movies/viewmovie";
-import { GetMovie } from "../actions/viewmovie";
+// import ViewMovie from "@/components/movies/viewmovie";
+// import { GetMovie } from "../actions/viewmovie";
 import {
   Table,
   TableBody,
@@ -8,7 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import MovieForm from "@/components/ui/movies/form";
+// import MovieForm from "@/components/ui/movies/form";
 import AddBan from "@/components/ban/banform";
 import { Getban } from "../actions/ban";
 import ViewBan from "@/components/ban/banview";
@@ -19,14 +19,16 @@ export default async function Bans() {
   return (
     <div className="flex">
       <div className=" border  w-1/2 lg:w-1/3 py-6 ">
-            <h1 className="flex justify-center pb-2 text-2xl text-black ">Ban User</h1>
-             <AddBan/>
-             
+        <h1 className="flex justify-center pb-2 text-2xl text-black ">
+          Ban User
+        </h1>
+        <AddBan />
       </div>
- 
-      
+
       <div className="w-1/2 lg:w-2/3 overflow-auto p-2 py-5">
-        <h1 className="flex text-black justify-center m-4 text-2xl">Ban details</h1>
+        <h1 className="flex text-black justify-center m-4 text-2xl">
+          Ban details
+        </h1>
         {getban.length === 0 && <p>No ban user at yet</p>}
         {getban.length > 0 && (
           <Table>

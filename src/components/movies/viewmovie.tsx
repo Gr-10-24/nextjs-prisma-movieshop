@@ -5,7 +5,7 @@ import { toast } from "@/hooks/use-toast";
 import { Role } from "@prisma/client";
 import { EditDialog } from "./movieEdit";
 import { DeleteTodo } from "@/app/actions/editupdateMovie";
-import { Trash } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import { Button } from "../ui/button";
 
 export default function ViewMovie({ data }: { data: MovieData }) {
@@ -53,9 +53,10 @@ export default function ViewMovie({ data }: { data: MovieData }) {
               })
             )
           }
-          className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 border border-red-700 rounded "
+          // className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 border border-red-700 rounded "
+          variant={"destructive"}
         >
-          <Trash />
+          <Trash2 />
         </Button>
       </TableCell>
     </TableRow>

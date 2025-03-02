@@ -13,7 +13,6 @@ import {
 import { useState } from "react";
 import { Input } from "../input";
 
-
 export function EditDialog({ genre }: { genre: Genre }) {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState(genre.name);
@@ -39,10 +38,7 @@ export function EditDialog({ genre }: { genre: Genre }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button
-          variant="edit"
-          size={"default"}
-        >
+        <Button variant="edit" size={"default"}>
           Edit
         </Button>
       </DialogTrigger>

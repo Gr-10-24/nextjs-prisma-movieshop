@@ -127,8 +127,8 @@ export function EditDialog({ data }: { data: MovieData }) {
     >
       <DialogTrigger asChild>
         <Button
-          variant="outline"
-          className="bg-blue-700 hover:bg-blue-500 text-white font-bold py-1 px-3 border hover:text-white border-blue-700 rounded"
+          variant="edit"
+          // className="bg-blue-700 hover:bg-blue-500 text-white font-bold py-1 px-3 border hover:text-white border-blue-700 rounded"
         >
           Edit
         </Button>

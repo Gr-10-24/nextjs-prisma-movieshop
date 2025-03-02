@@ -10,17 +10,16 @@ import { Peep } from "@/types/people";
 export default function PersonCard(data: { person: Peep; role?: string }) {
   return (
     <div>
-      
       {data.person !== null ? (
         <div
           key={data.person.id}
-          className="flex border-2 border-black rounded-md mx-auto p-2 m-1 gap-2 justify-between max-w-[600px]"
+          className="flex border-2 border-black rounded-md mx-auto p-2 m-1 gap-2 justify-between min-w-[450px] max-w-[450px]"
         >
           <div className="flex flex-col px-3">
             <div className="flex flex-col px-3">
               <p>Name: {data.person.name}</p>
             </div>
-            <div className="flex flex-col px-3">
+            {/* <div className="flex flex-col px-3">
               <p>Description: </p>
               <textarea
                 readOnly={true}
@@ -34,7 +33,7 @@ export default function PersonCard(data: { person: Peep; role?: string }) {
                     : ""
                 }
               ></textarea>
-            </div>
+            </div> */}
           </div>
           <div className="flex my-auto">
             <div className="flex my-auto">

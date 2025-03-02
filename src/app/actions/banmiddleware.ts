@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
-import { toast } from 'react-toastify';
+import { NextRequest, NextResponse } from "next/server";
+import { PrismaClient } from "@prisma/client";
+// import { toast } from 'react-toastify';
 
 // Create a new PrismaClient instance for the middleware
 // Note: For production, consider using a singleton pattern for PrismaClient
@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
 
 export async function middleware(req: NextRequest) {
   try {
-    const sessionToken = req.cookies.get('sessionToken')?.value;
+    const sessionToken = req.cookies.get("sessionToken")?.value;
 
     if (sessionToken) {
       // Find the session and include the user
@@ -20,22 +20,22 @@ export async function middleware(req: NextRequest) {
       // Check if user is banned and if the ban is still active
       if (session?.user?.banned) {
         console.log("User is banned. Redirecting...");
-        const isBanActive = !session.user.banExpires || new Date() < session.user.banExpires;
-        
+        const isBanActive =
+          !session.user.banExpires || new Date() < session.user.banExpires;
+
         if (isBanActive) {
-         
           // Create a response that redirects to the movies page
           console.log("Ban is active. Redirecting to /banned");
-          const response = NextResponse.redirect(new URL('/banned', req.url));
-          
+          const response = NextResponse.redirect(new URL("/banned", req.url));
+
           // Clear the session cookie
-          response.cookies.set("sessionToken", "", { 
-            maxAge: 0, 
+          response.cookies.set("sessionToken", "", {
+            maxAge: 0,
             path: "/",
             httpOnly: true,
-            sameSite: "lax"
+            sameSite: "lax",
           });
-          
+
           return response;
         }
       }
@@ -55,10 +55,10 @@ export async function middleware(req: NextRequest) {
 // Apply this middleware to all authenticated routes
 export const config = {
   matcher: [
-    '/dashboard/:path*',
-    '/profile/:path*',
-    '/admin/:path*',
-    '/protected/:path*',
+    "/dashboard/:path*",
+    "/profile/:path*",
+    "/admin/:path*",
+    "/protected/:path*",
     // Add other protected routes here
   ],
 };

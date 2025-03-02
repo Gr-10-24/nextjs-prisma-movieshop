@@ -17,7 +17,7 @@ export function PeopleDialog({ data }: { data?: Person }) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="border-2">
+        <Button variant={"edit"} className="mx-1">
           {!data ? "Add Person" : <PenBox />}
         </Button>
       </DialogTrigger>

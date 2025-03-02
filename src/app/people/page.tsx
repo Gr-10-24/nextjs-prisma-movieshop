@@ -12,28 +12,28 @@ export default async function Page() {
 
   return (
     <div className="flex">
-      <div className=" border  w-1/2 lg:w-1/3 py-6 ">
-        
+      {session?.user.role === "ADMIN" && (
+        <div className=" border  w-1/2 lg:w-1/3 py-6 ">
           <div className="flex container justify-center">
-          {session?.user.role === "ADMIN" && (
-               <PeopleForm />
-          )}
+            <PeopleForm />
           </div>
+        </div>
+      )}
+
+      <div
+        className={
+          session?.user.role === "ADMIN"
+            ? "w-1/2 lg:w-3/4"
+            : "flex flex-col mx-auto justify-center"
+        }
+      >
+        <h1 className="text-2xl text-black p-7 text-center">People Lists</h1>
+        {session !== null ? (
+          <PeopleList people={people} userRole={session.user.role} />
+        ) : (
+          <PeopleList people={people} />
+        )}
       </div>
-   
-    <div className="w-1/2 lg:w-3/4">
-    <h1 className="text-2xl text-black p-7 text-center">
-        People Lists
-    </h1>
-    {session !== null ? (
-      <PeopleList people={people} userRole={session.user.role}/>
-    ) : (
-      <PeopleList people={people} />
-    )}
     </div>
-
-  </div>
-
   );
- 
 }
