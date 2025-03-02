@@ -37,7 +37,7 @@ export default function CarouselAllMovies({ movies }: ALLMOVIECARPROP) {
                 key={movie.id}
                 className="md:basis-1/2 lg:basis-1/5"
               >
-                <div className="p-1">
+                <div className="p-2">
                   <Card className="transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
                     <CardContent className="flex aspect-square items-center justify-center px-6 pt-6 pb-2">
                       <span className="text-sm justify-end">
@@ -49,6 +49,7 @@ export default function CarouselAllMovies({ movies }: ALLMOVIECARPROP) {
                       {movie.stock > 0 ? (
                         <div className="flex w-full ">
                           <DotIcon className="mb-2 text-green-500 size-10 w-1/2" />
+                          <div className="mt-2">({movie.releaseDate})</div>
                           <div className="flex container justify-end w-1/2 pr-6">
                             {<AddToCartButton movieId={movie.id} />}
                           </div>
@@ -56,6 +57,7 @@ export default function CarouselAllMovies({ movies }: ALLMOVIECARPROP) {
                       ) : (
                         <div className="flex justify-between w-full">
                           <DotIcon className=" mb-2 text-red-500 size-10 w-1/2" />
+                          <div>{movie.releaseDate}</div>
                           <div className=" mt-1 text-red-600 font-bold text-xl">
                             Out of stock
                           </div>
