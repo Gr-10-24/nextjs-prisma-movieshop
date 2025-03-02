@@ -54,17 +54,17 @@ export default async function Welcome() {
             <Clapperboard className="mt-1" />
             <h1 className="ml-4"> Brand-New Blockbusters</h1>
           </div>
-          <div className="flex justify-start mt-2">
+          <div className="flex justify-start mt-4">
             <CarouselMovies sortBy="releaseDate" orderedBy="desc" limit={5} />
           </div>
 
           {/*Rendering the most oldest 5 movies list */}
 
-          <div className="flex w-full text-2xl font-semibold justify-center mt-2 bg-purple-800 text-white border rounded-md py-2">
+          <div className="flex w-full text-2xl font-semibold justify-center  bg-purple-800 text-white border rounded-md py-2">
             <Clapperboard className="mt-1" />
             <h1 className="ml-4"> Legends of the Past</h1>
           </div>
-          <div className="flex justify-start mt-2">
+          <div className="flex justify-start mt-4">
             <CarouselMovies sortBy="releaseDate" orderedBy="asc" limit={5} />
           </div>
 
@@ -74,15 +74,17 @@ export default async function Welcome() {
             <Clapperboard className="mt-1" />
             <h1 className="ml-4"> Blockbusters on a Budget</h1>
           </div>
-          <div className="flex justify-start mt-2">
+          <div className="flex justify-start mt-4">
             <CarouselMovies sortBy="price" orderedBy="asc" limit={5} />
           </div>
+
+          {/*Rendering the most purchased 5 movies list */}
 
           <div className="flex w-full text-2xl font-semibold justify-center mt-2 bg-purple-800 text-white border rounded-md py-2">
             <Clapperboard className="mt-1" />
             <h1 className="ml-4"> Best Sellers: The Most Purchased</h1>
           </div>
-          <div className="flex justify-start mt-2">
+          <div className="flex justify-start mt-4">
             <CarouselTopPurchased purchasedMovie={topPurchased} />
           </div>
         </div>
