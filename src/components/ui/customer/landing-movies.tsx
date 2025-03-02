@@ -85,7 +85,7 @@ export function CarouselMovies({
       <CarouselContent>
         {sortedMovies.map((m) => (
           <CarouselItem key={m.id} className="md:basis-1/2 lg:basis-1/5 h-[420px]">
-            <div className="p-1">
+            <div className="p-2">
               <Card className="transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl ">
                 <CardContent className="flex flex-col items-center justify-between h-full p-6">
                   {
