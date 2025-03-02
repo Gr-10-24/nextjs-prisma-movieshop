@@ -61,7 +61,6 @@ export function CarouselTopPurchased({
       }
     };
     if(sortedMovies.length>0){
-
       movies();
     }
   },[sortedMovies]);
