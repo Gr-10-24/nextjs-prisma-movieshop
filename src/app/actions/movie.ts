@@ -1,7 +1,7 @@
 "use server"
 
 import { prisma } from "@/lib/prisma";
-import { Movie as PrismaMovie, Prisma } from "@prisma/client";
+import { Movie as PrismaMovie, Prisma, Role } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
@@ -78,16 +78,33 @@ export async function getMovies() {
   return movies
 }
 
+function parseStarring(movie: Movie): { name: string, role: string }[] {
+  return [
+    ...movie.actors.map(actor =>
+      ({ })),
+    ...movie.directors.map(director =>
+      ({}))
+  ]
+}
+
 export async function upsertMovie(movie: Movie, id?: string, ) {
+  // TODO: Change to upsert
   prisma.movie.update({
     where: { id },
+    // TODO: Change this as well
     data: {
       ...movie,
       genre: {
-        connect: movie.genres,
+        set: movie.genres.map(genre => ({
+          name: genre
+        })),
       },
       starring: {
-        connect: movie.actors
+        // TODO: Change this to connectOrCreate
+        connectOrCreate: movie.actors.map(actor => ({
+          where: { name: actor, role: Role.ACTOR },
+          create: { name: actor, role: Role.ACTOR },
+        }))
       },
     },
   })
