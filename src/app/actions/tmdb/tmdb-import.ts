@@ -100,6 +100,7 @@ export interface Crew {
 }
 
 export async function importTMDB() {
+  const api = process.env.API_KEY;
   const max = 20; // max allowed b TMDB is 500
   const movieIds: number[] = [];
   const addedMovieIds: number[] = [];
@@ -108,7 +109,7 @@ export async function importTMDB() {
   try {
     for (let i = 1; i < max; i++) {
       const response = await fetch(
-        `https://api.themoviedb.org/3/discover/movie?api_key=9d93513a5360eeddedf357629119d2ab&page=${i}`
+        `https://api.themoviedb.org/3/discover/movie?api_key=${api}&page=${i}`
       );
       if (!response.ok) {
         console.log(`error in adding movie to list: ${i}`);
@@ -119,7 +120,7 @@ export async function importTMDB() {
     }
 
     for (let i = 0; i < movieIds.length; i++) {
-      const url = `https://api.themoviedb.org/3/movie/${movieIds[i]}?api_key=9d93513a5360eeddedf357629119d2ab&include_adult=false&include_video=false&language=en-US&page=1&sort_by=title.asc&append_to_response=credits,genres`;
+      const url = `https://api.themoviedb.org/3/movie/${movieIds[i]}?api_key=${api}&include_adult=false&include_video=false&language=en-US&page=1&sort_by=title.asc&append_to_response=credits,genres`;
       const response = await fetch(url);
       if (!response.ok) {
         throw new Error(`Response status: ${response.status}`);
